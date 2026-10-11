@@ -499,6 +499,12 @@
     border-radius: 2.5rem;
   }
 }
+/* Unterseiten: der Grund um den Bogen läuft unten in den Ruß des Footers aus – keine Kante */
+main:has(.blatt) {
+  display: flow-root; /* der Abstand unter dem Bogen bleibt in main (kein Durchschlagen des Außenabstands) */
+  /* Ende = Ruß mit Körnung, wie der Footer ihn zeigt (#15110f) */
+  background: linear-gradient(180deg, var(--color-tinte) calc(100% - 14rem), #15110f);
+}
 @media print {
   .blatt {
     margin: 0;

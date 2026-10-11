@@ -13,12 +13,10 @@ const { titel, beschreibung } = Astro.props;
   <div class="hell pt-6 text-tinte md:pt-10">
     <div class="blatt bg-papier">
     <div class="rahmen py-16 md:py-24">
-      <article class="rechtstext etikett mx-auto max-w-[46rem] p-2.5">
-        <span class="bordure text-rani" aria-hidden="true"></span>
-        <div class="px-5 pb-10 pt-8 sm:px-10">
-          <h1 class="display-l">{titel}</h1>
-          <slot />
-        </div>
+      <article class="rechtstext mx-auto max-w-[46rem]">
+        <span class="bordure w-40 text-rani" aria-hidden="true"></span>
+        <h1 class="display-l mt-6">{titel}</h1>
+        <slot />
       </article>
     </div>
     </div>
