@@ -1,4 +1,5 @@
 ---
+import { pfad } from '../lib/pfad';
 import LogoEtikett from './LogoEtikett.astro';
 import { kontakt } from '../data/kontakt';
 import { feiertagsHinweis } from '../data/oeffnungszeiten';
@@ -41,7 +42,7 @@ const zeiten = zeitenKompakt();
     <div>
       <h2 class="font-display text-zwischen text-creme">Bombay online</h2>
       <ul class="mt-4 space-y-1.5" role="list">
-        <li><a href="/speisekarte" class="text-creme underline">Speisekarte</a></li>
+        <li><a href={pfad('/speisekarte')} class="text-creme underline">Speisekarte</a></li>
         <li><a href={kontakt.bestellUrl} class="text-creme underline" rel="noopener">Online bestellen</a></li>
         <li><a href={kontakt.iosAppUrl} class="text-creme underline" rel="noopener">iOS-App</a></li>
         <li><a href={kontakt.mapsUrl} class="text-creme underline" rel="noopener">Route in Google Maps</a></li>
@@ -52,8 +53,8 @@ const zeiten = zeitenKompakt();
     <div class="rahmen flex flex-wrap items-center justify-between gap-4 py-6 text-fein">
       <p>© {new Date().getFullYear()} Bombay – Indische Spezialitäten, Freising</p>
       <ul class="flex gap-6" role="list">
-        <li><a href="/impressum" class="text-creme underline">Impressum</a></li>
-        <li><a href="/datenschutz" class="text-creme underline">Datenschutz</a></li>
+        <li><a href={pfad('/impressum')} class="text-creme underline">Impressum</a></li>
+        <li><a href={pfad('/datenschutz')} class="text-creme underline">Datenschutz</a></li>
       </ul>
     </div>
   </div>

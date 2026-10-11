@@ -1,4 +1,5 @@
 ---
+import { pfad } from '../lib/pfad';
 import Icon from './Icon.astro';
 import LogoEtikett from './LogoEtikett.astro';
 import { kontakt } from '../data/kontakt';
@@ -9,16 +10,16 @@ interface Props {
 const { aktiv = 'start' } = Astro.props;
 
 const links = [
-  { href: '/speisekarte', text: 'Speisekarte', id: 'speisekarte' },
-  { href: '/#kompass', text: 'Curry-Kompass' },
-  { href: '/#bestellen', text: 'Lieferung & Abholung' },
-  { href: '/#besuch', text: 'Öffnungszeiten & Anfahrt' },
+  { href: pfad('/speisekarte'), text: 'Speisekarte', id: 'speisekarte' },
+  { href: pfad('/#kompass'), text: 'Curry-Kompass' },
+  { href: pfad('/#bestellen'), text: 'Lieferung & Abholung' },
+  { href: pfad('/#besuch'), text: 'Öffnungszeiten & Anfahrt' },
 ];
 ---
 
 <header class="kopf koernung relative z-40 border-b border-white/8 bg-tinte">
   <div class="rahmen flex h-[4.25rem] items-center justify-between gap-6 md:h-[5rem]">
-    <a href="/" class="kopf-marke flex shrink-0 items-center gap-4 no-underline" aria-label="Bombay – Indische Spezialitäten, zur Startseite">
+    <a href={pfad('/')} class="kopf-marke flex shrink-0 items-center gap-4 no-underline" aria-label="Bombay – Indische Spezialitäten, zur Startseite">
       <LogoEtikett />
       <span class="feinsatz hidden text-mini leading-tight text-rauch-dunkel xl:block" style="letter-spacing:.14em" aria-hidden="true"
         >Indische<br />Spezialitäten</span

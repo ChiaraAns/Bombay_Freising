@@ -1,4 +1,5 @@
 ---
+import { pfad } from '../lib/pfad';
 /**
  * Das Bombay-Logo auf einem Creme-Etikett.
  * Das Logo ist magenta (#BE036C) und braucht hellen Grund – auf Dunkel immer mit Etikett zeigen.
@@ -15,7 +16,7 @@ const hoehe = groesse === 'fuss' ? 84 : 46;
 
 <span class:list={['logo-etikett etikett', `logo-etikett--${groesse}`, klasse]}>
   <img
-    src="/logo/bombay-logo.svg"
+    src={pfad('/logo/bombay-logo.svg')}
     alt="Bombay"
     width={Math.round(hoehe * VERHAELTNIS)}
     height={hoehe}

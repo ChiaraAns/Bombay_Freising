@@ -1,4 +1,5 @@
 ---
+import { pfad } from '../../lib/pfad';
 import GerichtEtikett from '../GerichtEtikett.astro';
 import Icon from '../Icon.astro';
 import { signatureNummern, gerichtNr } from '../../data/speisekarte';
@@ -18,7 +19,7 @@ const gerichte = signatureNummern.map((nr) => gerichtNr(nr));
           Eine kleine Auswahl aus über 120 Gerichten. Die Nummer hilft, wenn Sie telefonisch bestellen.
         </p>
       </div>
-      <a href="/speisekarte" class="knopf knopf-kontur hidden md:inline-flex">
+      <a href={pfad('/speisekarte')} class="knopf knopf-kontur hidden md:inline-flex">
         Ganze Speisekarte ansehen <Icon name="pfeil" size={18} />
       </a>
     </div>
@@ -34,7 +35,7 @@ const gerichte = signatureNummern.map((nr) => gerichtNr(nr));
     </ul>
 
     <div class="mt-12 flex justify-center">
-      <a href="/speisekarte" class="knopf knopf-glut ganze-karte w-full sm:w-auto">
+      <a href={pfad('/speisekarte')} class="knopf knopf-glut ganze-karte w-full sm:w-auto">
         <Icon name="karte" size={20} />
         Ganze Speisekarte ansehen
         <Icon name="pfeil" size={18} />

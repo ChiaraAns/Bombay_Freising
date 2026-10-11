@@ -5,6 +5,7 @@
  */
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { BASIS } from './pfad';
 
 export interface BildInfo {
   basis: string;
@@ -41,9 +42,9 @@ export function gerichtBild(nr: number | undefined): BildInfo | undefined {
 }
 
 export const srcset = (b: BildInfo, format: 'avif' | 'webp') =>
-  b.breiten.map((w) => `/images/opt/${b.basis}-${w}.${format} ${w}w`).join(', ');
+  b.breiten.map((w) => `${BASIS}/images/opt/${b.basis}-${w}.${format} ${w}w`).join(', ');
 
 export const fallbackSrc = (b: BildInfo) => {
   const w = b.breiten.find((x) => x >= 640) ?? b.breiten[b.breiten.length - 1];
-  return `/images/opt/${b.basis}-${w}.webp`;
+  return `${BASIS}/images/opt/${b.basis}-${w}.webp`;
 };
