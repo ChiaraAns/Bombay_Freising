@@ -29,11 +29,13 @@ const {
   position = 'center',
   variante = 'glut',
 } = Astro.props;
+// 'auto' = Seitenverhältnis kommt aus dem CSS der umgebenden Komponente
+const ratio = verhaeltnis === 'auto' ? '' : `aspect-ratio:${verhaeltnis};`;
 ---
 
 {
   bild ? (
-    <picture class:list={['block overflow-hidden', klasse]} style={`aspect-ratio:${verhaeltnis};background:${bild.farbe}`}>
+    <picture class:list={['block overflow-hidden', klasse]} style={`${ratio}background:${bild.farbe}`}>
       <source type="image/avif" srcset={srcset(bild, 'avif')} sizes={sizes} />
       <source type="image/webp" srcset={srcset(bild, 'webp')} sizes={sizes} />
       <img
@@ -49,7 +51,7 @@ const {
       />
     </picture>
   ) : (
-    <div class:list={['platzhalter', `platzhalter--${variante}`, klasse]} style={`aspect-ratio:${verhaeltnis}`} aria-hidden="true">
+    <div class:list={['platzhalter', `platzhalter--${variante}`, klasse]} style={ratio} aria-hidden="true">
       <span class="platzhalter__name">{platzhalter}</span>
     </div>
   )

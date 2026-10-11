@@ -20,13 +20,13 @@ const links = [
   <div class="rahmen flex h-[4.25rem] items-center justify-between gap-6 md:h-[5rem]">
     <a href="/" class="kopf-marke flex shrink-0 items-center gap-4 no-underline" aria-label="Bombay – Indische Spezialitäten, zur Startseite">
       <LogoEtikett />
-      <span class="feinsatz hidden text-[0.68rem] leading-tight text-rauch-dunkel xl:block" style="letter-spacing:.14em" aria-hidden="true"
+      <span class="feinsatz hidden text-mini leading-tight text-rauch-dunkel xl:block" style="letter-spacing:.14em" aria-hidden="true"
         >Indische<br />Spezialitäten</span
       >
     </a>
 
     <nav aria-label="Hauptnavigation" class="hidden lg:block">
-      <ul class="flex items-center gap-7 text-[1rem] font-medium" role="list">
+      <ul class="flex items-center gap-7 text-basis font-medium" role="list">
         {
           links.map((l) => (
             <li>
@@ -44,7 +44,7 @@ const links = [
     </nav>
 
     <div class="flex items-center gap-2">
-      <a href={kontakt.telefonLink} class="knopf knopf-glut hidden min-h-11 px-4 text-[0.98rem] md:inline-flex">
+      <a href={kontakt.telefonLink} class="knopf knopf-glut hidden min-h-11 px-4 text-fein md:inline-flex">
         <Icon name="telefon" size={18} />
         <span class="tabellenziffern">{kontakt.telefonAnzeige}</span>
       </a>
@@ -68,7 +68,7 @@ const links = [
           <li>
             <a
               href={l.href}
-              class="flex items-center justify-between border-b border-white/8 py-3.5 font-display text-[1.6rem] leading-tight text-creme no-underline"
+              class="flex items-center justify-between border-b border-white/8 py-3.5 font-display text-zwischen leading-tight text-creme no-underline"
             >
               {l.text}
               <Icon name="pfeil" size={20} class="text-safran" />

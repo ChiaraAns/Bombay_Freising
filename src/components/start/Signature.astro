@@ -14,7 +14,7 @@ const gerichte = signatureNummern.map((nr) => gerichtNr(nr));
     <div class="flex flex-wrap items-end justify-between gap-6" data-erscheinen>
       <div class="max-w-[38rem]">
         <h2 id="karte-titel" class="display-l">Sechs Gründe, heute indisch zu essen.</h2>
-        <p class="mt-4 text-[1.12rem] leading-relaxed text-braun">
+        <p class="mt-4 text-lead leading-relaxed text-braun">
           Eine kleine Auswahl aus über 120 Gerichten. Die Nummer hilft, wenn Sie telefonisch bestellen.
         </p>
       </div>
@@ -68,6 +68,6 @@ const gerichte = signatureNummern.map((nr) => gerichtNr(nr));
   .ganze-karte {
     min-height: 3.75rem;
     padding-inline: 2rem;
-    font-size: 1.15rem;
+    font-size: var(--text-lead);
   }
 </style>

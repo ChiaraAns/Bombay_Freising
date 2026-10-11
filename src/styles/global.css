@@ -55,7 +55,7 @@
   line-gap-override: 0%;
 }
 
-@theme {
+@theme static {
   --color-tinte: #1b1714;
   --color-russ: #120f0d;
   --color-kohle: #26201b;
@@ -75,9 +75,28 @@
   /* Text auf Creme */
   --color-braun: #5b4636;
   --color-braun-hell: #7a6250;
+  /* Funktionsfarben */
+  --color-creme-hell: #fbf6ee;
+  --color-glut-hell: #f07a52;
+  --color-offen: #6f9a3e;
+  --color-holz: #d7b98c;
+  --color-holz-kopf: #6a5446;
+  --color-hinweis-grund: #fff5d6;
+  --color-hinweis-text: #5a3b00;
+  --color-druck-schwarz: #000;
+  --color-druck-weiss: #fff;
   /* Text auf Dunkel */
   --color-rauch: #cdbfad;
   --color-rauch-dunkel: #a8998a;
+
+  /* Schriftgrößen-Skala (neben display-xl/l/m) */
+  --text-mini: 0.75rem;
+  --text-klein: 0.875rem;
+  --text-fein: 0.97rem;
+  --text-basis: 1.0625rem;
+  --text-lead: 1.15rem;
+  --text-gericht: 1.32rem;
+  --text-zwischen: 1.5rem;
 
   --font-display: 'Rozha One', 'Rozha Ersatz', Georgia, serif;
   --font-sans: 'Mukta', 'Mukta Ersatz', ui-sans-serif, system-ui, sans-serif;
@@ -97,7 +116,7 @@
 
   body {
     font-family: var(--font-sans);
-    font-size: 1.0625rem;
+    font-size: var(--text-basis);
     line-height: 1.6;
     background: var(--color-tinte);
     color: var(--color-creme);
@@ -185,7 +204,7 @@
 }
 
 @utility feinsatz {
-  font-size: 0.8125rem;
+  font-size: var(--text-klein);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   font-weight: 600;
@@ -237,8 +256,8 @@
 @utility etikett-schatten {
   box-shadow:
     0 1px 0 rgb(255 240 220 / 0.25) inset,
-    0 24px 48px -18px rgb(0 0 0 / 0.65),
-    0 6px 14px -6px rgb(0 0 0 / 0.45);
+    0 24px 48px -18px color-mix(in oklab, var(--color-russ) 65%, transparent),
+    0 6px 14px -6px color-mix(in oklab, var(--color-russ) 45%, transparent);
 }
 
 /* ---------- Knöpfe ---------- */
@@ -252,7 +271,7 @@
   padding: 0.55rem 1.25rem;
   border-radius: 3px;
   font-weight: 600;
-  font-size: 1.0625rem;
+  font-size: var(--text-basis);
   line-height: 1.15;
   text-decoration: none;
   transition:
@@ -295,9 +314,9 @@
 @utility knopf-creme {
   background: var(--color-creme);
   color: var(--color-tinte);
-  box-shadow: 0 10px 22px -12px rgb(0 0 0 / 0.7);
+  box-shadow: 0 10px 22px -12px color-mix(in oklab, var(--color-russ) 70%, transparent);
   &:hover {
-    background: #fff8ee;
+    background: var(--color-creme-hell);
   }
 }
 
@@ -350,13 +369,13 @@
   background:
     radial-gradient(120% 90% at 25% 110%, rgb(94 107 72 / 0.95), transparent 62%),
     radial-gradient(90% 80% at 85% 0%, rgb(232 163 61 / 0.75), transparent 55%),
-    linear-gradient(160deg, #b5892f, #3f4a2f);
+    linear-gradient(160deg, color-mix(in oklab, var(--color-kurkuma) 70%, var(--color-kardamom)), #3f4a2f);
 }
 .platzhalter--kurkuma {
   background:
     radial-gradient(120% 90% at 20% 110%, rgb(143 43 20 / 0.85), transparent 60%),
     radial-gradient(90% 80% at 90% 0%, rgb(246 239 228 / 0.35), transparent 50%),
-    linear-gradient(160deg, #e8a33d, #b46a05);
+    linear-gradient(160deg, #e8a33d, color-mix(in oklab, var(--color-kurkuma) 82%, var(--color-glut-tief)));
 }
 .platzhalter--tinte {
   background:
@@ -387,7 +406,7 @@
   max-width: 80%;
   padding: 0.55rem 0.9rem 0.45rem;
   font-family: var(--font-display);
-  font-size: clamp(1.15rem, 0.9rem + 1vw, 1.6rem);
+  font-size: clamp(var(--text-lead), 0.9rem + 1vw, var(--text-zwischen));
   line-height: 1.1;
   text-align: center;
   color: var(--color-tinte);

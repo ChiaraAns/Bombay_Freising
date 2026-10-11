@@ -47,6 +47,8 @@ export interface Gericht {
 export interface Kategorie {
   id: string;
   titel: string;
+  /** kurzer Name für die Kategorie-Navigation */
+  kurz: string;
   /** Hinweis, der über der Kategorie angezeigt wird */
   hinweis?: string;
   /** Gerichte dieser Kategorie kommen im Curry-Kompass vor */
@@ -58,6 +60,7 @@ export const speisekarte: Kategorie[] = [
   {
     id: 'suppen',
     titel: 'Suppen',
+    kurz: 'Suppen',
     gerichte: [
       { nr: 1, name: 'Daal-Shorba', beschreibung: 'Linsensuppe', preis: 4.9, vegetarisch: true, schaerfe: 1 },
       { nr: 2, name: 'Sabzi-Shorba', beschreibung: 'Gemüsesuppe', preis: 4.9, vegetarisch: true, schaerfe: 1 },
@@ -69,6 +72,7 @@ export const speisekarte: Kategorie[] = [
   {
     id: 'kalte-vorspeisen',
     titel: 'Kalte Vorspeisen',
+    kurz: 'Kalte Vorspeisen',
     gerichte: [
       {
         nr: 10,
@@ -82,6 +86,7 @@ export const speisekarte: Kategorie[] = [
   {
     id: 'warme-vorspeisen',
     titel: 'Warme Vorspeisen',
+    kurz: 'Warme Vorspeisen',
     hinweis:
       'Alle warmen Vorspeisen werden mit 3 verschiedenen Dips serviert. Alle Pakoras werden in Kichererbsenmehl gewendet und frittiert.',
     gerichte: [
@@ -98,6 +103,7 @@ export const speisekarte: Kategorie[] = [
   {
     id: 'salate',
     titel: 'Salate',
+    kurz: 'Salate',
     gerichte: [
       { nr: 28, name: 'Salat Saison', beschreibung: 'Gemischter Salat mit French Dressing oder Essig und Öl', preis: 5.9, vegetarisch: true, schaerfe: 0 },
       { nr: 29, name: 'Tomatensalat', beschreibung: 'Mit Zwiebeln, Essig und Öl', preis: 5.9, vegetarisch: true, schaerfe: 0 },
@@ -114,6 +120,7 @@ export const speisekarte: Kategorie[] = [
   {
     id: 'tandoori',
     titel: 'Tandoori – Khajana',
+    kurz: 'Tandoori',
     hinweis:
       'Zubereitet in einem speziellen Holzkohle-Lehmofen aus Indien. Zu allen Tandoori-Gerichten servieren wir ofenfrisches Naan, Reis und Soßen.',
     kompass: true,
@@ -215,6 +222,7 @@ export const speisekarte: Kategorie[] = [
   {
     id: 'huhn',
     titel: 'Hühnerfleisch-Spezialitäten',
+    kurz: 'Huhn',
     kompass: true,
     gerichte: [
       { nr: 51, name: 'Chicken Curry', beschreibung: 'Zartes Hühnerfleisch in Currysoße mit feinen Gewürzen', preis: 14.9, beliebt: true, schaerfe: 1, protein: ['huhn'], geschmack: ['wuerzig'] },
@@ -236,6 +244,7 @@ export const speisekarte: Kategorie[] = [
   {
     id: 'lamm',
     titel: 'Lamm-Spezialitäten',
+    kurz: 'Lamm',
     kompass: true,
     gerichte: [
       { nr: 66, name: 'Lamm Curry', beschreibung: 'Zartes Lammfleisch in Curry-Soße', preis: 15.9, schaerfe: 1, protein: ['lamm'], geschmack: ['wuerzig'] },
@@ -257,6 +266,7 @@ export const speisekarte: Kategorie[] = [
   {
     id: 'ente',
     titel: 'Enten-Spezialitäten',
+    kurz: 'Ente',
     kompass: true,
     gerichte: [
       { nr: 81, name: 'Duck Curry', beschreibung: 'Entenbrustfilet in Currysoße mit feinen Gewürzen', preis: 16.5, schaerfe: 1, protein: ['ente'], geschmack: ['wuerzig'] },
@@ -281,6 +291,7 @@ export const speisekarte: Kategorie[] = [
   {
     id: 'fisch',
     titel: 'Fisch-Spezialitäten',
+    kurz: 'Fisch',
     kompass: true,
     gerichte: [
       { nr: 89, name: 'Fisch Curry', beschreibung: 'Fischfilet in Curry-Soße', preis: 14.9, schaerfe: 3, protein: ['fisch'], geschmack: ['wuerzig'] },
@@ -296,6 +307,7 @@ export const speisekarte: Kategorie[] = [
   {
     id: 'vegetarisch',
     titel: 'Vegetarische Spezialitäten',
+    kurz: 'Vegetarisch',
     kompass: true,
     gerichte: [
       { nr: 97, name: 'Aloo Palak', beschreibung: 'Kartoffeln mit Spinat', preis: 12.9, vegetarisch: true, schaerfe: 1, protein: ['vegetarisch'], geschmack: ['gruen'] },
@@ -323,6 +335,7 @@ export const speisekarte: Kategorie[] = [
   {
     id: 'biryani',
     titel: 'Reis-Spezialitäten (Biryani)',
+    kurz: 'Biryani',
     hinweis: 'Zubereitet mit Basmati-Reis aus Nordindien.',
     kompass: true,
     gerichte: [
@@ -337,6 +350,7 @@ export const speisekarte: Kategorie[] = [
   {
     id: 'thalis',
     titel: 'Thalis',
+    kurz: 'Thalis',
     hinweis:
       'Verschiedene Gerichte auf einem Teller, serviert auf original indischen Platten. Eine Spezialität unseres Chefkochs – lassen Sie sich überraschen.',
     kompass: true,
@@ -352,6 +366,7 @@ export const speisekarte: Kategorie[] = [
   {
     id: 'brot',
     titel: 'Tandoori-Brot',
+    kurz: 'Brot',
     hinweis: 'Frisch gebacken im Holzkohle-Lehmofen.',
     gerichte: [
       { nr: 157, name: 'Naan', beschreibung: 'Ovales Brot aus Hefeteig', preis: 2.5, vegetarisch: true, schaerfe: 0 },
@@ -370,6 +385,7 @@ export const speisekarte: Kategorie[] = [
   {
     id: 'beilagen',
     titel: 'Beilagen',
+    kurz: 'Beilagen',
     gerichte: [
       { nr: 137, name: 'Plain Dahi', beschreibung: 'Naturjoghurt', preis: 2.2, vegetarisch: true, schaerfe: 0 },
       { nr: 138, name: 'Kheera Raita', beschreibung: 'Gurken-Joghurt', preis: 2.9, vegetarisch: true, schaerfe: 0 },
@@ -382,6 +398,7 @@ export const speisekarte: Kategorie[] = [
   {
     id: 'nachspeisen',
     titel: 'Nachspeisen',
+    kurz: 'Nachspeisen',
     gerichte: [
       { nr: 177, name: 'Gulab Jamun', beschreibung: 'Bällchen aus Milch und Quark, in Honig gebacken', preis: 4.9, vegetarisch: true, schaerfe: 0 },
       { nr: 178, name: 'Halwa', beschreibung: 'Gekochter Grieß mit Kokosflocken und Rosinen in Milch und Kokosmilch', preis: 5.2, vegetarisch: true, schaerfe: 0 },
@@ -391,6 +408,7 @@ export const speisekarte: Kategorie[] = [
   {
     id: 'getraenke',
     titel: 'Getränke',
+    kurz: 'Getränke',
     // TODO: Getränkegrößen bestätigen; im Restaurant können Preise von der Lieferkarte abweichen.
     hinweis: 'Im Restaurant können Getränkepreise von der Lieferkarte abweichen.',
     gerichte: [
@@ -403,8 +421,12 @@ export const speisekarte: Kategorie[] = [
   },
 ];
 
-/** Signature-Gerichte für die Vorschau auf der Startseite (Gerichtsnummern, Reihenfolge = Anzeige). */
-export const signatureNummern = [57, 58, 104, 128, 96, 159];
+/**
+ * Signature-Gerichte für die Vorschau auf der Startseite (Gerichtsnummern, Reihenfolge = Anzeige).
+ * Briefing-Vorschlag war 57, 58, 104, 128, 96, 159. Nr. 104 Palak Paneer ist gegen Nr. 116 Paneer Butter Masala
+ * getauscht, weil es davon ein eigenes Foto gibt. Sobald `gericht-104-…` als Foto vorliegt, einfach zurücktauschen.
+ */
+export const signatureNummern = [57, 58, 116, 128, 96, 159];
 
 // ---------- Hilfsfunktionen ----------
 

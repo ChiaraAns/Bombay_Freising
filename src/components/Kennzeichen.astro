@@ -20,13 +20,13 @@ const schaerfeText = chilis === 2 ? 'sehr scharf' : chilis === 1 ? 'scharf' : ''
       {g.vegetarisch && (
         <li class="inline-flex items-center gap-1 text-kardamom" title="vegetarisch">
           <Icon name="blatt" size={kompakt ? 16 : 17} />
-          <span class:list={[kompakt ? 'sr-only' : 'text-[0.9rem] font-semibold']}>vegetarisch</span>
+          <span class:list={[kompakt ? 'sr-only' : 'text-klein font-semibold']}>vegetarisch</span>
         </li>
       )}
       {g.veganMoeglich && (
         <li class="inline-flex items-center gap-1 text-kardamom" title="auch vegan erhältlich">
           <Icon name="blatt-kontur" size={kompakt ? 16 : 17} />
-          <span class:list={[kompakt ? 'sr-only' : 'text-[0.9rem] font-semibold']}>auch vegan</span>
+          <span class:list={[kompakt ? 'sr-only' : 'text-klein font-semibold']}>auch vegan</span>
         </li>
       )}
       {chilis > 0 && (
@@ -34,7 +34,7 @@ const schaerfeText = chilis === 2 ? 'sehr scharf' : chilis === 1 ? 'scharf' : ''
           {Array.from({ length: chilis }, () => (
             <Icon name="chili" size={kompakt ? 16 : 17} class="-mr-0.5" />
           ))}
-          <span class:list={[kompakt ? 'sr-only' : 'ml-1.5 text-[0.9rem] font-semibold']}>{schaerfeText}</span>
+          <span class:list={[kompakt ? 'sr-only' : 'ml-1.5 text-klein font-semibold']}>{schaerfeText}</span>
         </li>
       )}
     </ul>

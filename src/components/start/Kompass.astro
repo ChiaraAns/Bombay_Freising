@@ -34,15 +34,14 @@ for (const g of kompassPool) {
 ---
 
 <section id="kompass" class="kompass koernung relative overflow-hidden bg-tinte py-20 md:py-28" aria-labelledby="kompass-titel">
-  <div class="kompass-glut" aria-hidden="true"></div>
   <div class="rahmen relative grid gap-10 lg:grid-cols-12 lg:gap-12">
     <div class="lg:col-span-5 xl:col-span-4" data-erscheinen>
       <h2 id="kompass-titel" class="display-l text-creme">Der Curry-Kompass</h2>
-      <p class="mt-5 max-w-[26rem] text-[1.12rem] leading-relaxed text-rauch">
+      <p class="mt-5 max-w-[26rem] text-lead leading-relaxed text-rauch">
         Über 120 Gerichte – und was ist eigentlich Rogan Josh oder Khumb Wala? Drei kurze Fragen, und der Kompass findet
-        dein Gericht auf unserer Karte.
+        das passende Gericht auf unserer Karte.
       </p>
-      <p class="mt-5 max-w-[26rem] text-[0.98rem] text-rauch-dunkel">
+      <p class="mt-5 max-w-[26rem] text-fein text-rauch-dunkel">
         Unsicher bei einem Begriff? Das kleine Glossar steht auf der{' '}
         <a href="/speisekarte#glossar" class="text-safran underline">Speisekarte</a>.
       </p>
@@ -65,7 +64,7 @@ for (const g of kompassPool) {
                   ))
                 }
               </span>
-              <p class="text-[0.95rem] font-semibold text-braun" data-fortschritt aria-live="polite">Frage 1 von 3</p>
+              <p class="text-fein font-semibold text-braun" data-fortschritt aria-live="polite">Frage 1 von 3</p>
             </div>
             <button type="button" class="kompass-textknopf" data-zurueck hidden>
               <Icon name="pfeil-links" size={17} /> Zurück
@@ -129,10 +128,10 @@ for (const g of kompassPool) {
                 class="hitze-regler mt-3 w-full"
                 aria-valuetext="1 Chili – mild"
               />
-              <div class="mt-2 flex justify-between text-[0.9rem] font-semibold text-braun" aria-hidden="true">
+              <div class="mt-2 flex justify-between text-klein font-semibold text-braun" aria-hidden="true">
                 <span>mild</span><span>würzig</span><span>scharf</span><span>sehr scharf</span>
               </div>
-              <p class="mt-4 font-display text-[1.45rem] text-tinte" data-hitze-text aria-hidden="true">1 Chili – mild</p>
+              <p class="mt-4 font-display text-zwischen text-tinte" data-hitze-text aria-hidden="true">1 Chili – mild</p>
             </div>
             <button type="button" class="knopf knopf-glut mt-6 w-full sm:w-auto" data-zeigen>
               Empfehlung zeigen <Icon name="pfeil" size={18} />
@@ -149,7 +148,7 @@ for (const g of kompassPool) {
         <!-- Die Schublade: Ergebnis -->
         <div class="schublade" data-ergebnis hidden>
           <div class="schublade-innen">
-            <p class="hinweis text-[0.98rem] text-rauch" data-hinweis hidden></p>
+            <p class="hinweis text-fein text-rauch" data-hinweis hidden></p>
             <div data-top></div>
             <div class="mt-5 grid gap-4 sm:grid-cols-2" data-alternativen></div>
 
@@ -345,7 +344,7 @@ for (const g of kompassPool) {
 
     function kennzeichen(e: Empfehlung) {
       const g = e.gericht;
-      const ul = h('ul', 'mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.88rem] font-semibold');
+      const ul = h('ul', 'mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-klein font-semibold');
       ul.setAttribute('role', 'list');
       if (g.vegetarisch) {
         const li = h('li', 'inline-flex items-center gap-1 text-kardamom');
@@ -377,12 +376,12 @@ for (const g of kompassPool) {
 
       const inhalt = h('div', 'ergebnis-inhalt');
       const kopf = h('div', 'flex items-baseline justify-between gap-3');
-      const titel = h(gross ? 'h4' : 'h5', `font-display text-tinte ${gross ? 'text-[1.9rem]' : 'text-[1.4rem]'} leading-tight`);
-      const nr = h('span', 'tabellenziffern mr-2 font-sans text-[0.9rem] font-bold text-glut', `Nr. ${g.nr}`);
+      const titel = h(gross ? 'h4' : 'h5', `font-display text-tinte ${gross ? 'text-zwischen' : 'text-gericht'} leading-tight`);
+      const nr = h('span', 'tabellenziffern mr-2 font-sans text-klein font-bold text-glut', `Nr. ${g.nr}`);
       titel.append(nr, g.name);
-      kopf.append(titel, h('span', 'tabellenziffern shrink-0 font-display text-[1.3rem] text-tinte', euro.format(g.preis)));
+      kopf.append(titel, h('span', 'tabellenziffern shrink-0 font-display text-gericht text-tinte', euro.format(g.preis)));
       inhalt.append(kopf);
-      if (g.beschreibung) inhalt.append(h('p', 'mt-1.5 text-[0.98rem] leading-snug text-braun', g.beschreibung));
+      if (g.beschreibung) inhalt.append(h('p', 'mt-1.5 text-fein leading-snug text-braun', g.beschreibung));
       inhalt.append(kennzeichen(e));
 
       const dazu = h('div', 'dazu');
@@ -391,7 +390,7 @@ for (const g of kompassPool) {
       links.append(h('span', 'font-semibold text-tinte', 'Dazu passt: '), `Nr. ${e.dazu.nr} ${e.dazu.name}`);
       zeile.append(links, h('span', 'tabellenziffern shrink-0', `+ ${euro.format(e.dazu.preis)}`));
       const summe = h('p', 'mt-1.5 flex items-baseline justify-between gap-3 border-t border-tinte/20 pt-1.5 font-semibold text-tinte');
-      summe.append(h('span', '', 'Zusammen'), h('span', 'tabellenziffern font-display text-[1.35rem] text-glut', euro.format(e.summe)));
+      summe.append(h('span', '', 'Zusammen'), h('span', 'tabellenziffern font-display text-gericht text-glut', euro.format(e.summe)));
       dazu.append(zeile, summe);
       inhalt.append(dazu);
       art.append(inhalt);
@@ -401,25 +400,16 @@ for (const g of kompassPool) {
 </script>
 
 <style>
-  .kompass-glut {
-    position: absolute;
-    inset: auto -20% -40% 30%;
-    height: 90%;
-    background: radial-gradient(closest-side, rgb(182 58 30 / 0.42), rgb(217 142 4 / 0.12) 55%, transparent);
-    filter: blur(10px);
-    pointer-events: none;
-  }
-
   .hoelzer {
     display: inline-flex;
     flex-direction: column;
     gap: 3px;
   }
   .holz-stab {
-    fill: #d7b98c;
+    fill: var(--color-holz);
   }
   .holz-kopf {
-    fill: #6a5446;
+    fill: var(--color-holz-kopf);
     transition: fill 0.5s var(--ease-glut);
   }
   .holz.brennt .holz-kopf {
@@ -437,7 +427,7 @@ for (const g of kompassPool) {
     min-height: 4.4rem;
     padding: 0.8rem 1rem 0.75rem;
     text-align: left;
-    background: #fbf6ee;
+    background: var(--color-creme-hell);
     color: var(--color-tinte);
     border-radius: 3px;
     box-shadow: inset 0 0 0 1.5px rgb(27 23 20 / 0.28);
@@ -449,7 +439,7 @@ for (const g of kompassPool) {
   }
   .option:hover {
     box-shadow: inset 0 0 0 2px var(--color-tinte);
-    background: #fff;
+    background: var(--color-creme-hell);
   }
   .option:active {
     transform: translateY(1px);
@@ -464,11 +454,11 @@ for (const g of kompassPool) {
   }
   .option-titel {
     font-family: var(--font-display);
-    font-size: 1.32rem;
+    font-size: var(--text-gericht);
     line-height: 1.1;
   }
   .option-hinweis {
-    font-size: 0.9rem;
+    font-size: var(--text-klein);
     color: var(--color-braun);
   }
 
@@ -495,7 +485,7 @@ for (const g of kompassPool) {
 
   /* Chili-Regler: heizt sich von Safran zu Glut auf */
   .chili-stufe {
-    color: #cdbca5;
+    color: var(--color-rauch);
     transition:
       color 0.35s var(--ease-glut),
       transform 0.35s var(--ease-glut),
@@ -572,11 +562,11 @@ for (const g of kompassPool) {
     margin: -0.5rem 0.6rem 0;
     padding: 2rem 1rem 1.5rem;
     background:
-      linear-gradient(180deg, rgb(0 0 0 / 0.35), transparent 2.5rem),
+      linear-gradient(180deg, color-mix(in oklab, var(--color-russ) 35%, transparent), transparent 2.5rem),
       var(--color-kohle);
     border: 1px solid rgb(246 239 228 / 0.12);
     border-top: 0;
-    box-shadow: 0 30px 60px -30px rgb(0 0 0 / 0.8);
+    box-shadow: 0 30px 60px -30px color-mix(in oklab, var(--color-russ) 80%, transparent);
   }
   @media (width >= 40rem) {
     .schublade {
@@ -641,7 +631,7 @@ for (const g of kompassPool) {
     margin-top: 1rem;
     padding: 0.7rem 0.8rem;
     background: var(--color-papier);
-    font-size: 0.98rem;
+    font-size: var(--text-fein);
   }
   .schachtel :global(.ergebnis-siegel) {
     position: absolute;
@@ -651,7 +641,7 @@ for (const g of kompassPool) {
     background: var(--color-glut);
     color: var(--color-creme);
     font-weight: 700;
-    font-size: 0.85rem;
+    font-size: var(--text-klein);
     border-radius: 2px;
   }
   @media (width >= 48rem) {

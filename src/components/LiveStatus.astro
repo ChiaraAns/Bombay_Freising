@@ -45,8 +45,8 @@ const { class: klasse = '' } = Astro.props;
     flex: none;
   }
   [data-zustand='offen'] .live-punkt {
-    background: #6f9a3e;
-    box-shadow: 0 0 0 0 rgb(111 154 62 / 0.6);
+    background: var(--color-offen);
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--color-offen) 60%, transparent);
     animation: puls 2.4s var(--ease-glut) infinite;
   }
   [data-zustand='bald'] .live-punkt {
@@ -57,11 +57,11 @@ const { class: klasse = '' } = Astro.props;
   }
   @keyframes puls {
     0% {
-      box-shadow: 0 0 0 0 rgb(111 154 62 / 0.55);
+      box-shadow: 0 0 0 0 color-mix(in oklab, var(--color-offen) 55%, transparent);
     }
     80%,
     100% {
-      box-shadow: 0 0 0 0.55rem rgb(111 154 62 / 0);
+      box-shadow: 0 0 0 0.55rem color-mix(in oklab, var(--color-offen) 0%, transparent);
     }
   }
   @media (prefers-reduced-motion: reduce) {

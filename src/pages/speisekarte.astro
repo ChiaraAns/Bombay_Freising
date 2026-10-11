@@ -33,7 +33,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
       <div class="rahmen grid gap-8 lg:grid-cols-12 lg:items-end">
         <div class="lg:col-span-7">
           <h1 class="display-xl">Speisekarte</h1>
-          <p class="mt-5 max-w-[36rem] text-[1.12rem] leading-relaxed text-rauch">
+          <p class="mt-5 max-w-[36rem] text-lead leading-relaxed text-rauch">
             Alle Gerichte mit Nummer – so geht es am Telefon am schnellsten. Reservieren und bestellen unter{' '}
             <a href={kontakt.telefonLink} class="tabellenziffern whitespace-nowrap font-semibold text-safran underline"
               >{kontakt.telefonAnzeige}</a
@@ -59,7 +59,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
             speisekarte.map((k) => (
               <li>
                 <a href={`#${k.id}`} class="kategorie-link" data-kategorie-link={k.id}>
-                  {k.titel.replace(' (Biryani)', '').replace('-Spezialitäten', '')}
+                  {k.kurz}
                 </a>
               </li>
             ))
@@ -81,7 +81,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
               type="search"
               placeholder="z. B. Spinat, Mango, Korma, 57"
               autocomplete="off"
-              class="h-12 w-full rounded-[3px] bg-creme pl-11 pr-11 text-[1.05rem] text-tinte placeholder:text-braun-hell"
+              class="h-12 w-full rounded-[3px] bg-creme pl-11 pr-11 text-basis text-tinte placeholder:text-braun-hell"
             />
             <button type="button" class="suche-leeren absolute right-1.5 top-1/2 -translate-y-1/2" aria-label="Suche leeren" hidden>
               <Icon name="kreuz" size={18} />
@@ -107,7 +107,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
 
       <!-- Hinweise -->
       <div class="mt-8 grid gap-4 md:grid-cols-2">
-        <p class="hinweis-allergene flex gap-3 border border-tinte/20 bg-creme px-4 py-3 text-[0.98rem]">
+        <p class="hinweis-allergene flex gap-3 border border-tinte/20 bg-creme px-4 py-3 text-fein">
           <Icon name="blatt-kontur" size={20} class="mt-0.5 shrink-0 text-kardamom" />
           <span>
             Informationen zu Allergenen erhalten Sie bei unserem Personal.
@@ -125,14 +125,14 @@ const suchtext = (...teile: (string | undefined)[]) =>
               {
                 glossar.map((g) => (
                   <div>
-                    <dt class="font-display text-[1.3rem] leading-tight">{g.begriff}</dt>
-                    <dd class="mt-1 text-[0.98rem] leading-snug text-braun">{g.erklaerung}</dd>
+                    <dt class="font-display text-gericht leading-tight">{g.begriff}</dt>
+                    <dd class="mt-1 text-fein leading-snug text-braun">{g.erklaerung}</dd>
                   </div>
                 ))
               }
             </dl>
-            <h2 class="mt-6 font-display text-[1.2rem]">Kleines Kartenvokabular</h2>
-            <dl class="vokabular mt-2 grid grid-cols-2 gap-x-6 gap-y-1 text-[0.98rem] sm:grid-cols-3">
+            <h2 class="mt-6 font-display text-lead">Kleines Kartenvokabular</h2>
+            <dl class="vokabular mt-2 grid grid-cols-2 gap-x-6 gap-y-1 text-fein sm:grid-cols-3">
               {
                 vokabular.map(([wort, bedeutung]) => (
                   <div class="flex gap-2">
@@ -156,7 +156,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
                   {k.titel}
                 </h2>
                 <span class="bordure mt-4 text-rani/80" aria-hidden="true" />
-                {k.hinweis && <p class="kategorie-hinweis mt-4 max-w-[48rem] text-[1.02rem] text-braun">{k.hinweis}</p>}
+                {k.hinweis && <p class="kategorie-hinweis mt-4 max-w-[48rem] text-basis text-braun">{k.hinweis}</p>}
               </div>
               <ul class="gerichte mt-6" role="list">
                 {k.gerichte.map((g) => (
@@ -216,7 +216,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
       </div>
 
       <!-- Legende & Druck-Fuß -->
-      <div class="legende mt-16 flex flex-wrap gap-x-8 gap-y-3 border-t border-tinte/20 pt-6 text-[0.98rem] text-braun">
+      <div class="legende mt-16 flex flex-wrap gap-x-8 gap-y-3 border-t border-tinte/20 pt-6 text-fein text-braun">
         <span class="inline-flex items-center gap-1.5"><Icon name="blatt" size={17} class="text-kardamom" /> vegetarisch</span>
         <span class="inline-flex items-center gap-1.5"><Icon name="blatt-kontur" size={17} class="text-kardamom" /> auch vegan erhältlich</span>
         <span class="inline-flex items-center gap-1.5"><Icon name="chili" size={17} class="text-glut" /> scharf</span>
@@ -353,7 +353,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
   .kategorien {
     background: rgb(27 23 20 / 0.97);
     backdrop-filter: saturate(1.2);
-    box-shadow: 0 10px 24px -14px rgb(0 0 0 / 0.6);
+    box-shadow: 0 10px 24px -14px color-mix(in oklab, var(--color-russ) 60%, transparent);
   }
   .kategorien-innen {
     padding-inline: 0;
@@ -370,11 +370,37 @@ const suchtext = (...teile: (string | undefined)[]) =>
     scrollbar-width: none;
     padding: 0.55rem 1rem;
     scroll-padding-inline: 1rem;
-    -webkit-mask: linear-gradient(90deg, transparent, #000 1rem, #000 calc(100% - 2rem), transparent);
-    mask: linear-gradient(90deg, transparent, #000 1rem, #000 calc(100% - 2rem), transparent);
+    -webkit-mask: linear-gradient(90deg, transparent, var(--color-druck-schwarz) 1rem, var(--color-druck-schwarz) calc(100% - 2rem), transparent);
+    mask: linear-gradient(90deg, transparent, var(--color-druck-schwarz) 1rem, var(--color-druck-schwarz) calc(100% - 2rem), transparent);
   }
   .kategorien-liste::-webkit-scrollbar {
     display: none;
+  }
+  /* Desktop: alle Kategorien sichtbar, bei Bedarf zweizeilig */
+  @media (width >= 64rem) {
+    .kategorien-liste {
+      flex-wrap: wrap;
+      overflow: visible;
+      padding-inline: 0;
+      -webkit-mask: none;
+      mask: none;
+    }
+    .kategorien-liste {
+      gap: 0.1rem;
+    }
+    .kategorie-link {
+      min-height: 2.25rem;
+      padding-inline: 0.55rem;
+      font-size: var(--text-fein);
+    }
+  }
+  :global(html) {
+    scroll-padding-top: 4.5rem;
+  }
+  @media (width >= 64rem) {
+    :global(html) {
+      scroll-padding-top: 5.5rem;
+    }
   }
   .kategorie-link {
     display: inline-flex;
@@ -385,7 +411,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
     white-space: nowrap;
     color: var(--color-rauch);
     font-weight: 600;
-    font-size: 0.98rem;
+    font-size: var(--text-fein);
     text-decoration: none;
     transition:
       background-color 0.2s,
@@ -408,7 +434,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
   .filter-status {
     padding-bottom: 0.6rem;
     color: var(--color-rauch);
-    font-size: 0.95rem;
+    font-size: var(--text-fein);
   }
   .filter-status :global(button) {
     color: var(--color-safran);
@@ -464,7 +490,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
     background: var(--color-creme);
     box-shadow: inset 0 0 0 1.5px rgb(27 23 20 / 0.28);
     font-weight: 600;
-    font-size: 0.98rem;
+    font-size: var(--text-fein);
     cursor: pointer;
     transition:
       background-color 0.2s,
@@ -483,7 +509,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
     color: var(--color-kardamom-hell);
   }
   .filter-chip[aria-pressed='true'] :global(.text-glut) {
-    color: #f07a52;
+    color: var(--color-glut-hell);
   }
 
   .glossar[open] .glossar-pfeil {
@@ -538,7 +564,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
     background: var(--color-tinte);
     color: var(--color-creme);
     font-family: var(--font-display);
-    font-size: 1.05rem;
+    font-size: var(--text-basis);
     line-height: 1;
     padding-top: 0.15rem;
     box-shadow:
@@ -560,7 +586,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
     overflow-wrap: break-word;
     hyphens: auto;
     font-family: var(--font-display);
-    font-size: 1.32rem;
+    font-size: var(--text-gericht);
     line-height: 1.15;
   }
   .beliebt-marke {
@@ -572,7 +598,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
     background: var(--color-safran);
     color: var(--color-tinte);
     font-family: var(--font-sans);
-    font-size: 0.72rem;
+    font-size: var(--text-mini);
     font-weight: 700;
     letter-spacing: 0.03em;
     vertical-align: 0.2em;
@@ -589,12 +615,12 @@ const suchtext = (...teile: (string | undefined)[]) =>
     flex: none;
     text-align: right;
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: var(--text-lead);
     color: var(--color-glut);
   }
   .preis-zusatz {
     font-weight: 500;
-    font-size: 0.9rem;
+    font-size: var(--text-klein);
     color: var(--color-braun);
   }
   .gericht-unterzeile {
@@ -606,7 +632,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
   }
   .gericht-beschreibung {
     color: var(--color-braun);
-    font-size: 1rem;
+    font-size: var(--text-basis);
     line-height: 1.45;
   }
   .gericht-unterzeile :global(.kennzeichen) {
@@ -621,8 +647,8 @@ const suchtext = (...teile: (string | undefined)[]) =>
     }
     :global(html),
     :global(body) {
-      background: #fff !important;
-      color: #000 !important;
+      background: var(--color-druck-weiss) !important;
+      color: var(--color-druck-schwarz) !important;
       padding: 0 !important;
     }
     :global(.kopf),
@@ -634,18 +660,18 @@ const suchtext = (...teile: (string | undefined)[]) =>
       display: none !important;
     }
     .karte-kopf {
-      background: #fff !important;
-      color: #000 !important;
+      background: var(--color-druck-weiss) !important;
+      color: var(--color-druck-schwarz) !important;
       padding: 0 0 6mm !important;
     }
     .karte-kopf :global(*) {
-      color: #000 !important;
+      color: var(--color-druck-schwarz) !important;
     }
     .karte-kopf::before {
       display: none;
     }
     :global(.hell) {
-      background: #fff !important;
+      background: var(--color-druck-weiss) !important;
     }
     .kategorie {
       padding-top: 6mm;
@@ -674,9 +700,9 @@ const suchtext = (...teile: (string | undefined)[]) =>
     }
     .gericht-nr {
       background: none;
-      color: #000;
+      color: var(--color-druck-schwarz);
       box-shadow: none;
-      border: 1px solid #000;
+      border: 1px solid var(--color-druck-schwarz);
       height: auto;
       font-size: 10pt;
     }
@@ -686,7 +712,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
     .gericht-beschreibung,
     .gericht-preis {
       font-size: 9.5pt;
-      color: #000;
+      color: var(--color-druck-schwarz);
     }
     .display-l,
     h2 {
@@ -695,7 +721,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
     .druck-fuss {
       margin-top: 8mm;
       padding-top: 3mm;
-      border-top: 1px solid #000;
+      border-top: 1px solid var(--color-druck-schwarz);
       font-size: 9pt;
     }
   }

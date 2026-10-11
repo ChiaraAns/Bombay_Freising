@@ -17,6 +17,7 @@ const { gericht: g, alt, sizes = '(min-width: 64rem) 24rem, (min-width: 40rem) 4
 ---
 
 <article class:list={['gericht-etikett etikett flex h-full flex-col p-2.5', klasse]}>
+  <span class="bordure mb-2.5 h-[11px] text-rani" aria-hidden="true"></span>
   <div class="relative">
     <Foto
       bild={gerichtBild(g.nr)}
@@ -41,10 +42,10 @@ const { gericht: g, alt, sizes = '(min-width: 64rem) 24rem, (min-width: 40rem) 4
   </div>
   <div class="flex flex-1 flex-col px-2.5 pb-2.5 pt-5 sm:px-3.5">
     <h3 class="display-m text-tinte">{g.name}</h3>
-    {g.beschreibung && <p class="mt-2 text-[1rem] leading-snug text-braun">{g.beschreibung}</p>}
+    {g.beschreibung && <p class="mt-2 text-basis leading-snug text-braun">{g.beschreibung}</p>}
     <div class="mt-auto flex items-end justify-between gap-3 pt-5">
       <Kennzeichen gericht={g} />
-      <p class="preis tabellenziffern ml-auto shrink-0 text-right font-display text-[1.55rem] leading-none text-glut">
+      <p class="preis tabellenziffern ml-auto shrink-0 text-right font-display text-zwischen leading-none text-glut">
         {preisFormat(g.preis)}
       </p>
     </div>
@@ -63,13 +64,13 @@ const { gericht: g, alt, sizes = '(min-width: 64rem) 24rem, (min-width: 40rem) 4
     background: var(--color-tinte);
     color: var(--color-creme);
     font-family: var(--font-display);
-    font-size: 1.3rem;
+    font-size: var(--text-gericht);
     line-height: 1;
     box-shadow: 0 0 0 3px var(--color-creme);
   }
   .serie-nr {
     font-family: var(--font-sans);
-    font-size: 0.72rem;
+    font-size: var(--text-mini);
     font-weight: 600;
     letter-spacing: 0.06em;
     color: var(--color-safran);
@@ -84,7 +85,7 @@ const { gericht: g, alt, sizes = '(min-width: 64rem) 24rem, (min-width: 40rem) 4
     padding: 0.25rem 0.55rem 0.15rem;
     background: var(--color-safran);
     color: var(--color-tinte);
-    font-size: 0.8rem;
+    font-size: var(--text-klein);
     font-weight: 700;
     letter-spacing: 0.02em;
     border-radius: 2px;

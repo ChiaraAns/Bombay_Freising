@@ -21,10 +21,25 @@ colors:
   braun-hell: "#7a6250"
   rauch: "#cdbfad"
   rauch-dunkel: "#a8998a"
+  creme-hell: "#fbf6ee"
+  glut-hell: "#f07a52"
+  offen: "#6f9a3e"
+  holz: "#d7b98c"
+  holz-kopf: "#6a5446"
+  hinweis-grund: "#fff5d6"
+  hinweis-text: "#5a3b00"
+  druck-schwarz: "#000"
+  druck-weiss: "#fff"
 typography:
   display:
     fontFamily: "Rozha One, Rozha Ersatz, Georgia, serif"
     fontSize: "clamp(2.65rem, 1.55rem + 4.6vw, 5.6rem)"
+    fontWeight: 400
+    lineHeight: 0.98
+    letterSpacing: "-0.015em"
+  display-hero:
+    fontFamily: "Rozha One, Rozha Ersatz, Georgia, serif"
+    fontSize: "clamp(2.45rem, 1.35rem + 4.1vw, 4.85rem)"
     fontWeight: 400
     lineHeight: 0.98
     letterSpacing: "-0.015em"
@@ -43,9 +58,38 @@ typography:
     fontSize: "1.0625rem"
     fontWeight: 400
     lineHeight: 1.6
+  zwischen:
+    fontFamily: "Rozha One, Rozha Ersatz, Georgia, serif"
+    fontSize: "1.5rem"
+    fontWeight: 400
+    lineHeight: 1.1
+  gericht:
+    fontFamily: "Rozha One, Rozha Ersatz, Georgia, serif"
+    fontSize: "1.32rem"
+    fontWeight: 400
+    lineHeight: 1.15
+  lead:
+    fontFamily: "Mukta, Mukta Ersatz, system-ui, sans-serif"
+    fontSize: "1.15rem"
+    fontWeight: 400
+    lineHeight: 1.6
+  fein:
+    fontFamily: "Mukta, Mukta Ersatz, system-ui, sans-serif"
+    fontSize: "0.97rem"
+    fontWeight: 400
+    lineHeight: 1.5
+  klein:
+    fontFamily: "Mukta, Mukta Ersatz, system-ui, sans-serif"
+    fontSize: "0.875rem"
+    fontWeight: 600
+  mini:
+    fontFamily: "Mukta, Mukta Ersatz, system-ui, sans-serif"
+    fontSize: "0.75rem"
+    fontWeight: 700
+    letterSpacing: "0.04em"
   label:
     fontFamily: "Mukta, Mukta Ersatz, system-ui, sans-serif"
-    fontSize: "0.8125rem"
+    fontSize: "0.875rem"
     fontWeight: 600
     letterSpacing: "0.08em"
   preis:
@@ -145,7 +189,8 @@ Eine warme Gewürzpalette auf Kohle und Creme, verankert vom Rani-Pink des Logos
 - **Ruß** (#120f0d) und **Kohle** (#26201b / #352c25): Footer, Kompass-Schublade, Scrollbar.
 - **Creme** (#f6efe4): Etiketten, Text auf Dunkel. **Papier** (#ede2cf) und **Papier dunkel** (#e2d4bc): Lese-Flächen der Startseite und der Speisekarte, „Dazu passt“-Kasten.
 - **Braun** (#5b4636) / **Braun hell** (#7a6250): Sekundärtext auf Creme und Papier.
-- **Rauch** (#cdbfad) / **Rauch dunkel** (#a8998a): Sekundärtext auf Dunkel.
+- **Rauch** (#cdbfad) / **Rauch dunkel** (#a8998a): Sekundärtext auf Dunkel; Rauch auch für ausgeschaltete Chilis im Kompass.
+- **Funktionsfarben:** Creme hell (#fbf6ee, Kompass-Optionen), Glut hell (#f07a52, Chili auf dunklem Chip), Offen-Grün (#6f9a3e, nur der Live-Status-Punkt), Holz / Holzkopf (#d7b98c / #6a5446, Streichhölzer der Kompass-Fortschrittsanzeige), Hinweis-Gelb (#fff5d6 / #5a3b00, nur TODO-Kästen der Rechtstexte), Druck-Schwarz/-Weiß (nur Print-Stylesheet).
 
 ### Named Rules
 **Die Logo-braucht-Licht-Regel.** Rani-Pink steht nie direkt auf Kohle. Auf dunklen Flächen bekommt das Logo ein Creme-Etikett oder erscheint in Creme.
@@ -162,11 +207,13 @@ Eine warme Gewürzpalette auf Kohle und Creme, verankert vom Rani-Pink des Logos
 **Character:** Rozha One ist eine schwere, kontrastreiche Didone mit Kugel-Endungen aus einer indischen Schriftgießerei – nah am Schriftzug des Logos, laut wie ein Etikettendruck. Mukta ist eine ruhige, offene Grotesk derselben Herkunft mit echten Tabellenziffern.
 
 ### Hierarchy
-- **Display** (400, clamp 2.65–5.6rem, 0.98): Seitentitel, Hero („Frisch aus dem Lehmofen.“, im Hero eigene Stufe bis 4.85rem).
+- **Display** (400, clamp 2.65–5.6rem, 0.98): Seitentitel (z. B. „Speisekarte“). **Display-Hero** (clamp 2.45–4.85rem): die Headline im Hero-Etikett („Aus Glut und Gewürz.“).
 - **Headline** (400, clamp 2.15–3.9rem, 1.02): Abschnittsüberschriften, Kategorien der Speisekarte.
 - **Title** (400, clamp 1.55–2.15rem, 1.08): Gerichtnamen auf Etiketten, USP-Titel, Kompass-Fragen.
 - **Body** (Mukta 400, 1.0625rem, 1.6): Fließtext, max. ca. 36rem Breite.
-- **Label** (Mukta 600, 0.8125rem, 0.08em, Versalien): Zusatz neben dem Logo, Fußzeilen-Feinsatz. Nie als Dachzeile über einer Überschrift.
+- **Zwischen** (Rozha 400, 1.5rem) und **Gericht** (Rozha 400, 1.32rem): kleine Überschriften im Fuß, Gerichtnamen in Listen und Kompass-Optionen.
+- **Lead** (Mukta, 1.15rem), **Fein** (0.97rem), **Klein** (0.875rem), **Mini** (0.75rem): Einleitungen, Sekundärtext, Bildunterschriften, Marken. Als Tailwind-Klassen `text-lead`, `text-fein`, `text-klein`, `text-mini`; keine freien Pixel- oder rem-Werte.
+- **Label** (Mukta 600, 0.875rem, 0.08em, Versalien): Zusatz neben dem Logo, Fußzeilen-Feinsatz. Nie als Dachzeile über einer Überschrift.
 - **Preis** (Mukta 700, `tnum`): rechtsbündig, in Glutrot; auf Etiketten in Rozha One.
 
 ### Named Rules

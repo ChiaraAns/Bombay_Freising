@@ -26,7 +26,7 @@ const { titel, beschreibung } = Astro.props;
 <style>
   .rechtstext :global(h2) {
     margin-top: 2.25rem;
-    font-size: 1.5rem;
+    font-size: var(--text-zwischen);
   }
   .rechtstext :global(p),
   .rechtstext :global(ul),
@@ -47,9 +47,9 @@ const { titel, beschreibung } = Astro.props;
     display: block;
     margin-top: 0.75rem;
     padding: 0.7rem 0.9rem;
-    background: #fff5d6;
+    background: var(--color-hinweis-grund);
     border: 1px dashed var(--color-kurkuma);
-    color: #5a3b00;
-    font-size: 0.98rem;
+    color: var(--color-hinweis-text);
+    font-size: var(--text-fein);
   }
 </style>

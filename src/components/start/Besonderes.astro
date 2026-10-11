@@ -1,11 +1,17 @@
 ---
 import Foto from '../Foto.astro';
 import { bild, gerichtBild } from '../../lib/bilder';
+import { gerichtNr } from '../../data/speisekarte';
 import { speisekarte } from '../../data/speisekarte';
 
 // Eigenes Lehmofen-Foto (`tandoor.*`) hat Vorrang, sonst Chicken Tikka vom Spieß.
 const tandoorBild = bild('tandoor');
 const ofenBild = tandoorBild ?? gerichtBild(39);
+
+// Kleine Reihe „Aus unserer Küche“: weitere eigene Fotos (Nummern hier pflegen)
+const kuechenFotos = [66, 69, 63, 89]
+  .map((nr) => ({ nr, name: gerichtNr(nr).name, bild: gerichtBild(nr) }))
+  .filter((f) => f.bild);
 
 const vegKategorie = speisekarte.find((k) => k.id === 'vegetarisch')!;
 const anzahlVeg = vegKategorie.gerichte.length;
@@ -18,7 +24,7 @@ const punkte = [
   },
   {
     titel: 'Paneer aus eigener Küche',
-    text: 'Den Käse für Palak Paneer, Shahi Paneer oder Malai Kofta machen wir selbst: mild, frisch und schnittfest.',
+    text: 'Den Käse für Palak Paneer, Shahi Paneer, Paneer Butter Masala oder Malai Kofta machen wir selbst – auch Brote wie das Paneer Kulcha werden damit gefüllt.',
   },
   {
     titel: 'Thalis auf indischen Platten',
@@ -38,22 +44,22 @@ const punkte = [
         <h2 id="haus-titel" class="display-l text-creme">
           Was man bei uns<br class="hidden sm:block" /> schmeckt.
         </h2>
-        <p class="mt-6 max-w-[30rem] text-[1.15rem] leading-relaxed text-rauch">
+        <p class="mt-6 max-w-[30rem] text-lead leading-relaxed text-rauch">
           Holzkohleglut, Joghurtmarinade, Safran und Ingwer. Bei Bombay kommt das Feuer aus einem echten Lehmofen
           und der Käse aus der eigenen Küche.
         </p>
 
-        <figure class="besonderes-foto-gross mt-10 hidden lg:block">
+        <figure class="besonderes-foto-gross mt-8 lg:mt-10">
           <Foto
             bild={ofenBild}
             alt={tandoorBild ? 'Der Holzkohle-Lehmofen (Tandoor) im Bombay' : 'Chicken Tikka vom Spieß mit Minz-Joghurt, roten Zwiebeln und Limette'}
             platzhalter="Der Lehmofen"
-            sizes="(min-width: 80rem) 30rem, 40vw"
-            verhaeltnis="4 / 5"
-            class="etikett-schatten"
+            sizes="(min-width: 80rem) 30rem, (min-width: 64rem) 40vw, 92vw"
+            verhaeltnis="auto"
+            class="ofen-foto etikett-schatten"
             position="55% 60%"
           />
-          <figcaption class="mt-3 text-[0.95rem] text-rauch-dunkel">
+          <figcaption class="mt-3 text-fein text-rauch-dunkel">
             {
               tandoorBild ? (
                 'Unser Holzkohle-Lehmofen aus Indien'
@@ -73,31 +79,62 @@ const punkte = [
             punkte.map((p, i) => (
               <li class="punkt" data-erscheinen style={`--verzoegerung:${i}`}>
                 <h3 class="display-m text-creme">{p.titel}</h3>
-                <p class="mt-2.5 text-[1.08rem] leading-relaxed text-rauch">{p.text}</p>
+                <p class="mt-2.5 text-basis leading-relaxed text-rauch">{p.text}</p>
               </li>
             ))
           }
         </ol>
 
-        <figure class="mt-12 grid grid-cols-[1fr_auto] items-end gap-5" data-erscheinen>
-          <Foto
-            bild={gerichtBild(116)}
-            alt="Paneer Butter Masala: Würfel aus hausgemachtem Käse in orangefarbener Masala-Soße mit grüner Chili"
-            platzhalter="Paneer Butter Masala"
-            sizes="(min-width: 64rem) 22rem, 60vw"
-            verhaeltnis="1 / 1"
-            class="etikett-schatten max-w-[22rem]"
-          />
-          <figcaption class="max-w-[11rem] pb-1 text-[0.95rem] text-rauch-dunkel">
-            <span class="tabellenziffern text-safran">Nr. 116</span><br />Paneer Butter Masala, mit hausgemachtem Käse
-          </figcaption>
-        </figure>
+        {
+          kuechenFotos.length > 0 && (
+            <div class="mt-12" data-erscheinen>
+              <h3 class="font-display text-zwischen text-creme">Aus unserer Küche</h3>
+              <ul class="kuechen-reihe mt-4" role="list">
+                {kuechenFotos.map((f) => (
+                  <li>
+                    <figure>
+                      <Foto
+                        bild={f.bild}
+                        alt={f.name}
+                        platzhalter={f.name}
+                        sizes="(min-width: 64rem) 8.5rem, 45vw"
+                        verhaeltnis="1 / 1"
+                        class="etikett-schatten"
+                      />
+                      <figcaption class="mt-2 text-klein leading-snug text-rauch-dunkel">
+                        <span class="tabellenziffern text-safran">Nr. {f.nr}</span> {f.name}
+                      </figcaption>
+                    </figure>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
       </div>
     </div>
   </div>
 </section>
 
 <style>
+  .besonderes :global(.ofen-foto) {
+    aspect-ratio: 4 / 3;
+  }
+  @media (width >= 64rem) {
+    .besonderes :global(.ofen-foto) {
+      aspect-ratio: 4 / 5;
+    }
+  }
+  .kuechen-reihe {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem 1rem;
+  }
+  @media (width >= 40rem) {
+    .kuechen-reihe {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
   .punkt {
     position: relative;
     padding: 1.6rem 0 1.7rem 2.6rem;
