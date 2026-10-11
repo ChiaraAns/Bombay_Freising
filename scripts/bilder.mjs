@@ -6,7 +6,7 @@
  * Außerdem entsteht src/data/bilder-manifest.json, aus dem die Seite weiß,
  * welche Fotos vorhanden sind. Fehlt ein Foto, zeigt die Seite einen gestalteten Platzhalter.
  */
-import { readdir, mkdir, stat, writeFile } from 'node:fs/promises';
+import { readdir, mkdir, stat, writeFile, readFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import sharp from 'sharp';
@@ -46,6 +46,15 @@ for (const datei of dateien) {
     }
     if (!(await istAktuell(webp, quelleMtime))) {
       await sharp(quelle).resize({ width: b }).webp({ quality: 74 }).toFile(webp);
+    }
+  }
+
+  // Herkunftsangabe (impeccable embed-prompt Sidecar) auf alle Varianten übertragen
+  if (existsSync(`${quelle}.json`)) {
+    const herkunft = await readFile(`${quelle}.json`);
+    for (const b of eindeutig) {
+      await writeFile(path.join(ZIEL, `${basis}-${b}.avif.json`), herkunft);
+      await writeFile(path.join(ZIEL, `${basis}-${b}.webp.json`), herkunft);
     }
   }
 

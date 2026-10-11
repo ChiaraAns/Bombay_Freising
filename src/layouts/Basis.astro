@@ -101,6 +101,10 @@ const jsonLd = {
 
     <script is:inline>
       document.documentElement.classList.add('js');
+      // Falls das Bewegungs-Skript nicht lädt: nach 2,5 s alles sichtbar machen
+      setTimeout(function () {
+        if (!window.__bewegung) document.documentElement.classList.add('bewegung-aus');
+      }, 2500);
     </script>
   </head>
   <body class="min-h-dvh pb-[calc(4.25rem+env(safe-area-inset-bottom))] md:pb-0">

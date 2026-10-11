@@ -87,3 +87,6 @@ if (reduziert || !('IntersectionObserver' in window)) {
     aktualisiere();
   }
 }
+
+// Erst ganz am Ende melden: Bricht das Skript vorher ab, greift das Sicherheitsnetz im Layout
+(window as unknown as { __bewegung: boolean }).__bewegung = true;
