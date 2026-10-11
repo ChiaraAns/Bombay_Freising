@@ -23,9 +23,9 @@ Die ursprünglichen Dateien `IMG_9581` bis `IMG_9591` wurden nach Motiv umbenann
 | `gericht-93-jheenga-masala.webp` | IMG_9591 | 1485 × 1485 | Riesengarnelen in Masala-Soße, Karahi von oben, Reis und Chilis | **Hero** (bis `hero.*` existiert), OG-Bild, Kompass |
 | `gericht-57-butter-chicken.webp` | IMG_9581 | 1485 × 1485 | Butter Chicken in Karahi, Sahnehaube, dunkler Holztisch | Signature-Karte Nr. 57, Kompass |
 | `gericht-39-chicken-tikka.webp` | IMG_9582 | 1485 × 1485 | Chicken Tikka am Spieß, Minz-Joghurt, Zwiebeln, Limette (heller Hintergrund) | Kompass |
-| `gericht-116-paneer-butter-masala.webp` | IMG_9583 | 1485 × 1485 | Paneer-Würfel in orangefarbener Soße, Karahi von oben | großer Teller in „Was man bei uns schmeckt“, Kompass |
-| `gericht-89-fisch-curry.webp` | IMG_9584 | **400 × 400** | Fischfilet in Curry mit Gemüse, blaue Schale | kleiner Teller in „Was man bei uns schmeckt“, Kompass |
-| `gericht-66-lamm-curry.webp` | IMG_9586 | **400 × 400** | Lammcurry in Kupferschale mit Koriander | mittlerer Teller in „Was man bei uns schmeckt“, Kompass |
+| `gericht-116-paneer-butter-masala.webp` | IMG_9583 | 1485 × 1485 | Paneer-Würfel in orangefarbener Soße, Karahi von oben | Kompass; freigestellt als großer Teller (siehe unten) |
+| `gericht-89-fisch-curry.webp` | IMG_9584 | **400 × 400** | Fischfilet in Curry mit Gemüse, blaue Schale | Kompass; freigestellt als kleiner Teller |
+| `gericht-66-lamm-curry.webp` | IMG_9586 | **400 × 400** | Lammcurry in Kupferschale mit Koriander | Kompass; freigestellt als mittlerer Teller |
 | `gericht-69-bhuna-gosht.webp` | IMG_9587 | **400 × 400** | Gebratenes Fleisch in kräftiger Soße, schwarzer Teller | Kompass |
 | `gericht-63-chicken-ananas.webp` | IMG_9588 | **400 × 400** | Hühnchen mit Ananas, Tontopf, Naan | Kompass |
 
@@ -41,9 +41,17 @@ Die ursprünglichen Dateien `IMG_9581` bis `IMG_9591` wurden nach Motiv umbenann
 | `tandoor.jpg` | 4:5 hoch | 1200 × 1500 | Der Holzkohle-Lehmofen aus Indien: Öffnung von oben oder schräg, glühende Kohle, Hände des Kochs mit Spieß oder Naan. |
 | `ambiente-1.jpg` | 16:9 quer | 1600 × 900 | Gastraum am Abend: gedeckte Tische, warmes Licht, Blick in den Raum. Ohne erkennbare Gäste (Datenschutz). Liegt hinter dem Kartenhinweis im Abschnitt „Besuchen Sie uns“. |
 
-## Hinweis zu den Tellern („Was man bei uns schmeckt“)
+## Teller („Was man bei uns schmeckt“)
 
-Die Fotos werden dort rund ausgeschnitten und laufen weich in den dunklen Hintergrund aus. Am besten wirken **Fotos von oben auf dunklem Holz oder Stein**, das Gericht mittig. Helle Hintergründe (z. B. Nr. 39 Chicken Tikka) passen dort nicht und werden nur im Kompass gezeigt.
+Dort stehen die Schüsseln **freigestellt** (transparenter Hintergrund) auf dem dunklen Grund und werfen einen Schatten. Dafür gibt es zu jedem Teller eine eigene Datei `teller-<Nummer>-<name>.webp` neben dem Originalfoto. Ohne freigestellte Datei bleibt der Platz leer.
+
+| Datei | Aus | Werte für `scripts/teller-freistellen.mjs` |
+|---|---|---|
+| `teller-116-paneer-butter-masala.webp` | `gericht-116-…` (IMG_9583) | `FORM='[{"k":"e","cx":740,"cy":771,"rx":528,"ry":528},{"k":"r","x0":92,"x1":265,"y0":535,"y1":915},{"k":"r","x0":1215,"x1":1380,"y0":625,"y1":1015}]'`, Schwellen `0.45 0.45 0.25 2` |
+| `teller-66-lamm-curry.webp` | `gericht-66-…` (IMG_9586) | `FORM='[{"k":"e","cx":209,"cy":188,"rx":189,"ry":139},{"k":"e","cx":209,"cy":226,"rx":189,"ry":232,"abY":188}]' FUELLEN=1 UNTEN=0.3`, Schwellen `0.40 0.40 0.22 1.5` |
+| `teller-89-fisch-curry.webp` | `gericht-89-…` (IMG_9584) | `FORM='[{"k":"e","cx":201,"cy":200,"rx":156.5,"ry":156.5}]' FUELLEN=1`, Schwellen `0.62 0.45 0.25 1.5` |
+
+Neuer Teller: `FORM='…' node scripts/teller-freistellen.mjs public/images/gericht-…webp teller.png <Schwellen>`, Ergebnis auf dunklem Grund prüfen und als `public/images/teller-<nr>-<name>.webp` speichern (WebP mit Alpha, Qualität 90). Am besten eignen sich **Fotos von oben auf dunklem Holz oder Stein**, das Gericht mittig und ganz im Bild. Am einfachsten ist ein Freisteller aus einem Bildprogramm (z. B. „Hintergrund entfernen“ in Photoshop oder Pixelmator), als PNG oder WebP mit transparentem Hintergrund.
 
 ## Gesucht: Signature-Gerichte (Startseite)
 
@@ -85,4 +93,5 @@ Vorlage war ein Screenshot (`assets/logo/logo-original-screenshot.jpeg`, ursprü
 |---|---|
 | `public/og.jpg` (1200 × 630) | Vorschaubild beim Teilen (WhatsApp, Facebook) mit Logo. Neu erzeugen mit `node scripts/og-bild.mjs`, siehe README. |
 | `public/favicon.svg`, `public/apple-touch-icon.png` | Browser- und Homescreen-Symbol: die Kuppel aus dem Logo auf Creme |
-| `public/ornament/*.svg` | Eigenes Blockdruck-Ornament (Bordüre und Rapport) |
+| `public/ornament/band.svg`, `kachel.svg` (+ `band-safran.svg`, `kachel-glut.svg`) | Eigenes Blockdruck-Ornament (Bordüre und Rapport), farbige Fassungen für das Bestellen-Band |
+| `public/ornament/riss-*-maske.svg`, `riss-*-farbe.svg` | Gerissene Papierränder (drei Varianten), erzeugt mit `node scripts/kanten.mjs` |

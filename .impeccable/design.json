@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-11T13:00:00Z",
+  "generatedAt": "2026-10-11T14:12:23Z",
   "title": "Design System: Bombay – Indische Spezialitäten, Freising",
   "extensions": {
     "colorMeta": {
@@ -207,6 +207,22 @@
       "description": "Umschaltbarer Filter der Speisekarte (aria-pressed).",
       "html": "<button class=\"ds-chip\" aria-pressed=\"true\">Vegetarisch</button> <button class=\"ds-chip\" aria-pressed=\"false\">Scharf</button>",
       "css": ".ds-chip{min-height:2.75rem;padding:.2rem .95rem 0;border-radius:999px;border:0;background:#f6efe4;box-shadow:inset 0 0 0 1.5px rgb(27 23 20/.28);font:600 .98rem Mukta,sans-serif;color:#1b1714}.ds-chip[aria-pressed=true]{background:#1b1714;color:#f6efe4}"
+    },
+    {
+      "name": "Papierbogen",
+      "kind": "custom",
+      "refersTo": "papier",
+      "description": "Heller Abschnitt mit gerissenem Rand: farbneutrale Maske (Papier + Schatten nach außen) und Farbschicht (Schattenfläche + helle Fasern), Papierfarbe vom Abschnitt geerbt. Varianten .riss-b/.riss-c, --riss-versatz, .ohne-oberkante/.ohne-unterkante.",
+      "html": "<div class=\"ds-dunkel\"></div><section class=\"ds-papier\"><p>Sechs Gründe, heute indisch zu essen.</p></section>",
+      "css": ".ds-dunkel{height:48px;background:#1b1714}.ds-papier{position:relative;background:#ede2cf;color:#1b1714;padding:1.5rem}.ds-papier::before{content:'';position:absolute;left:0;right:0;top:-43px;height:44px;background:inherit;background-image:url('../public/ornament/riss-1-farbe.svg');background-size:1920px 44px;background-position:0 bottom;-webkit-mask:url('../public/ornament/riss-1-maske.svg') repeat-x 0 bottom/1920px 44px;mask:url('../public/ornament/riss-1-maske.svg') repeat-x 0 bottom/1920px 44px}"
+    },
+    {
+      "name": "Teller",
+      "kind": "custom",
+      "refersTo": "teller",
+      "description": "Freigestellte Schüssel (teller-<nr>-*.webp, transparent) mit doppeltem Kontaktschatten auf Tinte, warmer Glutschein dahinter, Bildunterschrift „Nr. … Name“ darunter.",
+      "html": "<figure class=\"ds-teller\"><img src=\"../public/images/teller-89-fisch-curry.webp\" alt=\"Fisch Curry\" width=\"333\" height=\"333\"><figcaption><b>Nr. 89</b> Fisch Curry</figcaption></figure>",
+      "css": ".ds-teller{margin:0;padding:2rem;background:radial-gradient(60% 50% at 50% 40%,rgb(182 58 30/.3),transparent 72%),#1b1714;color:#a8998a;font-size:.875rem;text-align:right}.ds-teller img{display:block;width:12rem;height:auto;margin-inline:auto;filter:drop-shadow(0 1.1rem 1.6rem rgb(18 15 13/.85)) drop-shadow(0 .25rem .35rem rgb(18 15 13/.7))}.ds-teller b{color:#e8a33d;font-weight:400}"
     }
   ],
   "narrative": {
@@ -215,7 +231,9 @@
       "Die Feuer-ist-Handlung-Regel: Glutrot nur für Aktionen, Preise und Schärfe.",
       "Die Grün-heißt-Gemüse-Regel: Kardamom nur für vegetarisch/vegan.",
       "Die Keine-Dachzeile-Regel: keine Kicker über Überschriften.",
-      "Die Logo-steht-frei-Regel: kein Kasten hinter dem Logo; auf Dunkel die Negativ-Fassung."
+      "Die Logo-steht-frei-Regel: kein Kasten hinter dem Logo; auf Dunkel die Negativ-Fassung.",
+      "Die Echte-Kontur-Regel: Gerichte auf Dunkel als echte Freisteller mit Alpha-Kanal und Kontaktschatten, nie hinter einer Kreis- oder Verlaufsmaske.",
+      "Die Papier-liegt-auf-Glut-Regel: helle Abschnitte enden mit gerissenem Rand (Fasern + Schatten), jede Naht mit eigenem Riss; helle Bereiche zeichnen native Bedienelemente hell (color-scheme: light)."
     ]
   }
 }

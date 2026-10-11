@@ -28,7 +28,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
   beschreibung="Die komplette Speisekarte des Bombay in Freising mit Nummern und Preisen: Tandoori aus dem Lehmofen, Curries mit Huhn, Lamm, Ente und Fisch, Biryani, Thalis, 20 vegetarische Spezialitäten und frisches Naan."
   aktiv="speisekarte"
 >
-  <div class="hell bg-papier text-tinte">
+  <div class="papier ohne-oberkante riss-c hell bg-papier text-tinte" style="--riss-versatz:-420px">
     <!-- Kopf der Karte -->
     <header class="karte-kopf koernung bg-tinte pb-9 pt-9 text-creme md:pb-16 md:pt-16">
       <div class="rahmen grid gap-8 lg:grid-cols-12 lg:items-end">
@@ -109,7 +109,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
       <!-- Hinweise -->
       <div class="mt-8 grid gap-4 md:grid-cols-2">
         <p class="hinweis-allergene flex gap-3 border border-tinte/20 bg-creme px-4 py-3 text-fein">
-          <Icon name="blatt-kontur" size={20} class="mt-0.5 shrink-0 text-kardamom" />
+          <Icon name="info" size={20} class="mt-0.5 shrink-0 text-braun" />
           <span>
             Informationen zu Allergenen erhalten Sie bei unserem Personal.
             {/* TODO: Allergenkennzeichnung (Buchstaben/Zahlen je Gericht) nachpflegen */}

@@ -81,6 +81,13 @@ npm run build:vorschau    # baut mit Basis-Pfad /Bombay_Freising und noindex
 
 Den Inhalt von `dist/` (plus eine leere Datei `.nojekyll`) auf den Branch `gh-pages` legen. Adresse: https://chiaraans.github.io/Bombay_Freising/
 
+### Grafiken neu erzeugen
+
+```bash
+node scripts/kanten.mjs              # gerissene Papierränder → public/ornament/riss-*.svg
+node scripts/teller-freistellen.mjs  # Teller freistellen, Werte siehe BILDER.md
+```
+
 ### Vorschaubild (og.jpg) neu erzeugen
 
 ```bash
@@ -105,7 +112,7 @@ Danach alle bisherigen Domains per 301-Weiterleitung auf die neue Domain zeigen 
 ## Technik & Qualität
 
 - **Stack:** Astro 7 (statisch), Tailwind CSS 4, kleine Inseln in TypeScript für Live-Status, Speisekarten-Filter und Curry-Kompass. Kein Framework-Runtime im Browser.
-- **Logo:** Vektor-Nachbau des Original-Logos in Magenta `#BE036C`, im Header und Footer auf einem Creme-Etikett, siehe [BILDER.md](BILDER.md#logo).
+- **Logo:** Vektor-Nachbau des Original-Logos in Magenta `#BE036C`; im Header und Footer steht es frei als Negativ-Fassung (Creme mit hellem Rani), siehe [BILDER.md](BILDER.md#logo).
 - **Schriften:** Rozha One (Indian Type Foundry) für Überschriften, Mukta (Ek Type) für Text. Beide liegen selbst gehostet in `public/fonts/` (SIL Open Font License).
 - **Bilder:** AVIF + WebP in mehreren Breiten, `srcset`, Lazy Loading unterhalb des Folds, feste Seitenverhältnisse.
 - **DSGVO:** keine Cookies, kein Tracking, keine externen Schriften. Google Maps nur per Zwei-Klick-Lösung.

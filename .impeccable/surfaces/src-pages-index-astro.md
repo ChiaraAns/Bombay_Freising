@@ -20,7 +20,7 @@ History: Erste Fassung „Sivakasi-Streichholzetikett“ (Seed 0bdab163, Roll de
 
 THESIS: Glut und Papier – Gerichte tauchen weich aus kohleschwarzer Glut auf, helle Papierbögen mit gerissenem Rand tragen Karte und kleine Blockdruck-Etiketten. Verweigert den Kategorie-Standard: vollflächiges Foodfoto mit zentrierter Headline im Kasten und drei Icon-Karten darunter.
 
-OWN-WORLD: Grund Tinte #1B1714 mit Körnung; Fotos ohne harte Kanten (Masken-Verlauf, runde ausgeblendete Teller); Papier #EDE2CF/Creme #F6EFE4 mit gerissenem Rand; Gericht-Etiketten mit Doppelrahmen und Rani-Bordüre; Logo frei stehend (Negativ: Creme + Rani hell #E04A92). Rozha One + Mukta, Preise tabellarisch. Glutrot nur für Aktionen, Preise, Schärfe. Mobil: Reibefläche (Anrufen · Bestellen · Karte), auf /bestellen die Warenkorb-Leiste.
+OWN-WORLD: Grund Tinte #1B1714 mit Körnung; Fotos ohne harte Kanten (Hero-Maske links/oben/unten, Teller als echte Alpha-Freisteller mit Kontaktschatten über einem Glutschein); Papier #EDE2CF/Creme #F6EFE4 mit gerissenem, faserigem Rand und Schatten, jede Naht ein eigener Riss; das Bestellen-Band als Glutrot-Bogen mit großem Blockdruck; Gericht-Etiketten mit Doppelrahmen und Rani-Bordüre; Logo frei stehend (Negativ: Creme + Rani hell #E04A92). Rozha One + Mukta, Preise tabellarisch. Glutrot nur für Aktionen, Preise, Schärfe. Mobil: Reibefläche (Anrufen · Bestellen · Karte), auf /bestellen die Warenkorb-Leiste.
 
 STORY: Gast sieht das Garnelen-Curry aus dem Dunkel leuchten, liest „Aus Glut und Gewürz.“, sieht ob offen ist, tippt Reservieren oder Bestellen. Scrollt zu den Tellern und den vier Gründen, sechs Signature-Etiketten, Kompass, Bestellen, Zeiten und Adresse. Bestellen: Auswahl → Angaben → Fertig.
 
@@ -28,6 +28,6 @@ FIRST VIEWPORT: Desktop 1440: Header mit freiem Negativ-Logo; Foto in den rechte
 
 FORM: Glut und Papier (Weiterentwicklung des Sivakasi-Etiketts, Kandidat 7 von 7, Seed 0bdab163).
 
-MOTION: Fokus = Hero-Auftritt (Foto atmet einmal, Ornament/Unterzeile/Knöpfe folgen) und Kompass-Schublade. Unterstützend: Überschriften steigen Wort für Wort auf (Wunsch der Auftraggeberin, Staffel gedeckelt), Absätze gleiten kurz herein, Teller mit leichter Parallaxe. Reduced Motion: alles sofort sichtbar.
+MOTION: Fokus = Hero-Auftritt (Foto atmet einmal, Headline Wort für Wort, Unterzeile/Knöpfe/Live-Status folgen ab 0,22–0,35 s in 0,6 s) und Kompass-Schublade. Unterstützend: Überschriften steigen Wort für Wort auf (Wunsch der Auftraggeberin, Staffel gedeckelt), Absätze gleiten kurz herein (nie Überschrift und Block doppelt), Teller mit leichter Parallaxe. Reduced Motion: alles sofort sichtbar.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance

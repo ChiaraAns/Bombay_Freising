@@ -20,7 +20,7 @@ const lieferung = bestellung.lieferung;
   aktiv="bestellen"
   ohneReibeflaeche
 >
-  <div class="bestellseite hell bg-papier pb-28 text-tinte lg:pb-0" data-bestellseite data-endpunkt={bestellung.endpunkt ?? ''} data-email={kontakt.email}>
+  <div class="bestellseite papier ohne-oberkante riss-b hell bg-papier pb-28 text-tinte lg:pb-0" style="--riss-versatz:-300px" data-bestellseite data-endpunkt={bestellung.endpunkt ?? ''} data-email={kontakt.email}>
     <header class="koernung bg-tinte pb-10 pt-10 text-creme md:pb-12 md:pt-14">
       <div class="rahmen">
         <h1 class="display-xl">Online bestellen</h1>
@@ -87,7 +87,7 @@ const lieferung = bestellung.lieferung;
             ))
           }
           <p class="mt-12 flex gap-3 border-t border-tinte/15 pt-6 text-fein text-braun">
-            <Icon name="blatt-kontur" size={20} class="mt-0.5 shrink-0 text-kardamom" />
+            <Icon name="info" size={20} class="mt-0.5 shrink-0 text-braun" />
             Informationen zu Allergenen erhalten Sie bei unserem Personal unter {kontakt.telefonAnzeige}.
           </p>
         </div>
@@ -357,15 +357,18 @@ const lieferung = bestellung.lieferung;
               <p class="korb-preis tabellenziffern">${preis(a.preis * p.menge)}</p></li>`;
           })
           .join('')}</ul>
-          <dl class="korb-summe tabellenziffern">
-            <div><dt>Zwischensumme</dt><dd>${preis(zwischensumme(korb))}</dd></div>
-            ${
-              art === 'lieferung' && bestellung.lieferung.gebuehr
-                ? `<div><dt>Liefergebühr</dt><dd>${preis(bestellung.lieferung.gebuehr)}</dd></div>`
-                : ''
-            }
-            <div class="korb-gesamt"><dt>Gesamt</dt><dd>${preis(gesamt(korb, art))}</dd></div>
-          </dl>`
+          <dl class="korb-summe tabellenziffern">${
+            art === 'lieferung' && bestellung.lieferung.gebuehr != null
+              ? `<div><dt>Zwischensumme</dt><dd>${preis(zwischensumme(korb))}</dd></div>
+                <div><dt>Liefergebühr</dt><dd>${bestellung.lieferung.gebuehr ? preis(bestellung.lieferung.gebuehr) : 'kostenlos'}</dd></div>
+                <div class="korb-gesamt"><dt>Gesamt</dt><dd>${preis(gesamt(korb, art))}</dd></div>`
+              : `<div class="korb-gesamt"><dt>Summe</dt><dd>${preis(zwischensumme(korb))}</dd></div>`
+          }</dl>${
+            // Liefergebühr unbekannt (TODO in bestellung.ts): keinen Endpreis behaupten
+            art === 'lieferung' && bestellung.lieferung.gebuehr == null
+              ? `<p class="korb-hinweis">Eine eventuelle Liefergebühr ist hier nicht enthalten.</p>`
+              : ''
+          }`
       : `<p class="korb-leer">Noch nichts ausgewählt. Tippen Sie bei einem Gericht auf „+“.</p>`;
     document.querySelectorAll<HTMLElement>('[data-warenkorb-liste]').forEach((el) => (el.innerHTML = html));
     document.querySelectorAll<HTMLButtonElement>('[data-zur-kasse]').forEach((b) => (b.disabled = !korb.length));
@@ -568,8 +571,13 @@ const lieferung = bestellung.lieferung;
     letzteMail = `mailto:${seite.dataset.email}?subject=${encodeURIComponent(betreff)}&body=${encodeURIComponent(letzterText)}`;
     document.querySelector<HTMLAnchorElement>('[data-mail-erneut]')!.href = letzteMail;
     titel.textContent = 'Fast geschafft';
-    text.textContent =
-      'Ihr E-Mail-Programm hat sich mit der fertigen Bestellung geöffnet. Bitte senden Sie die E-Mail ab – erst dann ist Ihre Bestellung beim Restaurant. Falls sich nichts geöffnet hat, kopieren Sie den Bestelltext und schicken ihn an die angegebene Adresse.';
+    const adresse = Object.assign(document.createElement('a'), { href: `mailto:${seite.dataset.email}`, textContent: seite.dataset.email });
+    adresse.className = 'fertig-adresse';
+    text.replaceChildren(
+      'Ihr E-Mail-Programm hat sich mit der fertigen Bestellung geöffnet. Bitte senden Sie die E-Mail ab – erst dann ist Ihre Bestellung beim Restaurant. Falls sich nichts geöffnet hat, kopieren Sie den Bestelltext und schicken ihn an ',
+      adresse,
+      '.',
+    );
     zeige('fertig');
     window.location.href = letzteMail;
   });
@@ -620,15 +628,26 @@ const lieferung = bestellung.lieferung;
     background: color-mix(in oklab, var(--color-tinte) 97%, transparent);
     box-shadow: 0 10px 24px -14px color-mix(in oklab, var(--color-russ) 60%, transparent);
   }
+  /* Mobil: waagerecht wischen, Ränder blenden weich aus; Desktop: alle Kategorien sichtbar, bei Bedarf zweizeilig */
   .kat-liste {
     display: flex;
     gap: 0.15rem;
     overflow-x: auto;
     scrollbar-width: none;
     padding-block: 0.5rem;
+    -webkit-mask: linear-gradient(90deg, transparent, var(--color-druck-schwarz) 1rem, var(--color-druck-schwarz) calc(100% - 2rem), transparent);
+    mask: linear-gradient(90deg, transparent, var(--color-druck-schwarz) 1rem, var(--color-druck-schwarz) calc(100% - 2rem), transparent);
   }
   .kat-liste::-webkit-scrollbar {
     display: none;
+  }
+  @media (width >= 64rem) {
+    .kat-liste {
+      flex-wrap: wrap;
+      overflow: visible;
+      -webkit-mask: none;
+      mask: none;
+    }
   }
   .kat-link {
     display: inline-flex;
@@ -844,6 +863,18 @@ const lieferung = bestellung.lieferung;
   }
   .warenkorb :global(.korb-leer) {
     color: var(--color-braun);
+  }
+  .warenkorb :global(.korb-hinweis) {
+    margin-top: 0.35rem;
+    color: var(--color-braun);
+    font-size: var(--text-klein);
+  }
+  [data-fertig-text] :global(.fertig-adresse) {
+    color: var(--color-glut-tief);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+    overflow-wrap: anywhere;
   }
 
   .korb-leiste {

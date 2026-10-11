@@ -157,17 +157,18 @@ components:
 
 **Creative North Star: „Glut und Papier“**
 
-Zwei Materialien tragen die Seite. **Glut:** ein kohleschwarzer, fein gekörnter Grund, aus dem die Gerichte weich auftauchen – das Hero-Foto läuft nach links und unten in die Dunkelheit aus, in „Was man bei uns schmeckt“ liegen runde, randlos ausgeblendete Teller auf dem dunklen Tisch. **Papier:** helle Abschnitte liegen wie Papierbögen mit gerissenem Rand darauf; auf ihnen stehen die Gerichte als kleine Etiketten mit Blockdruck-Bordüre (die Herkunft aus indischen Streichholzetiketten aus Sivakasi). Das Logo steht frei, ohne Kasten: auf Dunkel als Negativ (Schriftzug Creme, Kuppel in hellem Rani).
+Zwei Materialien tragen die Seite. **Glut:** ein kohleschwarzer, fein gekörnter Grund, aus dem die Gerichte weich auftauchen – das Hero-Foto läuft nach links und unten in die Dunkelheit aus, in „Was man bei uns schmeckt“ stehen freigestellte Schüsseln mit Kontaktschatten auf dem dunklen Tisch, darunter ein warmer Glutschein. **Papier:** helle Abschnitte liegen wie Papierbögen mit gerissenem, faserigem Rand und weichem Schatten darauf; auf ihnen stehen die Gerichte als kleine Etiketten mit Blockdruck-Bordüre (die Herkunft aus indischen Streichholzetiketten aus Sivakasi). Das Logo steht frei, ohne Kasten: auf Dunkel als Negativ (Schriftzug Creme, Kuppel in hellem Rani).
 
-Bewegung ist ruhig: Überschriften steigen Wort für Wort aus einer Linie auf, Absätze gleiten weich nach oben, Teller bewegen sich beim Scrollen minimal in die Tiefe, das Hero-Foto „atmet“ einmal beim Laden.
+Bewegung ist ruhig: Überschriften steigen Wort für Wort aus einer Linie auf, Absätze gleiten weich nach oben (nie Überschrift und umgebender Block doppelt), Teller bewegen sich beim Scrollen minimal in die Tiefe, das Hero-Foto „atmet“ einmal beim Laden. Im Hero sind Knöpfe und Live-Status nach spätestens 0,35 s unterwegs und nach knapp einer Sekunde vollständig da (0,6 s).
 
 Die Dichte wechselt bewusst: großzügige, ruhige dunkle Strecken (Das Besondere, Curry-Kompass) wechseln mit hellen Papierflächen zum Lesen (Signature-Gerichte, Besuch, Speisekarte). Die Speisekarte ist ein gedruckter Bogen mit Punktlinien zwischen Name und Preis.
 
 Abgelehnt laut Auftraggeber: Taj-Mahal-Clipart, Kitsch, Gold-auf-Rot, Template- und Lieferdienst-Optik, Stock-Icon-Sammlungen.
 
 **Key Characteristics:**
-- Fotos ohne harte Kanten auf Dunkel: Hero mit Masken-Verlauf, Teller rund ausgeblendet (`mask: radial-gradient`)
-- Helle Abschnitte als Papierbögen mit gerissenem Rand (`.papier`, `public/ornament/kante.svg`)
+- Fotos ohne harte Kanten auf Dunkel: Hero mit Masken-Verlauf (links, oben und unten), Teller als echte Freisteller mit Alpha-Kanal (`teller-<nr>-*.webp`, `scripts/teller-freistellen.mjs`) und Kontaktschatten – keine geometrischen Masken als Ersatz für die Kontur
+- Helle Abschnitte als Papierbögen mit gerissenem Rand (`.papier`): drei verschiedene Risse (`public/ornament/riss-*-maske.svg` / `-farbe.svg`, erzeugt mit `scripts/kanten.mjs`), helle Papierfasern am Riss, weicher Schatten nach außen; jede Naht mit eigenem Riss (`.riss-b`, `.riss-c`, `--riss-versatz`)
+- Das Bestellen-Band ist ein Glutrot-Bogen mit gerissener Oberkante, Safran-Bordüren und einem großen Blockdruck-Rapport (`kachel-glut.svg`) rechts, der nach links ausläuft
 - Gericht-Etiketten mit Doppelrahmen und eigener Bordüre auf dem Papier
 - Eigene Blockdruck-Bordüre (`public/ornament/band.svg`) als Maske, Farbe frei wählbar
 - Rozha One für alles mit Stimme, Mukta für alles zum Lesen; Preise tabellarisch
@@ -247,8 +248,9 @@ Gedruckte, fast eckige Formen: Etiketten 0 Radius mit Doppelrahmen (1px Rand, 1p
 - **Etikett** (`.etikett`): Creme, Doppelrahmen, oben optional die Bordüre (`.bordure`). Träger für Hero-Text, Gerichte, Öffnungszeiten, Logo, Rechtstexte.
 - **Logo** (`Logo.astro`): frei stehend, Negativ-Fassung auf Dunkel; Kopf 6.4–7.6rem breit, Fuß bis 16rem zentriert über einer Ornamentlinie.
 - **Hero**: Foto rechts (Desktop) bzw. oben (Handy), läuft weich in Kohle aus; davor Ornament, Headline in Creme, Unterzeile in Rauch, Knöpfe, Live-Status. Kein Kasten.
-- **Teller** (`Besonderes.astro`): runde, randlos ausgeblendete Fotos (`radial-gradient`-Maske, 64 % deckend) mit Bildunterschrift „Nr. … Name“, leichte Parallaxe.
-- **Papierbogen** (`.papier`): heller Abschnitt mit gerissenem Rand oben und unten.
+- **Teller** (`Besonderes.astro`): freigestellte Schüsseln (`teller-<nr>-<name>.webp`, transparent) mit doppeltem `drop-shadow` (weit und weich + kurz und dicht), darunter ein Glutschein (`radial-gradient` Glutrot 30 %, Kurkuma 14 %). Bildunterschrift „Nr. … Name“ unter dem Teller, leichte Parallaxe. Ohne Freisteller bleibt der Platz leer.
+- **Papierbogen** (`.papier`): Abschnitt mit gerissenem Rand oben und unten; Maske (Papier + Schatten) und Farbschicht (Schattenfläche + Fasern) sind farbneutral, die Papierfarbe erbt der Rand vom Abschnitt. `.ohne-oberkante` / `.ohne-unterkante` lassen eine Seite weg. Unterseiten (Speisekarte, Bestellen, Rechtstexte) enden mit dem Riss im Footer.
+- **Helle Bereiche** (`.hell`): `color-scheme: light`, damit native Radios, Checkboxen und Auswahllisten hell gezeichnet werden.
 - **Online-Bestellung** (`/bestellen`): Artikelzeilen mit runden +/−-Knöpfen, Warenkorb (Desktop mitlaufend, Handy als Leiste unten), Formular mit Auswahlkarten für Lieferung/Abholung, Schritte-Anzeige mit Rani-hell für den aktiven Schritt.
 - **Gericht-Etikett** (`GerichtEtikett.astro`): Foto oder Platzhalter 4:3, Seriennummer-Kachel überlappt die Bildkante, Name, Beschreibung, Kennzeichen, Preis.
 - **Platzhalter** (`.platzhalter--glut|kardamom|kurkuma|tinte|safran`): Verlauf + Rapport + Name auf Mini-Etikett, Farbe nach Gerichtsart.

@@ -3,17 +3,22 @@ import { bild, gerichtBild, srcset, fallbackSrc, type BildInfo } from '../../lib
 import { gerichtNr, speisekarte } from '../../data/speisekarte';
 
 /**
- * „Teller auf dem Tisch“: runde, weich auslaufende Fotos auf dunklem Grund.
- * Am besten wirken Fotos mit dunklem Hintergrund, von oben fotografiert.
- * Ein eigenes Lehmofen-Foto (`tandoor.*`) ersetzt automatisch den großen Teller.
+ * „Teller auf dem Tisch“: freigestellte Schüsseln (`teller-<nr>-<name>.*`, transparenter Hintergrund)
+ * stehen frei auf dem dunklen Grund und werfen einen Schatten. Erzeugt mit scripts/teller-freistellen.mjs,
+ * siehe BILDER.md. Ohne freigestellte Datei bleibt der Platz leer – ein rund maskiertes Foto wäre keine Alternative.
+ * Ein eigenes Lehmofen-Foto (`tandoor.*`) ersetzt automatisch den großen Teller und läuft dann weich aus.
  */
+const tellerBild = (nr: number) => {
+  const g = gerichtBild(nr);
+  return g ? bild(g.basis.replace(/^gericht-/, 'teller-')) : undefined;
+};
 const tandoorBild = bild('tandoor');
-const teller: { bild?: BildInfo; text: string; nr?: number; groesse: 'gross' | 'mittel' | 'klein' }[] = [
+const teller: { bild?: BildInfo; text: string; nr?: number; groesse: 'gross' | 'mittel' | 'klein'; szene?: boolean }[] = [
   tandoorBild
-    ? { bild: tandoorBild, text: 'Unser Holzkohle-Lehmofen aus Indien', groesse: 'gross' }
-    : { bild: gerichtBild(116), nr: 116, text: gerichtNr(116).name, groesse: 'gross' },
-  { bild: gerichtBild(66), nr: 66, text: gerichtNr(66).name, groesse: 'mittel' },
-  { bild: gerichtBild(89), nr: 89, text: gerichtNr(89).name, groesse: 'klein' },
+    ? { bild: tandoorBild, text: 'Unser Holzkohle-Lehmofen aus Indien', groesse: 'gross', szene: true }
+    : { bild: tellerBild(116), nr: 116, text: gerichtNr(116).name, groesse: 'gross' },
+  { bild: tellerBild(66), nr: 66, text: gerichtNr(66).name, groesse: 'mittel' },
+  { bild: tellerBild(89), nr: 89, text: gerichtNr(89).name, groesse: 'klein' },
 ].filter((t) => t.bild);
 
 const vegKategorie = speisekarte.find((k) => k.id === 'vegetarisch')!;
@@ -69,7 +74,7 @@ const sizes = { gross: '(min-width: 64rem) 34rem, 92vw', mittel: '(min-width: 64
         {
           teller.map((t, i) => (
             <figure class:list={['teller', `teller--${t.groesse}`]} data-parallax={['0.05', '0.12', '0.18'][i]}>
-              <div class="teller-bild" data-erscheinen style={`--verzoegerung:${i + 1}`}>
+              <div class:list={['teller-bild', { 'teller-bild--szene': t.szene }]} data-erscheinen style={`--verzoegerung:${i + 1}`}>
                 <picture>
                   <source type="image/avif" srcset={srcset(t.bild!, 'avif')} sizes={sizes[t.groesse]} />
                   <source type="image/webp" srcset={srcset(t.bild!, 'webp')} sizes={sizes[t.groesse]} />
@@ -111,78 +116,100 @@ const sizes = { gross: '(min-width: 64rem) 34rem, 92vw', mittel: '(min-width: 64
     background: var(--color-kardamom-hell);
   }
 
-  /* Teller: runde, weich in den Grund auslaufende Fotos */
+  /* Teller: freigestellte Schüsseln mit Kontaktschatten, darunter ein warmer Lichtschein wie von der Glut */
   .tafel {
     position: relative;
     min-height: 30rem;
+  }
+  .tafel::before {
+    content: '';
+    position: absolute;
+    inset: -8% -14% -6% -10%;
+    background:
+      radial-gradient(44% 38% at 62% 32%, color-mix(in oklab, var(--color-glut) 30%, transparent), transparent 72%),
+      radial-gradient(30% 26% at 28% 70%, color-mix(in oklab, var(--color-kurkuma) 14%, transparent), transparent 70%);
+    pointer-events: none;
   }
   .teller {
     position: absolute;
     margin: 0;
   }
-  .teller-bild {
-    aspect-ratio: 1;
-    -webkit-mask: radial-gradient(closest-side, #000 64%, transparent 100%);
-    mask: radial-gradient(closest-side, #000 64%, transparent 100%);
-  }
   .teller-bild img {
+    display: block;
     width: 100%;
+    height: auto;
+    filter: drop-shadow(0 1.1rem 1.6rem color-mix(in oklab, var(--color-russ) 85%, transparent))
+      drop-shadow(0 0.25rem 0.35rem color-mix(in oklab, var(--color-russ) 70%, transparent));
+  }
+  .teller-bild--szene {
+    aspect-ratio: 4 / 5;
+    -webkit-mask:
+      linear-gradient(to right, transparent, #000 14%, #000 86%, transparent),
+      linear-gradient(to bottom, transparent, #000 12%, #000 80%, transparent);
+    -webkit-mask-composite: source-in;
+    mask:
+      linear-gradient(to right, transparent, #000 14%, #000 86%, transparent),
+      linear-gradient(to bottom, transparent, #000 12%, #000 80%, transparent);
+    mask-composite: intersect;
+  }
+  .teller-bild--szene img {
     height: 100%;
     object-fit: cover;
+    filter: none;
   }
   .teller-text {
-    position: absolute;
+    display: block;
+    margin-top: 0.4rem;
     font-size: var(--text-klein);
     color: var(--color-rauch-dunkel);
     white-space: nowrap;
   }
   .teller--gross {
-    width: min(88%, 34rem);
+    width: min(84%, 32rem);
     top: 0;
-    right: -6%;
+    right: -2%;
   }
   .teller--gross .teller-text {
-    right: 16%;
-    bottom: 5%;
+    text-align: right;
+    padding-right: 14%;
   }
   .teller--mittel {
-    width: min(50%, 20rem);
-    left: -4%;
-    top: 46%;
+    width: min(46%, 18.5rem);
+    left: 1%;
+    top: 45%;
   }
   .teller--mittel .teller-text {
-    left: 16%;
-    bottom: -0.5rem;
+    padding-left: 12%;
   }
   .teller--klein {
-    width: min(38%, 15rem);
-    right: 4%;
-    top: 74%;
+    width: min(34%, 14rem);
+    right: 9%;
+    top: 67%;
   }
   .teller--klein .teller-text {
-    right: 8%;
-    bottom: -0.6rem;
+    text-align: right;
+    padding-right: 4%;
   }
 
   @media (width < 64rem) {
     .tafel {
       min-height: 0;
-      height: 118vw;
-      max-height: 40rem;
+      height: 124vw;
+      max-height: 42rem;
       margin-inline: -1rem;
     }
     .teller--gross {
-      width: 92%;
-      right: -8%;
+      width: 90%;
+      right: -6%;
     }
     .teller--mittel {
-      width: 52%;
-      left: -2%;
-      top: 50%;
+      width: 50%;
+      left: -1%;
+      top: 53%;
     }
     .teller--klein {
       width: 38%;
-      right: 2%;
+      right: 3%;
       top: 70%;
     }
   }

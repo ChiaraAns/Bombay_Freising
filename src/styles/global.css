@@ -395,10 +395,13 @@
   transform: none !important;
 }
 
-/* Helle Abschnitte liegen wie Papierbögen auf dem dunklen Grund: gerissener Rand statt harter Kante */
+/* Papierbögen liegen auf dem dunklen Grund: gerissener Rand mit hellen Fasern und weichem Schatten statt harter Kante.
+   Maske und Farbschicht sind farbneutral (scripts/kanten.mjs), die Papierfarbe erbt der Rand vom Abschnitt.
+   Jede Naht bekommt ihren eigenen Riss: .riss-b / .riss-c und --riss-versatz verschieben ihn. */
 .papier {
   position: relative;
   z-index: 1;
+  --riss-versatz: 0px;
 }
 .papier::before,
 .papier::after {
@@ -406,23 +409,56 @@
   position: absolute;
   left: 0;
   right: 0;
-  height: 30px;
+  height: 44px;
   background-color: inherit;
+  background-repeat: repeat-x;
+  background-size: 1920px 44px;
+  background-position: var(--riss-versatz) bottom;
   pointer-events: none;
-  -webkit-mask: url('/ornament/kante.svg') repeat-x left bottom / 960px 100%;
-  mask: url('/ornament/kante.svg') repeat-x left bottom / 960px 100%;
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+  -webkit-mask-size: 1920px 44px;
+  mask-size: 1920px 44px;
+  -webkit-mask-position: var(--riss-versatz) bottom;
+  mask-position: var(--riss-versatz) bottom;
 }
 .papier::before {
-  top: -29px;
+  top: -43px;
+  background-image: url('/ornament/riss-1-farbe.svg');
+  -webkit-mask-image: url('/ornament/riss-1-maske.svg');
+  mask-image: url('/ornament/riss-1-maske.svg');
 }
 .papier::after {
-  bottom: -29px;
+  bottom: -43px;
   transform: scaleY(-1);
-  -webkit-mask-position: 37% bottom;
-  mask-position: 37% bottom;
+  background-image: url('/ornament/riss-2-farbe.svg');
+  -webkit-mask-image: url('/ornament/riss-2-maske.svg');
+  mask-image: url('/ornament/riss-2-maske.svg');
 }
-.papier.ohne-unterkante::after {
+.papier.riss-b::before,
+.papier.riss-c::after {
+  background-image: url('/ornament/riss-3-farbe.svg');
+  -webkit-mask-image: url('/ornament/riss-3-maske.svg');
+  mask-image: url('/ornament/riss-3-maske.svg');
+}
+.papier.riss-b::after {
+  background-image: url('/ornament/riss-1-farbe.svg');
+  -webkit-mask-image: url('/ornament/riss-1-maske.svg');
+  mask-image: url('/ornament/riss-1-maske.svg');
+}
+.papier.riss-c::before {
+  background-image: url('/ornament/riss-2-farbe.svg');
+  -webkit-mask-image: url('/ornament/riss-2-maske.svg');
+  mask-image: url('/ornament/riss-2-maske.svg');
+}
+.papier.ohne-unterkante::after,
+.papier.ohne-oberkante::before {
   display: none;
+}
+
+/* Helle Abschnitte: native Bedienelemente (Radio, Checkbox, Auswahllisten) hell zeichnen */
+.hell {
+  color-scheme: light;
 }
 
 /* Gestalteter Bild-Platzhalter (wenn ein Foto noch fehlt) */

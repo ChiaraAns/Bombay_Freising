@@ -70,9 +70,9 @@ const heroBild = bild('hero') ?? bild('gericht-93-jheenga-masala');
   .hero-foto {
     position: relative;
     aspect-ratio: 4 / 3;
-    /* Foto läuft nach unten weich in den dunklen Grund aus */
-    -webkit-mask: linear-gradient(180deg, #000 55%, transparent 100%);
-    mask: linear-gradient(180deg, #000 55%, transparent 100%);
+    /* Foto läuft oben unter der Kopfzeile und nach unten weich in den dunklen Grund aus – keine harte Kante */
+    -webkit-mask: linear-gradient(180deg, transparent 0%, #000 9%, #000 55%, transparent 100%);
+    mask: linear-gradient(180deg, transparent 0%, #000 9%, #000 55%, transparent 100%);
   }
   .hero-foto :global(picture),
   .hero-foto :global(.platzhalter) {
@@ -121,14 +121,14 @@ const heroBild = bild('hero') ?? bild('gericht-93-jheenga-masala');
       position: absolute;
       inset: 0 0 0 34%;
       aspect-ratio: auto;
-      /* Foto rechts, nach links und nach unten weich in die Kohle hinein auslaufend */
+      /* Foto rechts, nach links, oben und unten weich in die Kohle hinein auslaufend */
       -webkit-mask:
         linear-gradient(90deg, transparent 0%, #000 38%),
-        linear-gradient(180deg, #000 68%, transparent 100%);
+        linear-gradient(180deg, transparent 0%, #000 11%, #000 68%, transparent 100%);
       -webkit-mask-composite: source-in;
       mask:
         linear-gradient(90deg, transparent 0%, #000 38%),
-        linear-gradient(180deg, #000 68%, transparent 100%);
+        linear-gradient(180deg, transparent 0%, #000 11%, #000 68%, transparent 100%);
       mask-composite: intersect;
     }
     .hero-text {
@@ -151,28 +151,26 @@ const heroBild = bild('hero') ?? bild('gericht-93-jheenga-masala');
         transform: scale(1);
       }
     }
+    /* Die wichtigen Fakten (Knöpfe, Live-Status) sind nach spätestens einer knappen Sekunde da */
     .hero-ornament,
     .hero-unterzeile,
     .hero-knoepfe,
     .hero-fakten {
-      animation: hero-auf 1.2s var(--ease-glut) both;
-    }
-    .hero-ornament {
-      animation-delay: 0.1s;
+      animation: hero-auf 0.6s var(--ease-glut) both;
     }
     .hero-unterzeile {
-      animation-delay: 0.75s;
+      animation-delay: 0.22s;
     }
     .hero-knoepfe {
-      animation-delay: 0.9s;
+      animation-delay: 0.3s;
     }
     .hero-fakten {
-      animation-delay: 1.05s;
+      animation-delay: 0.35s;
     }
     @keyframes hero-auf {
       from {
         opacity: 0;
-        transform: translateY(22px);
+        transform: translateY(16px);
       }
       to {
         opacity: 1;
