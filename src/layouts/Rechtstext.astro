@@ -1,0 +1,55 @@
+---
+import Basis from './Basis.astro';
+
+interface Props {
+  titel: string;
+  beschreibung: string;
+}
+const { titel, beschreibung } = Astro.props;
+// TODO: `noindex` unten entfernen, sobald Impressum und Datenschutz vollständig ausgefüllt sind.
+---
+
+<Basis titel={`${titel} – Bombay Freising`} beschreibung={beschreibung} aktiv="recht" noindex>
+  <div class="hell bg-papier text-tinte">
+    <div class="rahmen py-16 md:py-24">
+      <article class="rechtstext etikett mx-auto max-w-[46rem] p-2.5">
+        <span class="bordure text-rani" aria-hidden="true"></span>
+        <div class="px-5 pb-10 pt-8 sm:px-10">
+          <h1 class="display-l">{titel}</h1>
+          <slot />
+        </div>
+      </article>
+    </div>
+  </div>
+</Basis>
+
+<style>
+  .rechtstext :global(h2) {
+    margin-top: 2.25rem;
+    font-size: 1.5rem;
+  }
+  .rechtstext :global(p),
+  .rechtstext :global(ul),
+  .rechtstext :global(address) {
+    margin-top: 0.75rem;
+    font-style: normal;
+    line-height: 1.65;
+  }
+  .rechtstext :global(ul) {
+    padding-left: 1.2rem;
+    list-style: disc;
+  }
+  .rechtstext :global(a) {
+    color: var(--color-glut);
+    text-decoration: underline;
+  }
+  .rechtstext :global(.todo) {
+    display: block;
+    margin-top: 0.75rem;
+    padding: 0.7rem 0.9rem;
+    background: #fff5d6;
+    border: 1px dashed var(--color-kurkuma);
+    color: #5a3b00;
+    font-size: 0.98rem;
+  }
+</style>

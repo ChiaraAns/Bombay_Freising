@@ -1,0 +1,397 @@
+@import 'tailwindcss';
+
+/* Selbst gehostete Schriften aus public/fonts (DSGVO: nichts wird von Google geladen). Lizenz: SIL OFL 1.1 */
+@font-face {
+  font-family: 'Rozha One';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/rozha-one-latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Mukta';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/mukta-latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Mukta';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/mukta-latin-500-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Mukta';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/mukta-latin-600-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Mukta';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/mukta-latin-700-normal.woff2') format('woff2');
+}
+
+/* Metrisch angepasste Ersatzschriften: verhindern Layout-Sprünge, solange die Webfonts laden */
+@font-face {
+  font-family: 'Mukta Ersatz';
+  src: local('Arial'), local('Roboto'), local('Helvetica Neue'), local('Helvetica');
+  size-adjust: 92%;
+  ascent-override: 122.8%;
+  descent-override: 57.8%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Rozha Ersatz';
+  src: local('Georgia'), local('Noto Serif'), local('Times New Roman');
+  size-adjust: 103%;
+  ascent-override: 96.9%;
+  descent-override: 41%;
+  line-gap-override: 0%;
+}
+
+@theme {
+  --color-tinte: #1b1714;
+  --color-russ: #120f0d;
+  --color-kohle: #26201b;
+  --color-kohle-hell: #352c25;
+  --color-creme: #f6efe4;
+  --color-papier: #ede2cf;
+  --color-papier-dunkel: #e2d4bc;
+  --color-safran: #e8a33d;
+  --color-kurkuma: #d98e04;
+  --color-glut: #b63a1e;
+  --color-glut-tief: #8f2b14;
+  --color-kardamom: #5e6b48;
+  /* Logofarbe „Rani“ (aus dem Bombay-Logo): nur auf hellem Grund, Kontrast auf Creme 5,3:1 */
+  --color-rani: #be036c;
+  --color-rani-tief: #8f0251;
+  --color-kardamom-hell: #a9b48d;
+  /* Text auf Creme */
+  --color-braun: #5b4636;
+  --color-braun-hell: #7a6250;
+  /* Text auf Dunkel */
+  --color-rauch: #cdbfad;
+  --color-rauch-dunkel: #a8998a;
+
+  --font-display: 'Rozha One', 'Rozha Ersatz', Georgia, serif;
+  --font-sans: 'Mukta', 'Mukta Ersatz', ui-sans-serif, system-ui, sans-serif;
+
+  --ease-glut: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ---------- Grundlagen ---------- */
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 5.5rem;
+    background: var(--color-tinte);
+    color-scheme: dark;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    background: var(--color-tinte);
+    color: var(--color-creme);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 1.04;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-safran);
+    color: var(--color-tinte);
+  }
+
+  [tabindex='-1']:focus {
+    outline: none;
+  }
+
+  :focus-visible {
+    outline: 2.5px solid var(--color-safran);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .hell :focus-visible,
+  .etikett :focus-visible {
+    outline-color: var(--color-glut);
+  }
+
+  a {
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
+  }
+
+  input,
+  button {
+    font: inherit;
+  }
+
+  input {
+    caret-color: var(--color-glut);
+  }
+
+  * {
+    scrollbar-color: var(--color-kohle-hell) transparent;
+  }
+}
+
+/* ---------- Typografie ---------- */
+
+@utility display-xl {
+  font-family: var(--font-display);
+  font-size: clamp(2.65rem, 1.55rem + 4.6vw, 5.6rem);
+  line-height: 0.98;
+  letter-spacing: -0.015em;
+}
+
+@utility display-l {
+  font-family: var(--font-display);
+  font-size: clamp(2.15rem, 1.45rem + 2.9vw, 3.9rem);
+  line-height: 1.02;
+}
+
+@utility display-m {
+  font-family: var(--font-display);
+  font-size: clamp(1.55rem, 1.25rem + 1.1vw, 2.15rem);
+  line-height: 1.08;
+}
+
+@utility tabellenziffern {
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: 'tnum' 1, 'lnum' 1;
+}
+
+@utility feinsatz {
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* ---------- Material ---------- */
+
+/* Feine Körnung auf dunklen Flächen */
+@utility koernung {
+  position: relative;
+  isolation: isolate;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.16;
+    mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 .92 0 0 0 0 .8 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+/* Blockdruck-Bordüre als Maske – Farbe kommt aus `color` */
+@utility bordure {
+  display: block;
+  height: 14px;
+  background: currentColor;
+  -webkit-mask: url('/ornament/band.svg') repeat-x left center / auto 100%;
+  mask: url('/ornament/band.svg') repeat-x left center / auto 100%;
+}
+
+@utility rapport {
+  background: currentColor;
+  -webkit-mask: url('/ornament/kachel.svg') repeat center / 56px 56px;
+  mask: url('/ornament/kachel.svg') repeat center / 56px 56px;
+}
+
+/* Das Etikett: cremefarbener Druck mit Doppelrahmen */
+@utility etikett {
+  position: relative;
+  background: var(--color-creme);
+  color: var(--color-tinte);
+  border: 1px solid color-mix(in oklab, var(--color-tinte) 55%, transparent);
+  outline: 1px solid color-mix(in oklab, var(--color-tinte) 30%, transparent);
+  outline-offset: -7px;
+}
+
+@utility etikett-schatten {
+  box-shadow:
+    0 1px 0 rgb(255 240 220 / 0.25) inset,
+    0 24px 48px -18px rgb(0 0 0 / 0.65),
+    0 6px 14px -6px rgb(0 0 0 / 0.45);
+}
+
+/* ---------- Knöpfe ---------- */
+
+@utility knopf {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-height: 3.25rem;
+  padding: 0.55rem 1.25rem;
+  border-radius: 3px;
+  font-weight: 600;
+  font-size: 1.0625rem;
+  line-height: 1.15;
+  text-decoration: none;
+  transition:
+    background-color 0.25s var(--ease-glut),
+    color 0.25s var(--ease-glut),
+    box-shadow 0.25s var(--ease-glut),
+    transform 0.25s var(--ease-glut);
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+@utility knopf-glut {
+  background: var(--color-glut);
+  color: var(--color-creme);
+  box-shadow: 0 10px 22px -12px rgb(182 58 30 / 0.9);
+  &:hover {
+    background: var(--color-glut-tief);
+  }
+}
+
+@utility knopf-kontur {
+  color: var(--color-tinte);
+  box-shadow: inset 0 0 0 1.5px var(--color-tinte);
+  &:hover {
+    background: var(--color-tinte);
+    color: var(--color-creme);
+  }
+}
+
+@utility knopf-kontur-hell {
+  color: var(--color-creme);
+  box-shadow: inset 0 0 0 1.5px color-mix(in oklab, var(--color-creme) 70%, transparent);
+  &:hover {
+    background: var(--color-creme);
+    color: var(--color-tinte);
+  }
+}
+
+@utility knopf-creme {
+  background: var(--color-creme);
+  color: var(--color-tinte);
+  box-shadow: 0 10px 22px -12px rgb(0 0 0 / 0.7);
+  &:hover {
+    background: #fff8ee;
+  }
+}
+
+/* ---------- Seitenrahmen ---------- */
+
+@utility rahmen {
+  width: 100%;
+  max-width: 78rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+  @media (width >= 40rem) {
+    padding-inline: 1.75rem;
+  }
+  @media (width >= 64rem) {
+    padding-inline: 2.5rem;
+  }
+}
+
+/* ---------- Bewegung ---------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-erscheinen] {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 0.9s var(--ease-glut),
+      transform 0.9s var(--ease-glut);
+    transition-delay: calc(var(--verzoegerung, 0) * 90ms);
+  }
+  .js [data-erscheinen].sichtbar {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Gestalteter Bild-Platzhalter (wenn ein Foto noch fehlt) */
+.platzhalter {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 30% 110%, rgb(182 58 30 / 0.95), transparent 60%),
+    radial-gradient(90% 80% at 85% 0%, rgb(232 163 61 / 0.85), transparent 55%),
+    linear-gradient(160deg, #d98e04, #8f2b14);
+  color: var(--color-creme);
+}
+
+.platzhalter--kardamom {
+  background:
+    radial-gradient(120% 90% at 25% 110%, rgb(94 107 72 / 0.95), transparent 62%),
+    radial-gradient(90% 80% at 85% 0%, rgb(232 163 61 / 0.75), transparent 55%),
+    linear-gradient(160deg, #b5892f, #3f4a2f);
+}
+.platzhalter--kurkuma {
+  background:
+    radial-gradient(120% 90% at 20% 110%, rgb(143 43 20 / 0.85), transparent 60%),
+    radial-gradient(90% 80% at 90% 0%, rgb(246 239 228 / 0.35), transparent 50%),
+    linear-gradient(160deg, #e8a33d, #b46a05);
+}
+.platzhalter--tinte {
+  background:
+    radial-gradient(110% 90% at 50% 120%, rgb(182 58 30 / 0.75), transparent 60%),
+    linear-gradient(160deg, #352c25, #120f0d);
+}
+.platzhalter--tinte::before {
+  color: rgb(232 163 61 / 0.22) !important;
+}
+.platzhalter--safran {
+  background:
+    radial-gradient(110% 90% at 80% 110%, rgb(217 142 4 / 0.9), transparent 60%),
+    linear-gradient(160deg, #f1c27a, #d98e04);
+}
+
+.platzhalter::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  color: rgb(246 239 228 / 0.16);
+  background: currentColor;
+  -webkit-mask: url('/ornament/kachel.svg') repeat center / 48px 48px;
+  mask: url('/ornament/kachel.svg') repeat center / 48px 48px;
+}
+
+.platzhalter__name {
+  position: relative;
+  max-width: 80%;
+  padding: 0.55rem 0.9rem 0.45rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 0.9rem + 1vw, 1.6rem);
+  line-height: 1.1;
+  text-align: center;
+  color: var(--color-tinte);
+  background: var(--color-creme);
+  box-shadow: 0 0 0 1px rgb(27 23 20 / 0.5), 0 0 0 5px var(--color-creme), 0 0 0 6px rgb(27 23 20 / 0.35);
+  text-wrap: balance;
+}

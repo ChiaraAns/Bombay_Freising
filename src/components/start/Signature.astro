@@ -1,0 +1,73 @@
+---
+import GerichtEtikett from '../GerichtEtikett.astro';
+import Icon from '../Icon.astro';
+import { signatureNummern, gerichtNr } from '../../data/speisekarte';
+
+const altTexte: Record<number, string> = {
+  57: 'Butter Chicken in einer Karahi-Schale mit Sahnehaube und Bockshornkleeblättern auf dunklem Holztisch',
+};
+const gerichte = signatureNummern.map((nr) => gerichtNr(nr));
+---
+
+<section id="karte" class="hell bg-papier py-20 text-tinte md:py-28" aria-labelledby="karte-titel">
+  <div class="rahmen">
+    <div class="flex flex-wrap items-end justify-between gap-6" data-erscheinen>
+      <div class="max-w-[38rem]">
+        <h2 id="karte-titel" class="display-l">Sechs Gründe, heute indisch zu essen.</h2>
+        <p class="mt-4 text-[1.12rem] leading-relaxed text-braun">
+          Eine kleine Auswahl aus über 120 Gerichten. Die Nummer hilft, wenn Sie telefonisch bestellen.
+        </p>
+      </div>
+      <a href="/speisekarte" class="knopf knopf-kontur hidden md:inline-flex">
+        Ganze Speisekarte ansehen <Icon name="pfeil" size={18} />
+      </a>
+    </div>
+
+    <ul class="etiketten mt-12" role="list">
+      {
+        gerichte.map((g, i) => (
+          <li data-erscheinen style={`--verzoegerung:${i % 3}`}>
+            <GerichtEtikett gericht={g} alt={altTexte[g.nr!] ?? g.name} />
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="mt-12 flex justify-center">
+      <a href="/speisekarte" class="knopf knopf-glut ganze-karte w-full sm:w-auto">
+        <Icon name="karte" size={20} />
+        Ganze Speisekarte ansehen
+        <Icon name="pfeil" size={18} />
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .etiketten {
+    display: grid;
+    gap: 1.75rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+  }
+  @media (width < 40rem) {
+    .etiketten {
+      grid-auto-flow: column;
+      grid-template-columns: none;
+      grid-auto-columns: 84%;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      margin-inline: -1rem;
+      padding: 0.25rem 1rem 1.25rem;
+      scroll-padding-inline: 1rem;
+      gap: 1rem;
+    }
+    .etiketten > li {
+      scroll-snap-align: start;
+    }
+  }
+  .ganze-karte {
+    min-height: 3.75rem;
+    padding-inline: 2rem;
+    font-size: 1.15rem;
+  }
+</style>

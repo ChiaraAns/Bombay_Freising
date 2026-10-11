@@ -1,0 +1,702 @@
+---
+import Basis from '../layouts/Basis.astro';
+import Icon from '../components/Icon.astro';
+import Kennzeichen from '../components/Kennzeichen.astro';
+import { speisekarte, preisFormat } from '../data/speisekarte';
+import { glossar, vokabular } from '../data/glossar';
+import { kontakt } from '../data/kontakt';
+import { zeitenKompakt } from '../lib/zeiten';
+
+const filter = [
+  { id: 'vegetarisch', text: 'Vegetarisch', gruppe: 'kost', icon: 'blatt' },
+  { id: 'vegan', text: 'Vegan möglich', gruppe: 'kost', icon: 'blatt-kontur' },
+  { id: 'mild', text: 'Ohne Schärfe', gruppe: 'schaerfe' },
+  { id: 'scharf', text: 'Scharf', gruppe: 'schaerfe', chilis: 1 },
+  { id: 'sehr-scharf', text: 'Sehr scharf', gruppe: 'schaerfe', chilis: 2 },
+] as const;
+
+const suchtext = (...teile: (string | undefined)[]) =>
+  teile
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+---
+
+<Basis
+  titel="Speisekarte – Bombay, indisches Restaurant in Freising"
+  beschreibung="Die komplette Speisekarte des Bombay in Freising mit Nummern und Preisen: Tandoori aus dem Lehmofen, Curries mit Huhn, Lamm, Ente und Fisch, Biryani, Thalis, 20 vegetarische Spezialitäten und frisches Naan."
+  aktiv="speisekarte"
+>
+  <div class="hell bg-papier text-tinte">
+    <!-- Kopf der Karte -->
+    <header class="karte-kopf koernung bg-tinte pb-9 pt-9 text-creme md:pb-16 md:pt-16">
+      <div class="rahmen grid gap-8 lg:grid-cols-12 lg:items-end">
+        <div class="lg:col-span-7">
+          <h1 class="display-xl">Speisekarte</h1>
+          <p class="mt-5 max-w-[36rem] text-[1.12rem] leading-relaxed text-rauch">
+            Alle Gerichte mit Nummer – so geht es am Telefon am schnellsten. Reservieren und bestellen unter{' '}
+            <a href={kontakt.telefonLink} class="tabellenziffern whitespace-nowrap font-semibold text-safran underline"
+              >{kontakt.telefonAnzeige}</a
+            >.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-3 lg:col-span-5 lg:justify-end print:hidden">
+          <a href={kontakt.bestellUrl} class="knopf knopf-glut" rel="noopener">
+            <Icon name="tasche" size={19} /> Online bestellen
+          </a>
+          <button type="button" class="knopf knopf-kontur-hell hidden sm:inline-flex" data-drucken>
+            <Icon name="drucker" size={19} /> Karte drucken
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Sticky Kategorie-Navigation -->
+    <nav class="kategorien sticky top-0 z-30 print:hidden" aria-label="Kategorien der Speisekarte">
+      <div class="kategorien-innen rahmen">
+        <ul class="kategorien-liste" role="list">
+          {
+            speisekarte.map((k) => (
+              <li>
+                <a href={`#${k.id}`} class="kategorie-link" data-kategorie-link={k.id}>
+                  {k.titel.replace(' (Biryani)', '').replace('-Spezialitäten', '')}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <p class="filter-status rahmen" data-filter-status hidden aria-live="polite"></p>
+    </nav>
+
+    <div class="rahmen pb-24 pt-10 md:pt-12">
+      <!-- Suche & Filter -->
+      <div class="werkzeug grid gap-5 lg:grid-cols-12 lg:items-center print:hidden">
+        <div class="lg:col-span-5">
+          <label for="suche" class="mb-2 block font-semibold">Gericht oder Zutat suchen</label>
+          <div class="suche relative">
+            <Icon name="lupe" size={20} class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-braun" />
+            <input
+              id="suche"
+              type="search"
+              placeholder="z. B. Spinat, Mango, Korma, 57"
+              autocomplete="off"
+              class="h-12 w-full rounded-[3px] bg-creme pl-11 pr-11 text-[1.05rem] text-tinte placeholder:text-braun-hell"
+            />
+            <button type="button" class="suche-leeren absolute right-1.5 top-1/2 -translate-y-1/2" aria-label="Suche leeren" hidden>
+              <Icon name="kreuz" size={18} />
+            </button>
+          </div>
+        </div>
+        <fieldset class="min-w-0 lg:col-span-7">
+          <legend class="mb-2 font-semibold">Filtern</legend>
+          <div class="filter-reihe flex gap-2">
+            {
+              filter.map((f) => (
+                <button type="button" class="filter-chip" data-filter={f.id} data-gruppe={f.gruppe} aria-pressed="false">
+                  {'icon' in f && <Icon name={f.icon} size={16} class="text-kardamom" />}
+                  {'chilis' in f &&
+                    Array.from({ length: f.chilis }, () => <Icon name="chili" size={15} class="-mr-1 text-glut" />)}
+                  <span class:list={['chilis' in f && 'ml-1']}>{f.text}</span>
+                </button>
+              ))
+            }
+          </div>
+        </fieldset>
+      </div>
+
+      <!-- Hinweise -->
+      <div class="mt-8 grid gap-4 md:grid-cols-2">
+        <p class="hinweis-allergene flex gap-3 border border-tinte/20 bg-creme px-4 py-3 text-[0.98rem]">
+          <Icon name="blatt-kontur" size={20} class="mt-0.5 shrink-0 text-kardamom" />
+          <span>
+            Informationen zu Allergenen erhalten Sie bei unserem Personal.
+            {/* TODO: Allergenkennzeichnung (Buchstaben/Zahlen je Gericht) nachpflegen */}
+          </span>
+        </p>
+
+        <details id="glossar" class="glossar border border-tinte/20 bg-creme print:hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-3 px-4 py-3 font-semibold">
+            <span>Was ist eigentlich …? Das kleine Glossar</span>
+            <Icon name="pfeil" size={18} class="glossar-pfeil text-glut" />
+          </summary>
+          <div class="border-t border-tinte/15 px-4 pb-5 pt-4">
+            <dl class="grid gap-x-6 gap-y-4 sm:grid-cols-2">
+              {
+                glossar.map((g) => (
+                  <div>
+                    <dt class="font-display text-[1.3rem] leading-tight">{g.begriff}</dt>
+                    <dd class="mt-1 text-[0.98rem] leading-snug text-braun">{g.erklaerung}</dd>
+                  </div>
+                ))
+              }
+            </dl>
+            <h2 class="mt-6 font-display text-[1.2rem]">Kleines Kartenvokabular</h2>
+            <dl class="vokabular mt-2 grid grid-cols-2 gap-x-6 gap-y-1 text-[0.98rem] sm:grid-cols-3">
+              {
+                vokabular.map(([wort, bedeutung]) => (
+                  <div class="flex gap-2">
+                    <dt class="font-semibold">{wort}</dt>
+                    <dd class="text-braun">{bedeutung}</dd>
+                  </div>
+                ))
+              }
+            </dl>
+          </div>
+        </details>
+      </div>
+
+      <!-- Die Karte -->
+      <div class="karte mt-12" data-karte-liste>
+        {
+          speisekarte.map((k) => (
+            <section id={k.id} class="kategorie" aria-labelledby={`titel-${k.id}`} data-kategorie={k.id}>
+              <div class="kategorie-kopf">
+                <h2 id={`titel-${k.id}`} class="display-l">
+                  {k.titel}
+                </h2>
+                <span class="bordure mt-4 text-rani/80" aria-hidden="true" />
+                {k.hinweis && <p class="kategorie-hinweis mt-4 max-w-[48rem] text-[1.02rem] text-braun">{k.hinweis}</p>}
+              </div>
+              <ul class="gerichte mt-6" role="list">
+                {k.gerichte.map((g) => (
+                  <li
+                    class="gericht"
+                    data-gericht
+                    data-veg={g.vegetarisch ? '1' : '0'}
+                    data-vegan={g.veganMoeglich ? '1' : '0'}
+                    data-schaerfe={g.schaerfe ?? 1}
+                    data-text={suchtext(g.nr?.toString(), g.name, g.beschreibung, k.titel)}
+                  >
+                    <span class:list={['gericht-nr tabellenziffern', !g.nr && 'leer']} aria-hidden={g.nr ? undefined : 'true'}>
+                      {g.nr ? (
+                        <>
+                          <span class="sr-only">Nummer </span>
+                          {g.nr}
+                        </>
+                      ) : (
+                        ''
+                      )}
+                    </span>
+                    <div class="min-w-0">
+                      <div class="gericht-zeile">
+                        <h3 class="gericht-name">
+                          {g.name}
+                          {g.beliebt && (
+                            <span class="beliebt-marke">
+                              <Icon name="stern" size={12} /> Beliebt
+                            </span>
+                          )}
+                        </h3>
+                        <span class="punktlinie" aria-hidden="true" />
+                        <p class="gericht-preis tabellenziffern">
+                          {g.preisZusatz && <span class="preis-zusatz">{g.preisZusatz} </span>}
+                          {preisFormat(g.preis)}
+                        </p>
+                      </div>
+                      {(g.beschreibung || g.vegetarisch || g.veganMoeglich || (g.schaerfe ?? 0) >= 2) && (
+                        <div class="gericht-unterzeile">
+                          {g.beschreibung && <p class="gericht-beschreibung">{g.beschreibung}</p>}
+                          <Kennzeichen gericht={g} kompakt class="shrink-0" />
+                        </div>
+                      )}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))
+        }
+
+        <div class="leer-zustand etikett mx-auto max-w-[36rem] p-8 text-center" data-leer hidden>
+          <h2 class="display-m">Nichts gefunden</h2>
+          <p class="mt-3 text-braun" data-leer-text>Für diese Auswahl gibt es kein Gericht.</p>
+          <button type="button" class="knopf knopf-kontur mt-5" data-zuruecksetzen>Suche und Filter zurücksetzen</button>
+        </div>
+      </div>
+
+      <!-- Legende & Druck-Fuß -->
+      <div class="legende mt-16 flex flex-wrap gap-x-8 gap-y-3 border-t border-tinte/20 pt-6 text-[0.98rem] text-braun">
+        <span class="inline-flex items-center gap-1.5"><Icon name="blatt" size={17} class="text-kardamom" /> vegetarisch</span>
+        <span class="inline-flex items-center gap-1.5"><Icon name="blatt-kontur" size={17} class="text-kardamom" /> auch vegan erhältlich</span>
+        <span class="inline-flex items-center gap-1.5"><Icon name="chili" size={17} class="text-glut" /> scharf</span>
+        <span class="inline-flex items-center gap-0.5"><Icon name="chili" size={17} class="text-glut" /><Icon name="chili" size={17} class="text-glut" /> <span class="ml-1">sehr scharf</span></span>
+        <span class="inline-flex items-center gap-1.5"><Icon name="stern" size={15} class="text-kurkuma" /> beliebt</span>
+      </div>
+      <div class="druck-fuss hidden print:block">
+        <p>
+          Bombay – Indische Spezialitäten · {kontakt.strasse}, {kontakt.plz} {kontakt.ort} · Tel. {kontakt.telefonAnzeige}
+        </p>
+        <p>
+          {zeitenKompakt().map((z) => `${z.tage} ${z.text}`).join(' | ')} · {kontakt.website.replace('https://', '')}
+        </p>
+      </div>
+    </div>
+  </div>
+</Basis>
+
+<script>
+  const normal = (s: string) =>
+    s
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[̀-ͯ]/g, '')
+      .replace(/ß/g, 'ss');
+
+  const suche = document.querySelector<HTMLInputElement>('#suche')!;
+  const leeren = document.querySelector<HTMLButtonElement>('.suche-leeren')!;
+  const chips = [...document.querySelectorAll<HTMLButtonElement>('[data-filter]')];
+  const gerichte = [...document.querySelectorAll<HTMLElement>('[data-gericht]')];
+  const kategorien = [...document.querySelectorAll<HTMLElement>('[data-kategorie]')];
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('[data-kategorie-link]')];
+  const status = document.querySelector<HTMLElement>('[data-filter-status]')!;
+  const leer = document.querySelector<HTMLElement>('[data-leer]')!;
+  const leerText = document.querySelector<HTMLElement>('[data-leer-text]')!;
+
+  const texte = new Map(gerichte.map((g) => [g, normal(g.dataset.text || '')]));
+
+  function anwenden() {
+    const q = normal(suche.value.trim());
+    const aktiv = chips.filter((c) => c.getAttribute('aria-pressed') === 'true').map((c) => c.dataset.filter!);
+    const kost = aktiv.filter((a) => a === 'vegetarisch' || a === 'vegan');
+    const schaerfe = aktiv.filter((a) => a === 'mild' || a === 'scharf' || a === 'sehr-scharf');
+    let sichtbar = 0;
+
+    for (const g of gerichte) {
+      const s = Number(g.dataset.schaerfe);
+      const passtKost = kost.every((k) => (k === 'vegetarisch' ? g.dataset.veg === '1' : g.dataset.vegan === '1'));
+      const passtSchaerfe =
+        !schaerfe.length ||
+        schaerfe.some((f) => (f === 'mild' ? s <= 1 : f === 'scharf' ? s === 2 : s === 3));
+      const passtText = !q || q.split(/\s+/).every((w) => texte.get(g)!.includes(w));
+      const zeigen = passtKost && passtSchaerfe && passtText;
+      g.hidden = !zeigen;
+      if (zeigen) sichtbar++;
+    }
+    for (const k of kategorien) {
+      const hat = k.querySelector('[data-gericht]:not([hidden])');
+      k.hidden = !hat;
+      links.find((l) => l.dataset.kategorieLink === k.dataset.kategorie)?.classList.toggle('gedimmt', !hat);
+    }
+
+    const gefiltert = q || aktiv.length;
+    leeren.hidden = !q;
+    status.hidden = !gefiltert;
+    status.innerHTML = '';
+    if (gefiltert) {
+      status.append(`${sichtbar} ${sichtbar === 1 ? 'Gericht' : 'Gerichte'} gefunden · `);
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = 'alle zeigen';
+      b.addEventListener('click', zuruecksetzen);
+      status.append(b);
+    }
+    leer.hidden = sichtbar > 0;
+    if (!sichtbar) {
+      leerText.textContent = q
+        ? `Für „${suche.value.trim()}“ haben wir nichts gefunden. Versuchen Sie es mit einer Zutat wie „Spinat“ oder „Mango“.`
+        : 'Diese Filter-Kombination ergibt kein Gericht.';
+    }
+  }
+
+  function zuruecksetzen() {
+    suche.value = '';
+    chips.forEach((c) => c.setAttribute('aria-pressed', 'false'));
+    anwenden();
+    suche.focus();
+  }
+
+  chips.forEach((c) =>
+    c.addEventListener('click', () => {
+      c.setAttribute('aria-pressed', String(c.getAttribute('aria-pressed') !== 'true'));
+      anwenden();
+    }),
+  );
+  suche.addEventListener('input', anwenden);
+  leeren.addEventListener('click', zuruecksetzen);
+  document.querySelector('[data-zuruecksetzen]')?.addEventListener('click', zuruecksetzen);
+  document.querySelector('[data-drucken]')?.addEventListener('click', () => window.print());
+
+  // Aktive Kategorie beim Scrollen hervorheben
+  const leiste = document.querySelector<HTMLElement>('.kategorien-liste')!;
+  let aktuell = '';
+  const setzeAktiv = (id: string) => {
+    if (id === aktuell) return;
+    aktuell = id;
+    for (const l of links) {
+      const ist = l.dataset.kategorieLink === id;
+      l.toggleAttribute('aria-current', ist);
+      if (ist) {
+        const ziel = l.offsetLeft - leiste.clientWidth / 2 + l.offsetWidth / 2;
+        leiste.scrollTo({ left: ziel, behavior: 'smooth' });
+      }
+    }
+  };
+  const io = new IntersectionObserver(
+    (eintraege) => {
+      const sichtbare = eintraege.filter((e) => e.isIntersecting);
+      if (sichtbare.length) {
+        const oben = sichtbare.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+        setzeAktiv((oben.target as HTMLElement).dataset.kategorie!);
+      }
+    },
+    { rootMargin: '-120px 0px -65% 0px' },
+  );
+  kategorien.forEach((k) => io.observe(k));
+</script>
+
+<style>
+  .karte-kopf {
+    position: relative;
+  }
+
+  .kategorien {
+    background: rgb(27 23 20 / 0.97);
+    backdrop-filter: saturate(1.2);
+    box-shadow: 0 10px 24px -14px rgb(0 0 0 / 0.6);
+  }
+  .kategorien-innen {
+    padding-inline: 0;
+  }
+  @media (width >= 40rem) {
+    .kategorien-innen {
+      padding-inline: 1.75rem;
+    }
+  }
+  .kategorien-liste {
+    display: flex;
+    gap: 0.25rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 0.55rem 1rem;
+    scroll-padding-inline: 1rem;
+    -webkit-mask: linear-gradient(90deg, transparent, #000 1rem, #000 calc(100% - 2rem), transparent);
+    mask: linear-gradient(90deg, transparent, #000 1rem, #000 calc(100% - 2rem), transparent);
+  }
+  .kategorien-liste::-webkit-scrollbar {
+    display: none;
+  }
+  .kategorie-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.5rem;
+    padding: 0.2rem 0.85rem 0;
+    border-radius: 2px;
+    white-space: nowrap;
+    color: var(--color-rauch);
+    font-weight: 600;
+    font-size: 0.98rem;
+    text-decoration: none;
+    transition:
+      background-color 0.2s,
+      color 0.2s;
+  }
+  .kategorie-link:hover {
+    color: var(--color-creme);
+  }
+  .kategorie-link[aria-current] {
+    background: var(--color-safran);
+    color: var(--color-tinte);
+  }
+  .kategorie-link.gedimmt {
+    opacity: 0.4;
+  }
+  .kategorie-link:focus-visible {
+    outline-color: var(--color-safran);
+    outline-offset: -2px;
+  }
+  .filter-status {
+    padding-bottom: 0.6rem;
+    color: var(--color-rauch);
+    font-size: 0.95rem;
+  }
+  .filter-status :global(button) {
+    color: var(--color-safran);
+    font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .suche input {
+    box-shadow: inset 0 0 0 1.5px rgb(27 23 20 / 0.35);
+    outline: none;
+  }
+  .suche input:focus-visible {
+    box-shadow: inset 0 0 0 2px var(--color-glut);
+  }
+  .suche input::-webkit-search-cancel-button {
+    display: none;
+  }
+  .suche-leeren {
+    display: inline-grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    color: var(--color-braun);
+    cursor: pointer;
+  }
+
+  .filter-reihe {
+    flex-wrap: wrap;
+  }
+  @media (width < 40rem) {
+    .filter-reihe {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scrollbar-width: none;
+      margin-inline: -1rem;
+      padding: 0.15rem 1rem 0.35rem;
+    }
+    .filter-reihe::-webkit-scrollbar {
+      display: none;
+    }
+    .filter-chip {
+      flex: none;
+    }
+  }
+  .filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 2.75rem;
+    padding: 0.2rem 0.95rem 0;
+    border-radius: 999px;
+    background: var(--color-creme);
+    box-shadow: inset 0 0 0 1.5px rgb(27 23 20 / 0.28);
+    font-weight: 600;
+    font-size: 0.98rem;
+    cursor: pointer;
+    transition:
+      background-color 0.2s,
+      box-shadow 0.2s,
+      color 0.2s;
+  }
+  .filter-chip:hover {
+    box-shadow: inset 0 0 0 2px var(--color-tinte);
+  }
+  .filter-chip[aria-pressed='true'] {
+    background: var(--color-tinte);
+    color: var(--color-creme);
+    box-shadow: inset 0 0 0 2px var(--color-tinte);
+  }
+  .filter-chip[aria-pressed='true'] :global(.text-kardamom) {
+    color: var(--color-kardamom-hell);
+  }
+  .filter-chip[aria-pressed='true'] :global(.text-glut) {
+    color: #f07a52;
+  }
+
+  .glossar[open] .glossar-pfeil {
+    transform: rotate(90deg);
+  }
+  .glossar summary {
+    list-style: none;
+  }
+  .glossar summary::-webkit-details-marker {
+    display: none;
+  }
+  .glossar-pfeil {
+    transition: transform 0.25s var(--ease-glut);
+  }
+
+  .kategorie {
+    padding-top: 3.5rem;
+  }
+  .kategorie:first-child {
+    padding-top: 0;
+  }
+  .kategorie-kopf .bordure {
+    max-width: 18rem;
+  }
+  .kategorie-hinweis {
+    padding-left: 1rem;
+    border-left: 1px solid var(--color-glut);
+  }
+
+  .gerichte {
+    display: grid;
+    column-gap: 3.5rem;
+  }
+  @media (width >= 64rem) {
+    .gerichte {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .gericht {
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1fr);
+    gap: 0.9rem;
+    padding: 0.95rem 0 1rem;
+    border-bottom: 1px solid rgb(27 23 20 / 0.12);
+    break-inside: avoid;
+  }
+  .gericht-nr {
+    display: grid;
+    place-items: center;
+    height: 2.1rem;
+    margin-top: 0.1rem;
+    background: var(--color-tinte);
+    color: var(--color-creme);
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    line-height: 1;
+    padding-top: 0.15rem;
+    box-shadow:
+      0 0 0 2px var(--color-papier),
+      0 0 0 3px rgb(27 23 20 / 0.35);
+  }
+  .gericht-nr.leer {
+    background: transparent;
+    box-shadow: none;
+  }
+  .gericht-zeile {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+  }
+  .gericht-name {
+    flex: 0 1 auto;
+    min-width: 0;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    font-family: var(--font-display);
+    font-size: 1.32rem;
+    line-height: 1.15;
+  }
+  .beliebt-marke {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    margin-left: 0.4rem;
+    padding: 0.12rem 0.4rem 0;
+    background: var(--color-safran);
+    color: var(--color-tinte);
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    vertical-align: 0.2em;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+  .punktlinie {
+    flex: 1;
+    min-width: 1rem;
+    border-bottom: 2px dotted rgb(27 23 20 / 0.3);
+    transform: translateY(-0.3rem);
+  }
+  .gericht-preis {
+    flex: none;
+    text-align: right;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--color-glut);
+  }
+  .preis-zusatz {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--color-braun);
+  }
+  .gericht-unterzeile {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 0.25rem;
+  }
+  .gericht-beschreibung {
+    color: var(--color-braun);
+    font-size: 1rem;
+    line-height: 1.45;
+  }
+  .gericht-unterzeile :global(.kennzeichen) {
+    margin-top: 0.2rem;
+    margin-left: auto;
+  }
+
+  /* ---------- Druck ---------- */
+  @media print {
+    @page {
+      margin: 14mm 12mm;
+    }
+    :global(html),
+    :global(body) {
+      background: #fff !important;
+      color: #000 !important;
+      padding: 0 !important;
+    }
+    :global(.kopf),
+    :global(.fuss),
+    :global(.reibeflaeche),
+    .werkzeug,
+    .kategorien,
+    .glossar {
+      display: none !important;
+    }
+    .karte-kopf {
+      background: #fff !important;
+      color: #000 !important;
+      padding: 0 0 6mm !important;
+    }
+    .karte-kopf :global(*) {
+      color: #000 !important;
+    }
+    .karte-kopf::before {
+      display: none;
+    }
+    :global(.hell) {
+      background: #fff !important;
+    }
+    .kategorie {
+      padding-top: 6mm;
+      break-inside: auto;
+    }
+    .kategorie[hidden] {
+      display: block !important;
+    }
+    .gericht[hidden] {
+      display: grid !important;
+    }
+    [data-leer] {
+      display: none !important;
+    }
+    .kategorie-kopf {
+      break-after: avoid;
+    }
+    .gerichte {
+      grid-template-columns: 1fr 1fr;
+      column-gap: 10mm;
+    }
+    .gericht {
+      padding: 2mm 0;
+      grid-template-columns: 9mm 1fr;
+      gap: 3mm;
+    }
+    .gericht-nr {
+      background: none;
+      color: #000;
+      box-shadow: none;
+      border: 1px solid #000;
+      height: auto;
+      font-size: 10pt;
+    }
+    .gericht-name {
+      font-size: 11.5pt;
+    }
+    .gericht-beschreibung,
+    .gericht-preis {
+      font-size: 9.5pt;
+      color: #000;
+    }
+    .display-l,
+    h2 {
+      font-size: 17pt !important;
+    }
+    .druck-fuss {
+      margin-top: 8mm;
+      padding-top: 3mm;
+      border-top: 1px solid #000;
+      font-size: 9pt;
+    }
+  }
+</style>

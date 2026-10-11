@@ -1,0 +1,38 @@
+---
+import Rechtstext from '../layouts/Rechtstext.astro';
+import { kontakt } from '../data/kontakt';
+---
+
+<Rechtstext titel="Impressum" beschreibung="Impressum des Restaurants Bombay – Indische Spezialitäten in Freising.">
+  <p class="todo">
+    TODO: Platzhalter – bitte vom Restaurant vervollständigen und rechtlich prüfen lassen. Angaben gemäß § 5 DDG.
+  </p>
+
+  <h2>Angaben zum Betreiber</h2>
+  <address>
+    Bombay – Indische Spezialitäten<br />
+    <span class="todo">TODO: Vollständiger Name der Inhaberin / des Inhabers bzw. Firma und Rechtsform</span>
+    {kontakt.strasse}<br />
+    {kontakt.plz} {kontakt.ort}
+  </address>
+
+  <h2>Kontakt</h2>
+  <p>
+    Telefon: <a href={kontakt.telefonLink}>{kontakt.telefonAnzeige}</a><br />
+    E-Mail: <a href={`mailto:${kontakt.email}`}>{kontakt.email}</a>
+  </p>
+
+  <h2>Umsatzsteuer-ID</h2>
+  <p class="todo">TODO: Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG (falls vorhanden)</p>
+
+  <h2>Verantwortlich für den Inhalt</h2>
+  <p class="todo">TODO: Name und Anschrift der verantwortlichen Person (§ 18 Abs. 2 MStV)</p>
+
+  <h2>Verbraucherstreitbeilegung</h2>
+  <p class="todo">
+    TODO: Hinweis zur Teilnahme an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle prüfen und ergänzen.
+  </p>
+
+  <h2>Fotos</h2>
+  <p>Alle Fotos: Bombay – Indische Spezialitäten, Freising.</p>
+</Rechtstext>

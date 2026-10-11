@@ -1,0 +1,56 @@
+---
+import { srcset, fallbackSrc, type BildInfo } from '../lib/bilder';
+
+interface Props {
+  bild?: BildInfo;
+  alt: string;
+  /** Name für den gestalteten Platzhalter, falls das Foto fehlt */
+  platzhalter: string;
+  sizes: string;
+  /** Seitenverhältnis, z. B. '4 / 3' */
+  verhaeltnis?: string;
+  eager?: boolean;
+  class?: string;
+  bildKlasse?: string;
+  position?: string;
+  /** Farbvariante des Platzhalters */
+  variante?: string;
+}
+
+const {
+  bild,
+  alt,
+  platzhalter,
+  sizes,
+  verhaeltnis = '4 / 3',
+  eager = false,
+  class: klasse = '',
+  bildKlasse = '',
+  position = 'center',
+  variante = 'glut',
+} = Astro.props;
+---
+
+{
+  bild ? (
+    <picture class:list={['block overflow-hidden', klasse]} style={`aspect-ratio:${verhaeltnis};background:${bild.farbe}`}>
+      <source type="image/avif" srcset={srcset(bild, 'avif')} sizes={sizes} />
+      <source type="image/webp" srcset={srcset(bild, 'webp')} sizes={sizes} />
+      <img
+        src={fallbackSrc(bild)}
+        alt={alt}
+        width={bild.breite}
+        height={bild.hoehe}
+        loading={eager ? 'eager' : 'lazy'}
+        fetchpriority={eager ? 'high' : undefined}
+        decoding={eager ? 'sync' : 'async'}
+        class:list={['h-full w-full object-cover', bildKlasse]}
+        style={`object-position:${position}`}
+      />
+    </picture>
+  ) : (
+    <div class:list={['platzhalter', `platzhalter--${variante}`, klasse]} style={`aspect-ratio:${verhaeltnis}`} aria-hidden="true">
+      <span class="platzhalter__name">{platzhalter}</span>
+    </div>
+  )
+}

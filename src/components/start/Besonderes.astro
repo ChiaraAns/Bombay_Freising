@@ -1,0 +1,126 @@
+---
+import Foto from '../Foto.astro';
+import { bild, gerichtBild } from '../../lib/bilder';
+import { speisekarte } from '../../data/speisekarte';
+
+// Eigenes Lehmofen-Foto (`tandoor.*`) hat Vorrang, sonst Chicken Tikka vom Spieß.
+const tandoorBild = bild('tandoor');
+const ofenBild = tandoorBild ?? gerichtBild(39);
+
+const vegKategorie = speisekarte.find((k) => k.id === 'vegetarisch')!;
+const anzahlVeg = vegKategorie.gerichte.length;
+const anzahlVegan = speisekarte.flatMap((k) => k.gerichte).filter((g) => g.veganMoeglich).length;
+
+const punkte = [
+  {
+    titel: 'Der Lehmofen',
+    text: 'Unser Tandoor ist ein original Holzkohle-Lehmofen aus Indien. Darin garen Tikka, Tandoori Chicken und Riesengarnelen über der Glut – und darin backen wir unsere Brote frisch.',
+  },
+  {
+    titel: 'Paneer aus eigener Küche',
+    text: 'Den Käse für Palak Paneer, Shahi Paneer oder Malai Kofta machen wir selbst: mild, frisch und schnittfest.',
+  },
+  {
+    titel: 'Thalis auf indischen Platten',
+    text: 'Die Spezialität unseres Chefkochs: mehrere Gerichte, Raita, Salat, Pappad und Basmati-Reis aus Nordindien, serviert auf original indischen Platten.',
+  },
+  {
+    titel: 'Vegetarisch mit Auswahl',
+    text: `${anzahlVeg} vegetarische Hauptgerichte, dazu Vorspeisen, Brote und Biryani ohne Fleisch. ${anzahlVegan} Gerichte bekommen Sie auch vegan.`,
+  },
+];
+---
+
+<section id="haus" class="besonderes koernung bg-tinte py-20 md:py-28" aria-labelledby="haus-titel">
+  <div class="rahmen">
+    <div class="grid gap-12 lg:grid-cols-12 lg:gap-10">
+      <div class="lg:col-span-5" data-erscheinen>
+        <h2 id="haus-titel" class="display-l text-creme">
+          Was man bei uns<br class="hidden sm:block" /> schmeckt.
+        </h2>
+        <p class="mt-6 max-w-[30rem] text-[1.15rem] leading-relaxed text-rauch">
+          Holzkohleglut, Joghurtmarinade, Safran und Ingwer. Bei Bombay kommt das Feuer aus einem echten Lehmofen
+          und der Käse aus der eigenen Küche.
+        </p>
+
+        <figure class="besonderes-foto-gross mt-10 hidden lg:block">
+          <Foto
+            bild={ofenBild}
+            alt={tandoorBild ? 'Der Holzkohle-Lehmofen (Tandoor) im Bombay' : 'Chicken Tikka vom Spieß mit Minz-Joghurt, roten Zwiebeln und Limette'}
+            platzhalter="Der Lehmofen"
+            sizes="(min-width: 80rem) 30rem, 40vw"
+            verhaeltnis="4 / 5"
+            class="etikett-schatten"
+            position="55% 60%"
+          />
+          <figcaption class="mt-3 text-[0.95rem] text-rauch-dunkel">
+            {
+              tandoorBild ? (
+                'Unser Holzkohle-Lehmofen aus Indien'
+              ) : (
+                <>
+                  <span class="tabellenziffern text-safran">Nr. 39</span> Chicken Tikka – vom Spieß aus dem Lehmofen
+                </>
+              )
+            }
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="lg:col-span-6 lg:col-start-7">
+        <ol class="punkte" role="list">
+          {
+            punkte.map((p, i) => (
+              <li class="punkt" data-erscheinen style={`--verzoegerung:${i}`}>
+                <h3 class="display-m text-creme">{p.titel}</h3>
+                <p class="mt-2.5 text-[1.08rem] leading-relaxed text-rauch">{p.text}</p>
+              </li>
+            ))
+          }
+        </ol>
+
+        <figure class="mt-12 grid grid-cols-[1fr_auto] items-end gap-5" data-erscheinen>
+          <Foto
+            bild={gerichtBild(116)}
+            alt="Paneer Butter Masala: Würfel aus hausgemachtem Käse in orangefarbener Masala-Soße mit grüner Chili"
+            platzhalter="Paneer Butter Masala"
+            sizes="(min-width: 64rem) 22rem, 60vw"
+            verhaeltnis="1 / 1"
+            class="etikett-schatten max-w-[22rem]"
+          />
+          <figcaption class="max-w-[11rem] pb-1 text-[0.95rem] text-rauch-dunkel">
+            <span class="tabellenziffern text-safran">Nr. 116</span><br />Paneer Butter Masala, mit hausgemachtem Käse
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .punkt {
+    position: relative;
+    padding: 1.6rem 0 1.7rem 2.6rem;
+    border-top: 1px solid rgb(246 239 228 / 0.12);
+  }
+  .punkt:last-child {
+    border-bottom: 1px solid rgb(246 239 228 / 0.12);
+  }
+  .punkt::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 2.05rem;
+    width: 1.35rem;
+    height: 1.35rem;
+    background: var(--color-safran);
+    -webkit-mask: url('/ornament/kachel.svg') no-repeat center / 205%;
+    mask: url('/ornament/kachel.svg') no-repeat center / 205%;
+  }
+  .punkt:nth-child(2)::before {
+    background: var(--color-glut);
+  }
+  .punkt:nth-child(4)::before {
+    background: var(--color-kardamom-hell);
+  }
+</style>

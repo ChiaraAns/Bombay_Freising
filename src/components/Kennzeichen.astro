@@ -1,0 +1,42 @@
+---
+import Icon from './Icon.astro';
+import type { Gericht } from '../data/speisekarte';
+
+interface Props {
+  gericht: Gericht;
+  /** kompakt = nur Symbole (Speisekarte), sonst Symbol + Wort */
+  kompakt?: boolean;
+  class?: string;
+}
+
+const { gericht: g, kompakt = false, class: klasse = '' } = Astro.props;
+const chilis = g.schaerfe === 3 ? 2 : g.schaerfe === 2 ? 1 : 0;
+const schaerfeText = chilis === 2 ? 'sehr scharf' : chilis === 1 ? 'scharf' : '';
+---
+
+{
+  (g.vegetarisch || g.veganMoeglich || chilis > 0) && (
+    <ul class:list={['kennzeichen flex flex-wrap items-center', kompakt ? 'gap-1.5' : 'gap-x-3 gap-y-1', klasse]} role="list">
+      {g.vegetarisch && (
+        <li class="inline-flex items-center gap-1 text-kardamom" title="vegetarisch">
+          <Icon name="blatt" size={kompakt ? 16 : 17} />
+          <span class:list={[kompakt ? 'sr-only' : 'text-[0.9rem] font-semibold']}>vegetarisch</span>
+        </li>
+      )}
+      {g.veganMoeglich && (
+        <li class="inline-flex items-center gap-1 text-kardamom" title="auch vegan erhältlich">
+          <Icon name="blatt-kontur" size={kompakt ? 16 : 17} />
+          <span class:list={[kompakt ? 'sr-only' : 'text-[0.9rem] font-semibold']}>auch vegan</span>
+        </li>
+      )}
+      {chilis > 0 && (
+        <li class="inline-flex items-center text-glut" title={schaerfeText}>
+          {Array.from({ length: chilis }, () => (
+            <Icon name="chili" size={kompakt ? 16 : 17} class="-mr-0.5" />
+          ))}
+          <span class:list={[kompakt ? 'sr-only' : 'ml-1.5 text-[0.9rem] font-semibold']}>{schaerfeText}</span>
+        </li>
+      )}
+    </ul>
+  )
+}

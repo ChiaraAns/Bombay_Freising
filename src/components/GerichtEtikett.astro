@@ -1,0 +1,92 @@
+---
+/** Ein Gericht als Etikett: Foto (oder Platzhalter), Seriennummer, Name, Beschreibung, Kennzeichen, Preis. */
+import Foto from './Foto.astro';
+import Icon from './Icon.astro';
+import Kennzeichen from './Kennzeichen.astro';
+import { gerichtBild } from '../lib/bilder';
+import { platzhalterVariante } from '../lib/platzhalter';
+import { preisFormat, type Gericht } from '../data/speisekarte';
+
+interface Props {
+  gericht: Gericht;
+  alt: string;
+  sizes?: string;
+  class?: string;
+}
+const { gericht: g, alt, sizes = '(min-width: 64rem) 24rem, (min-width: 40rem) 45vw, 82vw', class: klasse = '' } = Astro.props;
+---
+
+<article class:list={['gericht-etikett etikett flex h-full flex-col p-2.5', klasse]}>
+  <div class="relative">
+    <Foto
+      bild={gerichtBild(g.nr)}
+      alt={alt}
+      platzhalter={g.name}
+      sizes={sizes}
+      verhaeltnis="4 / 3"
+      variante={platzhalterVariante(g)}
+    />
+    <span class="serie" aria-label={`Nummer ${g.nr}`}>
+      <span class="serie-nr" aria-hidden="true">Nr.</span>
+      <span class="tabellenziffern">{g.nr}</span>
+    </span>
+    {
+      g.beliebt && (
+        <span class="beliebt">
+          <Icon name="stern" size={14} />
+          Beliebt
+        </span>
+      )
+    }
+  </div>
+  <div class="flex flex-1 flex-col px-2.5 pb-2.5 pt-5 sm:px-3.5">
+    <h3 class="display-m text-tinte">{g.name}</h3>
+    {g.beschreibung && <p class="mt-2 text-[1rem] leading-snug text-braun">{g.beschreibung}</p>}
+    <div class="mt-auto flex items-end justify-between gap-3 pt-5">
+      <Kennzeichen gericht={g} />
+      <p class="preis tabellenziffern ml-auto shrink-0 text-right font-display text-[1.55rem] leading-none text-glut">
+        {preisFormat(g.preis)}
+      </p>
+    </div>
+  </div>
+</article>
+
+<style>
+  .serie {
+    position: absolute;
+    left: 0.75rem;
+    bottom: -1.05rem;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.25rem;
+    padding: 0.32rem 0.6rem 0.18rem;
+    background: var(--color-tinte);
+    color: var(--color-creme);
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    line-height: 1;
+    box-shadow: 0 0 0 3px var(--color-creme);
+  }
+  .serie-nr {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--color-safran);
+  }
+  .beliebt {
+    position: absolute;
+    right: 0.6rem;
+    top: 0.6rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.25rem 0.55rem 0.15rem;
+    background: var(--color-safran);
+    color: var(--color-tinte);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    border-radius: 2px;
+  }
+</style>

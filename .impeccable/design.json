@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-11T09:30:00Z",
+  "title": "Design System: Bombay – Indische Spezialitäten, Freising",
+  "extensions": {
+    "colorMeta": {
+      "rani": { "role": "primary", "displayName": "Rani-Pink (Logo)", "canonical": "#be036c", "tonalRamp": ["#fbe3ef", "#e56aa7", "#be036c", "#8f0251", "#5c0134"] },
+      "glut": { "role": "primary", "displayName": "Glutrot", "canonical": "#b63a1e", "tonalRamp": ["#f6d9cf", "#df7a5c", "#b63a1e", "#8f2b14", "#5a1a0b"] },
+      "safran": { "role": "secondary", "displayName": "Safran", "canonical": "#e8a33d", "tonalRamp": ["#fbecd3", "#f1c27a", "#e8a33d", "#d98e04", "#a86c00"] },
+      "kardamom": { "role": "tertiary", "displayName": "Kardamom", "canonical": "#5e6b48", "tonalRamp": ["#e3e8d6", "#a9b48d", "#5e6b48", "#3f4a2f", "#262d1c"] },
+      "tinte": { "role": "neutral", "displayName": "Tinte", "canonical": "#1b1714", "tonalRamp": ["#352c25", "#26201b", "#1b1714", "#120f0d"] },
+      "creme": { "role": "neutral", "displayName": "Creme", "canonical": "#f6efe4", "tonalRamp": ["#fbf6ee", "#f6efe4", "#ede2cf", "#e2d4bc"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display (Rozha One)", "purpose": "Seitentitel und Hero." },
+      "headline": { "displayName": "Headline", "purpose": "Abschnitts- und Kategorieüberschriften." },
+      "title": { "displayName": "Title", "purpose": "Gerichtnamen, USP-Titel, Kompass-Fragen." },
+      "body": { "displayName": "Body (Mukta)", "purpose": "Fließtext und Beschreibungen." },
+      "label": { "displayName": "Label", "purpose": "Feinsatz neben Logo und im Fuß; nie als Dachzeile." }
+    },
+    "shadows": [
+      { "name": "etikett", "value": "0 24px 48px -18px rgb(0 0 0 / .65), 0 6px 14px -6px rgb(0 0 0 / .45)", "purpose": "Aufgeklebte Etiketten auf Kohle." },
+      { "name": "knopf-glut", "value": "0 10px 22px -12px rgb(182 58 30 / .9)", "purpose": "Glut unter dem Primärknopf." },
+      { "name": "schublade", "value": "0 30px 60px -30px rgb(0 0 0 / .8)", "purpose": "Kompass-Ergebnis." }
+    ],
+    "motion": [
+      { "name": "ease-glut", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Alle Übergänge; exponentielles Ausklingen." },
+      { "name": "aufkleben", "value": "1.1s ease-glut, translateY(24px) rotate(-0.6deg) → none", "purpose": "Hero-Etikett beim Laden." },
+      { "name": "herausziehen", "value": "0.85s ease-glut, translateY(-3rem) + clip-path inset(0 0 100% 0) → none", "purpose": "Kompass-Schublade gleitet heraus (Signature)." },
+      { "name": "erscheinen", "value": "0.9s ease-glut, translateY(18px)+opacity, Staffel 90ms", "purpose": "Dezentes Einblenden beim Scrollen; aus bei prefers-reduced-motion." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "40rem" },
+      { "name": "md", "value": "48rem" },
+      { "name": "lg", "value": "64rem" },
+      { "name": "xl", "value": "80rem" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Etikett",
+      "kind": "card",
+      "refersTo": "etikett",
+      "description": "Creme-Etikett mit Doppelrahmen und Blockdruck-Bordüre – Grundbaustein der Seite.",
+      "html": "<div class=\"ds-etikett\"><span class=\"ds-bordure\"></span><h3>Frisch aus dem Lehmofen.</h3><p>Tandoori und Naan aus dem Holzkohle-Lehmofen.</p></div>",
+      "css": ".ds-etikett{background:#f6efe4;color:#1b1714;border:1px solid rgb(27 23 20/.55);outline:1px solid rgb(27 23 20/.3);outline-offset:-7px;padding:0 0 20px;box-shadow:0 24px 48px -18px rgb(0 0 0/.65)}.ds-etikett h3{font:400 2rem/1.05 'Rozha One',Georgia,serif;margin:18px 22px 0}.ds-etikett p{font:400 1rem/1.5 Mukta,system-ui,sans-serif;color:#5b4636;margin:8px 22px 0}.ds-bordure{display:block;height:14px;background:#be036c;-webkit-mask:url('/ornament/band.svg') repeat-x left center/auto 100%;mask:url('/ornament/band.svg') repeat-x left center/auto 100%}"
+    },
+    {
+      "name": "Primärknopf",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Glutrot für Reservieren und Bestellen.",
+      "html": "<a class=\"ds-knopf\" href=\"#\">Tisch reservieren</a>",
+      "css": ".ds-knopf{display:inline-flex;align-items:center;min-height:3.25rem;padding:.55rem 1.25rem;border-radius:3px;background:#b63a1e;color:#f6efe4;font:600 1.0625rem/1.15 Mukta,system-ui,sans-serif;text-decoration:none;box-shadow:0 10px 22px -12px rgb(182 58 30/.9);transition:background-color .25s cubic-bezier(.16,1,.3,1)}.ds-knopf:hover{background:#8f2b14}"
+    },
+    {
+      "name": "Seriennummer",
+      "kind": "custom",
+      "refersTo": "serien-nummer",
+      "description": "Gerichtsnummer als gerahmte Kachel – Gäste bestellen per Nummer.",
+      "html": "<span class=\"ds-nr\"><small>Nr.</small> 57</span>",
+      "css": ".ds-nr{display:inline-flex;align-items:baseline;gap:.25rem;padding:.32rem .6rem .18rem;background:#1b1714;color:#f6efe4;font:400 1.3rem/1 'Rozha One',Georgia,serif;box-shadow:0 0 0 3px #f6efe4}.ds-nr small{font:600 .72rem Mukta,sans-serif;letter-spacing:.06em;color:#e8a33d}"
+    },
+    {
+      "name": "Filter-Chip",
+      "kind": "chip",
+      "refersTo": "filter-chip",
+      "description": "Umschaltbarer Filter der Speisekarte (aria-pressed).",
+      "html": "<button class=\"ds-chip\" aria-pressed=\"true\">Vegetarisch</button> <button class=\"ds-chip\" aria-pressed=\"false\">Scharf</button>",
+      "css": ".ds-chip{min-height:2.75rem;padding:.2rem .95rem 0;border-radius:999px;border:0;background:#f6efe4;box-shadow:inset 0 0 0 1.5px rgb(27 23 20/.28);font:600 .98rem Mukta,sans-serif;color:#1b1714}.ds-chip[aria-pressed=true]{background:#1b1714;color:#f6efe4}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Das Streichholzetikett",
+    "rules": [
+      "Die Logo-braucht-Licht-Regel: Rani-Pink nie direkt auf Kohle.",
+      "Die Feuer-ist-Handlung-Regel: Glutrot nur für Aktionen, Preise und Schärfe.",
+      "Die Grün-heißt-Gemüse-Regel: Kardamom nur für vegetarisch/vegan.",
+      "Die Keine-Dachzeile-Regel: keine Kicker über Überschriften."
+    ]
+  }
+}

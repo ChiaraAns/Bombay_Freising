@@ -1,0 +1,60 @@
+---
+import LogoEtikett from './LogoEtikett.astro';
+import { kontakt } from '../data/kontakt';
+import { feiertagsHinweis } from '../data/oeffnungszeiten';
+import { zeitenKompakt } from '../lib/zeiten';
+
+const zeiten = zeitenKompakt();
+---
+
+<footer class="fuss koernung bg-russ text-rauch">
+  <span class="bordure text-glut/70" aria-hidden="true"></span>
+  <div class="rahmen grid gap-10 py-14 md:grid-cols-[1.2fr_1fr_1fr] md:py-16">
+    <div>
+      <LogoEtikett groesse="fuss" />
+      <p class="feinsatz mt-4 text-[0.75rem] text-rauch-dunkel" style="letter-spacing:.14em">Indische Spezialitäten · Freising</p>
+      <address class="mt-6 not-italic leading-relaxed">
+        {kontakt.strasse}<br />
+        {kontakt.plz} {kontakt.ort} ({kontakt.ortsteil})
+      </address>
+      <p class="mt-3">
+        <a href={kontakt.telefonLink} class="tabellenziffern text-creme underline">{kontakt.telefonAnzeige}</a><br />
+        <a href={`mailto:${kontakt.email}`} class="text-creme underline">{kontakt.email}</a>
+      </p>
+    </div>
+
+    <div>
+      <h2 class="font-display text-[1.45rem] text-creme">Öffnungszeiten</h2>
+      <dl class="tabellenziffern mt-4 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5">
+        {
+          zeiten.map((z) => (
+            <>
+              <dt class="font-semibold text-creme">{z.tage}</dt>
+              <dd>{z.text}</dd>
+            </>
+          ))
+        }
+      </dl>
+      <p class="mt-3 text-[0.95rem]">{feiertagsHinweis}</p>
+    </div>
+
+    <div>
+      <h2 class="font-display text-[1.45rem] text-creme">Bombay online</h2>
+      <ul class="mt-4 space-y-1.5" role="list">
+        <li><a href="/speisekarte" class="text-creme underline">Speisekarte</a></li>
+        <li><a href={kontakt.bestellUrl} class="text-creme underline" rel="noopener">Online bestellen</a></li>
+        <li><a href={kontakt.iosAppUrl} class="text-creme underline" rel="noopener">iOS-App</a></li>
+        <li><a href={kontakt.mapsUrl} class="text-creme underline" rel="noopener">Route in Google Maps</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-white/8">
+    <div class="rahmen flex flex-wrap items-center justify-between gap-4 py-6 text-[0.95rem]">
+      <p>© {new Date().getFullYear()} Bombay – Indische Spezialitäten, Freising</p>
+      <ul class="flex gap-6" role="list">
+        <li><a href="/impressum" class="text-creme underline">Impressum</a></li>
+        <li><a href="/datenschutz" class="text-creme underline">Datenschutz</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>

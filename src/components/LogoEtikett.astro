@@ -1,0 +1,61 @@
+---
+/**
+ * Das Bombay-Logo auf einem Creme-Etikett.
+ * Das Logo ist magenta (#BE036C) und braucht hellen Grund – auf Dunkel immer mit Etikett zeigen.
+ * Dateien: public/logo/bombay-logo.svg (Magenta) und bombay-logo-creme.svg (für dunkle Flächen ohne Etikett).
+ */
+interface Props {
+  groesse?: 'kopf' | 'fuss';
+  class?: string;
+}
+const { groesse = 'kopf', class: klasse = '' } = Astro.props;
+const VERHAELTNIS = 3873 / 1671;
+const hoehe = groesse === 'fuss' ? 84 : 46;
+---
+
+<span class:list={['logo-etikett etikett', `logo-etikett--${groesse}`, klasse]}>
+  <img
+    src="/logo/bombay-logo.svg"
+    alt="Bombay"
+    width={Math.round(hoehe * VERHAELTNIS)}
+    height={hoehe}
+    decoding="async"
+    fetchpriority={groesse === 'kopf' ? 'high' : undefined}
+    loading={groesse === 'fuss' ? 'lazy' : undefined}
+  />
+</span>
+
+<style>
+  .logo-etikett {
+    display: inline-grid;
+    place-items: center;
+    padding: 0.55rem 0.8rem 0.5rem;
+    outline-offset: -5px;
+  }
+  .logo-etikett img {
+    display: block;
+    height: auto;
+  }
+  .logo-etikett--kopf {
+    padding: 0.5rem 0.7rem 0.45rem;
+    box-shadow: 0 10px 22px -10px rgb(0 0 0 / 0.7);
+  }
+  .logo-etikett--kopf img {
+    width: 5.6rem;
+  }
+  @media (width >= 48rem) {
+    .logo-etikett--kopf {
+      padding: 0.6rem 0.85rem 0.5rem;
+    }
+    .logo-etikett--kopf img {
+      width: 6.9rem;
+    }
+  }
+  .logo-etikett--fuss {
+    padding: 0.9rem 1.2rem 0.8rem;
+    outline-offset: -7px;
+  }
+  .logo-etikett--fuss img {
+    width: 12rem;
+  }
+</style>

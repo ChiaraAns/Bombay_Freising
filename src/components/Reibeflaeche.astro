@@ -1,0 +1,61 @@
+---
+/**
+ * Mobile Aktionsleiste unten – die „Reibefläche“ der Streichholzschachtel.
+ * Anrufen · Bestellen · Karte: auf jedem Bildschirm mit einem Daumen erreichbar.
+ */
+import Icon from './Icon.astro';
+import { kontakt } from '../data/kontakt';
+---
+
+<nav
+  aria-label="Schnellzugriff"
+  class="reibeflaeche fixed inset-x-0 bottom-0 z-50 pb-[env(safe-area-inset-bottom)] md:hidden print:hidden"
+>
+  <ul class="grid grid-cols-3" role="list">
+    <li>
+      <a href={kontakt.telefonLink} class="reibe-link">
+        <Icon name="telefon" size={21} />
+        <span>Anrufen</span>
+      </a>
+    </li>
+    <li>
+      <a href={kontakt.bestellUrl} class="reibe-link" rel="noopener">
+        <Icon name="tasche" size={21} />
+        <span>Bestellen</span>
+      </a>
+    </li>
+    <li>
+      <a href="/speisekarte" class="reibe-link">
+        <Icon name="karte" size={21} />
+        <span>Speisekarte</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<style>
+  .reibeflaeche {
+    background-color: var(--color-glut-tief);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='r'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .08 0 0 0 0 .02 0 0 0 0 0 0 0 0 1.6 -.55'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23r)'/%3E%3C/svg%3E");
+    background-size: 160px 160px;
+    box-shadow: 0 -10px 30px -10px rgb(0 0 0 / 0.6);
+    border-top: 1px solid rgb(255 220 190 / 0.18);
+  }
+  .reibe-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+    padding: 0.6rem 0 0.55rem;
+    color: var(--color-creme);
+    font-weight: 600;
+    font-size: 0.86rem;
+    text-decoration: none;
+  }
+  li + li .reibe-link {
+    border-left: 1px solid rgb(255 220 190 / 0.16);
+  }
+  .reibe-link:active {
+    background: rgb(0 0 0 / 0.18);
+  }
+</style>

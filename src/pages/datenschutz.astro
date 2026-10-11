@@ -1,0 +1,61 @@
+---
+import Rechtstext from '../layouts/Rechtstext.astro';
+import { kontakt } from '../data/kontakt';
+---
+
+<Rechtstext titel="Datenschutz" beschreibung="Datenschutzerklärung des Restaurants Bombay – Indische Spezialitäten in Freising.">
+  <p class="todo">
+    TODO: Platzhalter – Struktur passend zur technischen Umsetzung dieser Website. Bitte von einer fachkundigen Stelle
+    prüfen und vervollständigen lassen.
+  </p>
+
+  <h2>1. Verantwortliche Stelle</h2>
+  <address>
+    Bombay – Indische Spezialitäten<br />
+    <span class="todo">TODO: Name der Inhaberin / des Inhabers</span>
+    {kontakt.strasse}, {kontakt.plz} {kontakt.ort}<br />
+    Telefon: {kontakt.telefonAnzeige} · E-Mail: <a href={`mailto:${kontakt.email}`}>{kontakt.email}</a>
+  </address>
+
+  <h2>2. Was diese Website technisch tut</h2>
+  <ul>
+    <li>Keine Cookies, kein Tracking, keine Analyse-Werkzeuge.</li>
+    <li>Schriften werden von diesem Server geladen, nicht von Google oder anderen Anbietern.</li>
+    <li>
+      Öffnungsstatus und Curry-Kompass werden ausschließlich in Ihrem Browser berechnet. Es werden keine Eingaben
+      übertragen oder gespeichert.
+    </li>
+  </ul>
+
+  <h2>3. Hosting und Server-Logfiles</h2>
+  <p class="todo">
+    TODO: Hosting-Anbieter (z. B. Netlify oder Vercel) eintragen, Auftragsverarbeitungsvertrag abschließen, Angaben zu
+    Server-Logfiles (IP-Adresse, Zeitpunkt, aufgerufene Seite; Speicherdauer) und Rechtsgrundlage (Art. 6 Abs. 1 lit. f
+    DSGVO) ergänzen.
+  </p>
+
+  <h2>4. Google Maps (nur nach Klick)</h2>
+  <p>
+    Auf der Startseite kann eine Karte von Google Maps eingebunden werden. Sie wird erst geladen, wenn Sie auf „Karte
+    laden“ klicken. Erst dann werden Daten, insbesondere Ihre IP-Adresse, an Google übertragen. Der Link „Route in Google
+    Maps“ öffnet die Website von Google.
+  </p>
+  <p class="todo">TODO: Anbieterangaben (Google Ireland Limited), Drittlandübermittlung und Rechtsgrundlage ergänzen.</p>
+
+  <h2>5. Online-Bestellung und App</h2>
+  <p>
+    Für Bestellungen verlinken wir auf eine externe Bestellplattform und die Bombay-App im Apple App Store. Dort gelten die
+    Datenschutzhinweise der jeweiligen Anbieter.
+  </p>
+  <p class="todo">TODO: Anbieter der Bestellplattform benennen und auf deren Datenschutzerklärung verlinken.</p>
+
+  <h2>6. Kontakt per Telefon oder E-Mail</h2>
+  <p class="todo">TODO: Zweck, Rechtsgrundlage und Speicherdauer bei Reservierungen und Anfragen ergänzen.</p>
+
+  <h2>7. Ihre Rechte</h2>
+  <p>
+    Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und
+    Widerspruch sowie das Recht, sich bei einer Datenschutz-Aufsichtsbehörde zu beschweren.
+  </p>
+  <p class="todo">TODO: Zuständige Aufsichtsbehörde (für Bayern: Bayerisches Landesamt für Datenschutzaufsicht) prüfen.</p>
+</Rechtstext>

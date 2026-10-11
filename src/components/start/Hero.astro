@@ -1,0 +1,127 @@
+---
+import Foto from '../Foto.astro';
+import Icon from '../Icon.astro';
+import LiveStatus from '../LiveStatus.astro';
+import { bild } from '../../lib/bilder';
+import { kontakt } from '../../data/kontakt';
+
+// Hero-Foto: eigenes `hero.*` hat Vorrang, sonst das Garnelen-Curry (Nr. 93).
+const heroBild = bild('hero') ?? bild('gericht-93-jheenga-masala');
+---
+
+<section class="hero koernung relative overflow-hidden bg-tinte" aria-labelledby="hero-titel">
+  <div class="hero-foto">
+    <Foto
+      bild={heroBild}
+      alt="Riesengarnelen in kräftiger Masala-Soße mit Koriander in einer Karahi-Schale, daneben Basmati-Reis und rote Chilis"
+      platzhalter="Bombay"
+      sizes="100vw"
+      verhaeltnis="auto"
+      eager
+      class="h-full w-full"
+      position="62% 46%"
+    />
+  </div>
+
+  <div class="rahmen relative">
+    <div class="hero-etikett etikett etikett-schatten">
+      <span class="bordure text-rani" aria-hidden="true"></span>
+      <div class="px-5 pb-5 pt-5 sm:px-9 sm:pb-7 sm:pt-7">
+        <h1 id="hero-titel" class="hero-titel text-tinte">Frisch aus dem Lehmofen.</h1>
+        <p class="mt-4 max-w-[34rem] text-[1.06rem] leading-relaxed text-braun sm:text-[1.2rem]">
+          Tandoori und Naan aus dem Holzkohle-Lehmofen, hausgemachter Paneer und eine große vegetarische Karte –
+          mitten in der Freisinger Altstadt.
+        </p>
+
+        <div class="mt-6 grid grid-cols-2 gap-2.5 sm:mt-7 sm:flex sm:flex-wrap sm:gap-3">
+          <a href={kontakt.telefonLink} class="knopf knopf-glut flex-col !items-start !gap-0 text-left sm:!items-center sm:flex-row sm:!gap-2.5">
+            <span class="inline-flex items-center gap-2"><Icon name="telefon" size={18} class="hidden sm:block" />Tisch reservieren</span>
+            <span class="tabellenziffern text-[0.82rem] font-medium opacity-85 sm:hidden">{kontakt.telefonAnzeige}</span>
+          </a>
+          <a href={kontakt.bestellUrl} class="knopf knopf-kontur flex-col !items-start !gap-0 text-left sm:!items-center sm:flex-row sm:!gap-2.5" rel="noopener">
+            <span class="inline-flex items-center gap-2"><Icon name="tasche" size={18} class="hidden sm:block" />Online bestellen</span>
+            <span class="text-[0.82rem] font-medium opacity-80 sm:hidden">Lieferung & Abholung</span>
+          </a>
+        </div>
+
+        <div class="mt-6 flex flex-col gap-1 border-t border-tinte/20 pt-4 text-[0.98rem] sm:flex-row sm:items-center sm:justify-between sm:gap-6">
+          <LiveStatus class="text-tinte" />
+          <a href={kontakt.mapsUrl} class="inline-flex items-center gap-1.5 text-braun no-underline hover:underline" rel="noopener">
+            <Icon name="ort" size={17} />
+            {kontakt.strasse}, {kontakt.ort}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    display: grid;
+  }
+  .hero-foto {
+    aspect-ratio: 16 / 11;
+  }
+  .hero-foto :global(picture),
+  .hero-foto :global(.platzhalter) {
+    height: 100%;
+  }
+  .hero-etikett {
+    margin-top: -3.25rem;
+    margin-bottom: 2.5rem;
+  }
+  .hero-titel {
+    font-size: clamp(2.45rem, 1.35rem + 4.1vw, 4.85rem);
+    line-height: 0.98;
+    letter-spacing: -0.015em;
+  }
+
+  @media (width >= 48rem) {
+    .hero {
+      min-height: min(52rem, calc(100svh - 4.5rem));
+      align-items: end;
+    }
+    .hero-foto {
+      position: absolute;
+      inset: 0;
+      aspect-ratio: auto;
+    }
+    .hero-foto::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgb(18 15 13 / 0.78) 0%, rgb(18 15 13 / 0.15) 48%, transparent 70%),
+        linear-gradient(0deg, rgb(18 15 13 / 0.7) 0%, transparent 35%);
+    }
+    .hero-etikett {
+      max-width: 42rem;
+      margin: 9rem 0 4rem;
+    }
+  }
+
+  @media (width >= 80rem) {
+    .hero-etikett {
+      max-width: 44rem;
+      margin-bottom: 5rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-etikett {
+      animation: aufkleben 1.1s var(--ease-glut) both;
+      animation-delay: 0.1s;
+    }
+    @keyframes aufkleben {
+      from {
+        opacity: 0;
+        transform: translateY(24px) rotate(-0.6deg);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  }
+</style>

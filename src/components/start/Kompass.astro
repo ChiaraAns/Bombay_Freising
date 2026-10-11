@@ -1,0 +1,672 @@
+---
+/**
+ * Der Curry-Kompass – Signature-Feature.
+ * Drei Fragen (Lust · Geschmack · Schärfe) → 1 Empfehlung + 2 Alternativen aus der echten Karte,
+ * jeweils mit „Dazu passt“ und Gesamtpreis. Rein clientseitig, per Tastatur bedienbar.
+ */
+import Icon from '../Icon.astro';
+import { kontakt } from '../../data/kontakt';
+import { gerichtBild, srcset, fallbackSrc } from '../../lib/bilder';
+import { kompassPool, wunschLabel, geschmackLabel } from '../../lib/kompass';
+
+const lust = (['huhn', 'lamm', 'ente', 'fisch', 'vegetarisch', 'vegan'] as const).map((w) => ({
+  wert: w,
+  text: wunschLabel[w],
+  anzahl: kompassPool.filter((g) =>
+    w === 'vegan' ? g.veganMoeglich : w === 'vegetarisch' ? g.vegetarisch : g.protein?.includes(w),
+  ).length,
+}));
+
+const geschmack = [
+  { wert: 'cremig', hinweis: 'Korma, Butter, Sahne' },
+  { wert: 'nussig', hinweis: 'Mandel, Cashew' },
+  { wert: 'fruchtig', hinweis: 'Mango, Ananas' },
+  { wert: 'wuerzig', hinweis: 'Masala, Curry' },
+  { wert: 'gruen', hinweis: 'Spinat, Minze' },
+] as const;
+
+// Fotos für die Ergebnis-Karten (nur Gerichte, für die es ein Foto gibt)
+const fotos: Record<number, { avif: string; webp: string; src: string; farbe: string }> = {};
+for (const g of kompassPool) {
+  const b = gerichtBild(g.nr);
+  if (b) fotos[g.nr] = { avif: srcset(b, 'avif'), webp: srcset(b, 'webp'), src: fallbackSrc(b), farbe: b.farbe };
+}
+---
+
+<section id="kompass" class="kompass koernung relative overflow-hidden bg-tinte py-20 md:py-28" aria-labelledby="kompass-titel">
+  <div class="kompass-glut" aria-hidden="true"></div>
+  <div class="rahmen relative grid gap-10 lg:grid-cols-12 lg:gap-12">
+    <div class="lg:col-span-5 xl:col-span-4" data-erscheinen>
+      <h2 id="kompass-titel" class="display-l text-creme">Der Curry-Kompass</h2>
+      <p class="mt-5 max-w-[26rem] text-[1.12rem] leading-relaxed text-rauch">
+        Über 120 Gerichte – und was ist eigentlich Rogan Josh oder Khumb Wala? Drei kurze Fragen, und der Kompass findet
+        dein Gericht auf unserer Karte.
+      </p>
+      <p class="mt-5 max-w-[26rem] text-[0.98rem] text-rauch-dunkel">
+        Unsicher bei einem Begriff? Das kleine Glossar steht auf der{' '}
+        <a href="/speisekarte#glossar" class="text-safran underline">Speisekarte</a>.
+      </p>
+    </div>
+
+    <div class="lg:col-span-7 xl:col-span-8">
+      <div class="schachtel" data-kompass data-fotos={JSON.stringify(fotos)}>
+        <!-- Die Hülle: Fragen -->
+        <div class="huelle etikett etikett-schatten">
+          <span class="bordure text-safran" aria-hidden="true"></span>
+          <div class="flex items-center justify-between gap-4 border-b border-tinte/15 px-5 py-3 sm:px-7">
+            <div class="flex items-center gap-3">
+              <span class="hoelzer" aria-hidden="true">
+                {
+                  [1, 2, 3].map((i) => (
+                    <svg class="holz" data-holz={i} viewBox="0 0 44 10" width="44" height="10">
+                      <rect x="0" y="3.4" width="34" height="3.2" rx="1" class="holz-stab" />
+                      <ellipse cx="37.5" cy="5" rx="5.5" ry="4.4" class="holz-kopf" />
+                    </svg>
+                  ))
+                }
+              </span>
+              <p class="text-[0.95rem] font-semibold text-braun" data-fortschritt aria-live="polite">Frage 1 von 3</p>
+            </div>
+            <button type="button" class="kompass-textknopf" data-zurueck hidden>
+              <Icon name="pfeil-links" size={17} /> Zurück
+            </button>
+          </div>
+
+          <!-- Schritt 1 -->
+          <fieldset class="schritt px-5 pb-6 pt-5 sm:px-7 sm:pb-8" data-schritt="1">
+            <legend class="sr-only">Frage 1 von 3</legend>
+            <h3 class="display-m text-tinte" tabindex="-1" data-schritt-titel>Worauf hast du Lust?</h3>
+            <div class="optionen mt-5 grid grid-cols-2 gap-2.5 sm:grid-cols-3">
+              {
+                lust.map((o) => (
+                  <button type="button" class="option" data-wert={o.wert}>
+                    <span class="option-titel">{o.text}</span>
+                    <span class="option-hinweis tabellenziffern">{o.anzahl} Gerichte</span>
+                  </button>
+                ))
+              }
+            </div>
+          </fieldset>
+
+          <!-- Schritt 2 -->
+          <fieldset class="schritt px-5 pb-6 pt-5 sm:px-7 sm:pb-8" data-schritt="2" hidden>
+            <legend class="sr-only">Frage 2 von 3</legend>
+            <h3 class="display-m text-tinte" tabindex="-1" data-schritt-titel>Welcher Geschmack?</h3>
+            <div class="optionen mt-5 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+              {
+                geschmack.map((o) => (
+                  <button type="button" class="option option-quer" data-wert={o.wert}>
+                    <span class="option-titel">{geschmackLabel[o.wert]}</span>
+                    <span class="option-hinweis">{o.hinweis}</span>
+                  </button>
+                ))
+              }
+            </div>
+          </fieldset>
+
+          <!-- Schritt 3 -->
+          <fieldset class="schritt px-5 pb-6 pt-5 sm:px-7 sm:pb-8" data-schritt="3" hidden>
+            <legend class="sr-only">Frage 3 von 3</legend>
+            <h3 class="display-m text-tinte" tabindex="-1" data-schritt-titel>Wie scharf?</h3>
+            <div class="hitze mt-6" style="--hitze: #e8a33d; --prozent: 0%">
+              <div class="chilis flex items-end justify-between px-1" aria-hidden="true">
+                {
+                  [1, 2, 3, 4].map((n) => (
+                    <span class="chili-stufe" data-stufe={n}>
+                      <Icon name="chili" size={30 + n * 5} />
+                    </span>
+                  ))
+                }
+              </div>
+              <label for="schaerfe" class="sr-only">Schärfe von 1 bis 4 Chilis</label>
+              <input
+                id="schaerfe"
+                type="range"
+                min="1"
+                max="4"
+                step="1"
+                value="1"
+                class="hitze-regler mt-3 w-full"
+                aria-valuetext="1 Chili – mild"
+              />
+              <div class="mt-2 flex justify-between text-[0.9rem] font-semibold text-braun" aria-hidden="true">
+                <span>mild</span><span>würzig</span><span>scharf</span><span>sehr scharf</span>
+              </div>
+              <p class="mt-4 font-display text-[1.45rem] text-tinte" data-hitze-text aria-hidden="true">1 Chili – mild</p>
+            </div>
+            <button type="button" class="knopf knopf-glut mt-6 w-full sm:w-auto" data-zeigen>
+              Empfehlung zeigen <Icon name="pfeil" size={18} />
+            </button>
+          </fieldset>
+
+          <!-- Zusammenfassung nach dem Ergebnis -->
+          <div class="px-5 pb-6 pt-5 sm:px-7" data-zusammenfassung hidden>
+            <h3 class="display-m text-tinte" tabindex="-1" data-ergebnis-titel>Dein Tipp aus unserer Karte</h3>
+            <p class="mt-2 text-braun" data-auswahl></p>
+          </div>
+        </div>
+
+        <!-- Die Schublade: Ergebnis -->
+        <div class="schublade" data-ergebnis hidden>
+          <div class="schublade-innen">
+            <p class="hinweis text-[0.98rem] text-rauch" data-hinweis hidden></p>
+            <div data-top></div>
+            <div class="mt-5 grid gap-4 sm:grid-cols-2" data-alternativen></div>
+
+            <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+              <a href={kontakt.telefonLink} class="knopf knopf-glut">
+                <Icon name="telefon" size={18} /> Telefonisch reservieren
+              </a>
+              <a href={kontakt.bestellUrl} class="knopf knopf-creme" rel="noopener">
+                <Icon name="tasche" size={18} /> Online bestellen
+              </a>
+              <button type="button" class="kompass-textknopf hell-auf-dunkel sm:ml-auto" data-nochmal>
+                <Icon name="nochmal" size={17} /> Nochmal
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vorlagen für das Ergebnis (werden per Skript befüllt) -->
+  <template id="ic-blatt"><Icon name="blatt" size={16} /></template>
+  <template id="ic-blatt-kontur"><Icon name="blatt-kontur" size={16} /></template>
+  <template id="ic-chili"><Icon name="chili" size={16} /></template>
+  <template id="ic-plus"><Icon name="pfeil" size={15} /></template>
+</section>
+
+<script>
+  import { empfehle, wunschLabel, geschmackLabel, type Wunsch, type Empfehlung } from '../../lib/kompass';
+  import { platzhalterVariante } from '../../lib/platzhalter';
+  import type { Geschmack } from '../../data/speisekarte';
+
+  const wurzel = document.querySelector<HTMLElement>('[data-kompass]');
+  if (wurzel) starteKompass(wurzel);
+
+  function starteKompass(el: HTMLElement) {
+    const fotos: Record<number, { avif: string; webp: string; src: string; farbe: string }> = JSON.parse(
+      el.dataset.fotos || '{}',
+    );
+    const schritte = [...el.querySelectorAll<HTMLElement>('[data-schritt]')];
+    const fortschritt = el.querySelector<HTMLElement>('[data-fortschritt]')!;
+    const zurueck = el.querySelector<HTMLButtonElement>('[data-zurueck]')!;
+    const regler = el.querySelector<HTMLInputElement>('#schaerfe')!;
+    const hitze = el.querySelector<HTMLElement>('.hitze')!;
+    const hitzeText = el.querySelector<HTMLElement>('[data-hitze-text]')!;
+    const zusammenfassung = el.querySelector<HTMLElement>('[data-zusammenfassung]')!;
+    const schublade = el.querySelector<HTMLElement>('[data-ergebnis]')!;
+    const hoelzer = [...el.querySelectorAll<SVGElement>('[data-holz]')];
+
+    const auswahl: { wunsch?: Wunsch; geschmack?: Geschmack; chilis: number } = { chilis: 1 };
+    let aktuell = 1;
+
+    const stufen = [
+      { text: '1 Chili – mild', farbe: '#e8a33d' },
+      { text: '2 Chilis – würzig', farbe: '#d98e04' },
+      { text: '3 Chilis – scharf', farbe: '#c8571b' },
+      { text: '4 Chilis – sehr scharf', farbe: '#a82a14' },
+    ];
+
+    const reduziert = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function zeigeSchritt(n: number, fokus = true) {
+      aktuell = n;
+      schritte.forEach((s) => {
+        const aktiv = Number(s.dataset.schritt) === n;
+        s.hidden = !aktiv;
+        if (aktiv && !reduziert()) {
+          s.classList.remove('einblenden');
+          void s.offsetWidth;
+          s.classList.add('einblenden');
+        }
+      });
+      zusammenfassung.hidden = n !== 4;
+      schublade.hidden = n !== 4;
+      zurueck.hidden = n === 1;
+      fortschritt.textContent = n <= 3 ? `Frage ${n} von 3` : 'Ergebnis';
+      hoelzer.forEach((h) => h.classList.toggle('brennt', Number(h.dataset.holz) < n));
+      el.classList.toggle('offen', n === 4);
+      if (fokus) {
+        const titel =
+          n === 4
+            ? el.querySelector<HTMLElement>('[data-ergebnis-titel]')
+            : schritte[n - 1].querySelector<HTMLElement>('[data-schritt-titel]');
+        titel?.focus({ preventScroll: n !== 4 });
+        if (n === 4) el.scrollIntoView({ behavior: reduziert() ? 'auto' : 'smooth', block: 'start' });
+      }
+      // Gewählte Option markieren
+      schritte.forEach((s) =>
+        s.querySelectorAll<HTMLButtonElement>('.option').forEach((b) => {
+          const gewaehlt =
+            (s.dataset.schritt === '1' && b.dataset.wert === auswahl.wunsch) ||
+            (s.dataset.schritt === '2' && b.dataset.wert === auswahl.geschmack);
+          b.setAttribute('aria-pressed', String(gewaehlt));
+        }),
+      );
+    }
+
+    el.querySelectorAll<HTMLButtonElement>('[data-schritt="1"] .option').forEach((b) =>
+      b.addEventListener('click', () => {
+        auswahl.wunsch = b.dataset.wert as Wunsch;
+        zeigeSchritt(2);
+      }),
+    );
+    el.querySelectorAll<HTMLButtonElement>('[data-schritt="2"] .option').forEach((b) =>
+      b.addEventListener('click', () => {
+        auswahl.geschmack = b.dataset.wert as Geschmack;
+        zeigeSchritt(3);
+      }),
+    );
+
+    function setzeHitze() {
+      const n = Number(regler.value);
+      auswahl.chilis = n;
+      const stufe = stufen[n - 1];
+      hitze.style.setProperty('--hitze', stufe.farbe);
+      hitze.style.setProperty('--prozent', `${((n - 1) / 3) * 100}%`);
+      hitzeText.textContent = stufe.text;
+      regler.setAttribute('aria-valuetext', stufe.text);
+      el.querySelectorAll<HTMLElement>('.chili-stufe').forEach((c) => {
+        const an = Number(c.dataset.stufe) <= n;
+        c.classList.toggle('an', an);
+        c.style.color = an ? stufe.farbe : '';
+      });
+    }
+    regler.addEventListener('input', setzeHitze);
+    setzeHitze();
+
+    zurueck.addEventListener('click', () => zeigeSchritt(Math.max(1, aktuell - 1)));
+    el.querySelector('[data-nochmal]')!.addEventListener('click', () => {
+      auswahl.wunsch = undefined;
+      auswahl.geschmack = undefined;
+      regler.value = '1';
+      setzeHitze();
+      zeigeSchritt(1);
+      el.scrollIntoView({ behavior: reduziert() ? 'auto' : 'smooth', block: 'start' });
+    });
+
+    el.querySelector('[data-zeigen]')!.addEventListener('click', () => {
+      if (!auswahl.wunsch || !auswahl.geschmack) return zeigeSchritt(!auswahl.wunsch ? 1 : 2);
+      const ergebnis = empfehle(auswahl.wunsch, auswahl.geschmack, auswahl.chilis);
+      el.querySelector<HTMLElement>('[data-auswahl]')!.textContent = `${wunschLabel[auswahl.wunsch]} · ${
+        geschmackLabel[auswahl.geschmack]
+      } · ${stufen[auswahl.chilis - 1].text}`;
+      const hinweis = el.querySelector<HTMLElement>('[data-hinweis]')!;
+      hinweis.hidden = !ergebnis.hinweis;
+      hinweis.textContent = ergebnis.hinweis ?? '';
+      el.querySelector('[data-top]')!.replaceChildren(karte(ergebnis.top, true));
+      el.querySelector('[data-alternativen]')!.replaceChildren(...ergebnis.alternativen.map((e) => karte(e, false)));
+      zeigeSchritt(4);
+    });
+
+    // ---------- Ergebnis-Karten ----------
+
+    const euro = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' });
+    const icon = (id: string) => (document.getElementById(id) as HTMLTemplateElement).content.cloneNode(true);
+
+    function h<K extends keyof HTMLElementTagNameMap>(tag: K, klasse = '', text?: string) {
+      const n = document.createElement(tag);
+      if (klasse) n.className = klasse;
+      if (text != null) n.textContent = text;
+      return n;
+    }
+
+    function bild(e: Empfehlung, gross: boolean) {
+      const { nr, name } = e.gericht;
+      const f = fotos[nr];
+      if (!f) {
+        const p = h('div', `platzhalter platzhalter--${platzhalterVariante(e.gericht)} ergebnis-bild`);
+        p.setAttribute('aria-hidden', 'true');
+        p.append(h('span', 'platzhalter__name', name));
+        return p;
+      }
+      const pic = h('picture', 'ergebnis-bild block overflow-hidden');
+      pic.style.background = f.farbe;
+      const sizes = gross ? '(min-width: 64rem) 22rem, 90vw' : '(min-width: 64rem) 16rem, 90vw';
+      for (const [typ, set] of [
+        ['image/avif', f.avif],
+        ['image/webp', f.webp],
+      ] as const) {
+        const s = h('source');
+        s.type = typ;
+        s.srcset = set;
+        s.sizes = sizes;
+        pic.append(s);
+      }
+      const img = h('img', 'h-full w-full object-cover');
+      img.src = f.src;
+      img.alt = name;
+      img.loading = 'lazy';
+      pic.append(img);
+      return pic;
+    }
+
+    function kennzeichen(e: Empfehlung) {
+      const g = e.gericht;
+      const ul = h('ul', 'mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.88rem] font-semibold');
+      ul.setAttribute('role', 'list');
+      if (g.vegetarisch) {
+        const li = h('li', 'inline-flex items-center gap-1 text-kardamom');
+        li.append(icon('ic-blatt'), 'vegetarisch');
+        ul.append(li);
+      }
+      if (g.veganMoeglich) {
+        const li = h('li', 'inline-flex items-center gap-1 text-kardamom');
+        li.append(icon('ic-blatt-kontur'), 'auch vegan');
+        ul.append(li);
+      }
+      const chilis = g.schaerfe === 3 ? 2 : g.schaerfe === 2 ? 1 : 0;
+      if (chilis) {
+        const li = h('li', 'inline-flex items-center gap-0.5 text-glut');
+        for (let i = 0; i < chilis; i++) li.append(icon('ic-chili'));
+        li.append(chilis === 2 ? ' sehr scharf' : ' scharf');
+        ul.append(li);
+      }
+      return ul;
+    }
+
+    function karte(e: Empfehlung, gross: boolean) {
+      const g = e.gericht;
+      const art = h('article', `ergebnis-karte etikett ${gross ? 'ergebnis-gross' : 'ergebnis-klein'}`);
+      const bildRahmen = h('div', 'relative');
+      bildRahmen.append(bild(e, gross));
+      if (gross) bildRahmen.append(h('span', 'ergebnis-siegel', 'Dein Tipp'));
+      art.append(bildRahmen);
+
+      const inhalt = h('div', 'ergebnis-inhalt');
+      const kopf = h('div', 'flex items-baseline justify-between gap-3');
+      const titel = h(gross ? 'h4' : 'h5', `font-display text-tinte ${gross ? 'text-[1.9rem]' : 'text-[1.4rem]'} leading-tight`);
+      const nr = h('span', 'tabellenziffern mr-2 font-sans text-[0.9rem] font-bold text-glut', `Nr. ${g.nr}`);
+      titel.append(nr, g.name);
+      kopf.append(titel, h('span', 'tabellenziffern shrink-0 font-display text-[1.3rem] text-tinte', euro.format(g.preis)));
+      inhalt.append(kopf);
+      if (g.beschreibung) inhalt.append(h('p', 'mt-1.5 text-[0.98rem] leading-snug text-braun', g.beschreibung));
+      inhalt.append(kennzeichen(e));
+
+      const dazu = h('div', 'dazu');
+      const zeile = h('p', 'flex items-baseline justify-between gap-3');
+      const links = h('span', '');
+      links.append(h('span', 'font-semibold text-tinte', 'Dazu passt: '), `Nr. ${e.dazu.nr} ${e.dazu.name}`);
+      zeile.append(links, h('span', 'tabellenziffern shrink-0', `+ ${euro.format(e.dazu.preis)}`));
+      const summe = h('p', 'mt-1.5 flex items-baseline justify-between gap-3 border-t border-tinte/20 pt-1.5 font-semibold text-tinte');
+      summe.append(h('span', '', 'Zusammen'), h('span', 'tabellenziffern font-display text-[1.35rem] text-glut', euro.format(e.summe)));
+      dazu.append(zeile, summe);
+      inhalt.append(dazu);
+      art.append(inhalt);
+      return art;
+    }
+  }
+</script>
+
+<style>
+  .kompass-glut {
+    position: absolute;
+    inset: auto -20% -40% 30%;
+    height: 90%;
+    background: radial-gradient(closest-side, rgb(182 58 30 / 0.42), rgb(217 142 4 / 0.12) 55%, transparent);
+    filter: blur(10px);
+    pointer-events: none;
+  }
+
+  .hoelzer {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .holz-stab {
+    fill: #d7b98c;
+  }
+  .holz-kopf {
+    fill: #6a5446;
+    transition: fill 0.5s var(--ease-glut);
+  }
+  .holz.brennt .holz-kopf {
+    fill: var(--color-glut);
+  }
+  .offen .holz .holz-kopf {
+    fill: var(--color-safran);
+  }
+
+  .option {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.15rem;
+    min-height: 4.4rem;
+    padding: 0.8rem 1rem 0.75rem;
+    text-align: left;
+    background: #fbf6ee;
+    color: var(--color-tinte);
+    border-radius: 3px;
+    box-shadow: inset 0 0 0 1.5px rgb(27 23 20 / 0.28);
+    cursor: pointer;
+    transition:
+      box-shadow 0.25s var(--ease-glut),
+      background-color 0.25s var(--ease-glut),
+      transform 0.25s var(--ease-glut);
+  }
+  .option:hover {
+    box-shadow: inset 0 0 0 2px var(--color-tinte);
+    background: #fff;
+  }
+  .option:active {
+    transform: translateY(1px);
+  }
+  .option[aria-pressed='true'] {
+    background: var(--color-tinte);
+    color: var(--color-creme);
+    box-shadow: inset 0 0 0 2px var(--color-tinte);
+  }
+  .option[aria-pressed='true'] .option-hinweis {
+    color: var(--color-rauch);
+  }
+  .option-titel {
+    font-family: var(--font-display);
+    font-size: 1.32rem;
+    line-height: 1.1;
+  }
+  .option-hinweis {
+    font-size: 0.9rem;
+    color: var(--color-braun);
+  }
+
+  .kompass-textknopf {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 2.75rem;
+    padding: 0 0.4rem;
+    font-weight: 600;
+    color: var(--color-braun);
+    cursor: pointer;
+  }
+  .kompass-textknopf:hover {
+    color: var(--color-tinte);
+    text-decoration: underline;
+  }
+  .kompass-textknopf.hell-auf-dunkel {
+    color: var(--color-rauch);
+  }
+  .kompass-textknopf.hell-auf-dunkel:hover {
+    color: var(--color-creme);
+  }
+
+  /* Chili-Regler: heizt sich von Safran zu Glut auf */
+  .chili-stufe {
+    color: #cdbca5;
+    transition:
+      color 0.35s var(--ease-glut),
+      transform 0.35s var(--ease-glut),
+      filter 0.35s var(--ease-glut);
+  }
+  .chili-stufe.an {
+    transform: translateY(-2px) rotate(-6deg);
+    filter: drop-shadow(0 4px 8px color-mix(in oklab, var(--hitze) 55%, transparent));
+  }
+  .hitze-regler {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 2.75rem;
+    background: transparent;
+    cursor: pointer;
+  }
+  .hitze-regler::-webkit-slider-runnable-track {
+    height: 0.75rem;
+    border-radius: 999px;
+    background:
+      linear-gradient(90deg, #e8a33d, var(--hitze)) 0 0 / var(--prozent) 100% no-repeat,
+      #e3d6c2;
+    box-shadow: inset 0 0 0 1px rgb(27 23 20 / 0.18);
+  }
+  .hitze-regler::-moz-range-track {
+    height: 0.75rem;
+    border-radius: 999px;
+    background: #e3d6c2;
+    box-shadow: inset 0 0 0 1px rgb(27 23 20 / 0.18);
+  }
+  .hitze-regler::-moz-range-progress {
+    height: 0.75rem;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #e8a33d, var(--hitze));
+  }
+  .hitze-regler::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 2.1rem;
+    height: 2.1rem;
+    margin-top: -0.68rem;
+    border-radius: 999px;
+    background: var(--hitze);
+    border: 3px solid var(--color-creme);
+    box-shadow:
+      0 0 0 1.5px rgb(27 23 20 / 0.35),
+      0 6px 18px -2px color-mix(in oklab, var(--hitze) 80%, transparent);
+    transition: background-color 0.3s var(--ease-glut);
+  }
+  .hitze-regler::-moz-range-thumb {
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 999px;
+    background: var(--hitze);
+    border: 3px solid var(--color-creme);
+    box-shadow:
+      0 0 0 1.5px rgb(27 23 20 / 0.35),
+      0 6px 18px -2px color-mix(in oklab, var(--hitze) 80%, transparent);
+  }
+  .hitze-regler:focus-visible {
+    outline: none;
+  }
+  .hitze-regler:focus-visible::-webkit-slider-thumb {
+    outline: 2.5px solid var(--color-glut);
+    outline-offset: 3px;
+  }
+  .hitze-regler:focus-visible::-moz-range-thumb {
+    outline: 2.5px solid var(--color-glut);
+    outline-offset: 3px;
+  }
+
+  /* Die Schublade gleitet unter der Hülle heraus */
+  .schublade {
+    position: relative;
+    margin: -0.5rem 0.6rem 0;
+    padding: 2rem 1rem 1.5rem;
+    background:
+      linear-gradient(180deg, rgb(0 0 0 / 0.35), transparent 2.5rem),
+      var(--color-kohle);
+    border: 1px solid rgb(246 239 228 / 0.12);
+    border-top: 0;
+    box-shadow: 0 30px 60px -30px rgb(0 0 0 / 0.8);
+  }
+  @media (width >= 40rem) {
+    .schublade {
+      margin-inline: 1.25rem;
+      padding: 2.25rem 1.75rem 1.75rem;
+    }
+  }
+  .schublade-innen > * {
+    position: relative;
+  }
+  .hinweis {
+    margin-bottom: 1rem;
+    padding: 0.7rem 0.9rem;
+    border: 1px dashed rgb(232 163 61 / 0.5);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .offen .schublade:not([hidden]) {
+      animation: herausziehen 0.85s var(--ease-glut) both;
+    }
+    @keyframes herausziehen {
+      from {
+        transform: translateY(-3rem);
+        clip-path: inset(0 0 100% 0);
+        opacity: 0.4;
+      }
+      to {
+        transform: none;
+        clip-path: inset(0 0 0 0);
+        opacity: 1;
+      }
+    }
+    .schritt.einblenden {
+      animation: einblenden 0.5s var(--ease-glut) both;
+    }
+    @keyframes einblenden {
+      from {
+        opacity: 0;
+        transform: translateX(14px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  }
+
+  /* Ergebnis-Karten (per Skript erzeugt) */
+  .schachtel :global(.ergebnis-karte) {
+    display: grid;
+    padding: 0.55rem;
+    color: var(--color-tinte);
+  }
+  .schachtel :global(.ergebnis-bild) {
+    aspect-ratio: 16 / 10;
+    width: 100%;
+  }
+  .schachtel :global(.ergebnis-inhalt) {
+    padding: 1rem 0.5rem 0.4rem;
+  }
+  .schachtel :global(.dazu) {
+    margin-top: 1rem;
+    padding: 0.7rem 0.8rem;
+    background: var(--color-papier);
+    font-size: 0.98rem;
+  }
+  .schachtel :global(.ergebnis-siegel) {
+    position: absolute;
+    left: 0.6rem;
+    top: 0.6rem;
+    padding: 0.3rem 0.65rem 0.2rem;
+    background: var(--color-glut);
+    color: var(--color-creme);
+    font-weight: 700;
+    font-size: 0.85rem;
+    border-radius: 2px;
+  }
+  @media (width >= 48rem) {
+    .schachtel :global(.ergebnis-gross) {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 0.5rem;
+      align-items: stretch;
+    }
+    .schachtel :global(.ergebnis-gross .ergebnis-bild) {
+      aspect-ratio: auto;
+      height: 100%;
+      min-height: 15rem;
+    }
+    .schachtel :global(.ergebnis-gross .ergebnis-inhalt) {
+      padding: 0.75rem 0.9rem 0.6rem;
+    }
+  }
+</style>
