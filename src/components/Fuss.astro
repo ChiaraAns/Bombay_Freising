@@ -16,9 +16,7 @@ const zeiten = zeitenKompakt();
         <Logo groesse="fuss" />
       </a>
       <p class="feinsatz mt-5 text-mini text-rauch-dunkel" style="letter-spacing:.22em">
-        <span class="whitespace-nowrap">Indische Spezialitäten</span><span class="fuss-punkt" aria-hidden="true">
-          ·
-        </span><span class="whitespace-nowrap">Freisinger Altstadt</span>
+        <span class="whitespace-nowrap">Indische Spezialitäten</span><span class="fuss-punkt" aria-hidden="true">·</span><span class="whitespace-nowrap">Freisinger Altstadt</span>
       </p>
       <span class="fuss-linie mt-8" aria-hidden="true"></span>
     </div>
@@ -73,8 +71,11 @@ const zeiten = zeitenKompakt();
 </footer>
 
 <style>
-  /* Schmale Bildschirme: Zeile zweizeilig gestapelt, ohne verwaisten Punkt am Zeilenende */
-  @media (width < 28rem) {
+  /* Trennpunkt mit festem Abstand (Astro verdichtet Leerraum); schmale Bildschirme: zweizeilig, ohne Punkt */
+  .fuss-punkt {
+    margin-inline: 0.6em;
+  }
+  @media (width < 30rem) {
     .feinsatz > span {
       display: block;
     }
