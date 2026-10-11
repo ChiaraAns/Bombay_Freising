@@ -53,7 +53,7 @@ const heroBild = bild('hero') ?? bild('gericht-93-jheenga-masala');
       </div>
 
       <!-- Die drei Fakten: offen?, Reservierung, Adresse – groß und auf einen Blick -->
-      <dl class="hero-fakten mt-9">
+      <dl class="hero-fakten mt-6 sm:mt-9">
         <div class="fakt fakt-status">
           <dt class="fakt-label">Heute</dt>
           <dd><LiveStatus gross class="text-creme" /></dd>
@@ -83,7 +83,7 @@ const heroBild = bild('hero') ?? bild('gericht-93-jheenga-masala');
   }
   .hero-foto {
     position: relative;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 16 / 11;
     /* Foto läuft oben unter der Kopfzeile und nach unten weich in den dunklen Grund aus – keine harte Kante */
     -webkit-mask: linear-gradient(180deg, transparent 0%, #000 9%, #000 55%, transparent 100%);
     mask: linear-gradient(180deg, transparent 0%, #000 9%, #000 55%, transparent 100%);
@@ -180,9 +180,29 @@ const heroBild = bild('hero') ?? bild('gericht-93-jheenga-masala');
       min-height: 3.6rem;
       padding-inline: 0.75rem;
     }
+    /* Handy: Zustand und Straße müssen über der Leiste unten stehen – Beschriftungen nur für Screenreader,
+       Zusatz zum Zustand in derselben Zeile */
     .hero-fakten {
       grid-template-columns: 1fr 1fr;
-      gap: 1rem;
+      gap: 0.7rem;
+      padding-top: 1rem;
+    }
+    .fakt-label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+    .fakt-status :global(.live-gross) {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      column-gap: 0.75rem;
+    }
+    .fakt-status :global(.live-zusatz) {
+      padding-left: 0;
     }
     .fakt-status {
       grid-column: 1 / -1;

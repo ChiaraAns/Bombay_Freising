@@ -28,7 +28,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
   beschreibung="Die komplette Speisekarte des Bombay in Freising mit Nummern und Preisen: Tandoori aus dem Lehmofen, Curries mit Huhn, Lamm, Ente und Fisch, Biryani, Thalis, 20 vegetarische Spezialitäten und frisches Naan."
   aktiv="speisekarte"
 >
-  <div class="blatt hell bg-papier text-tinte">
+  <div class="hell text-tinte">
     <!-- Kopf der Karte -->
     <header class="karte-kopf koernung bg-tinte pb-9 pt-9 text-creme md:pb-16 md:pt-16">
       <div class="rahmen grid gap-8 lg:grid-cols-12 lg:items-end">
@@ -70,7 +70,8 @@ const suchtext = (...teile: (string | undefined)[]) =>
       <p class="filter-status rahmen" data-filter-status hidden aria-live="polite"></p>
     </nav>
 
-    <div class="rahmen pb-24 pt-10 md:pt-12">
+    <div class="blatt bg-papier">
+    <div class="rahmen pb-16 pt-10 md:pb-20 md:pt-12">
       <!-- Suche & Filter -->
       <div class="werkzeug grid gap-5 lg:grid-cols-12 lg:items-center print:hidden">
         <div class="lg:col-span-5">
@@ -82,7 +83,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
               type="search"
               placeholder="z. B. Spinat, Mango, Korma, 57"
               autocomplete="off"
-              class="h-12 w-full rounded-[3px] bg-creme pl-11 pr-11 text-basis text-tinte placeholder:text-braun-hell"
+              class="h-12 w-full rounded-[10px] bg-creme pl-11 pr-11 text-basis text-tinte placeholder:text-braun-hell"
             />
             <button type="button" class="suche-leeren absolute right-1.5 top-1/2 -translate-y-1/2" aria-label="Suche leeren" hidden>
               <Icon name="kreuz" size={18} />
@@ -108,7 +109,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
 
       <!-- Hinweise -->
       <div class="mt-8 grid gap-4 md:grid-cols-2">
-        <p class="hinweis-allergene flex gap-3 border border-tinte/20 bg-creme px-4 py-3 text-fein">
+        <p class="hinweis-allergene flex gap-3 rounded-[14px] border border-tinte/20 bg-creme px-4 py-3 text-fein">
           <Icon name="info" size={20} class="mt-0.5 shrink-0 text-braun" />
           <span>
             Informationen zu Allergenen erhalten Sie bei unserem Personal.
@@ -116,7 +117,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
           </span>
         </p>
 
-        <details id="glossar" class="glossar border border-tinte/20 bg-creme print:hidden">
+        <details id="glossar" class="glossar rounded-[14px] border border-tinte/20 bg-creme print:hidden">
           <summary class="flex cursor-pointer items-center justify-between gap-3 px-4 py-3 font-semibold">
             <span>Was ist eigentlich …? Das kleine Glossar</span>
             <Icon name="pfeil" size={18} class="glossar-pfeil text-glut" />
@@ -232,6 +233,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
           {zeitenKompakt().map((z) => `${z.tage} ${z.text}`).join(' | ')} · {kontakt.website.replace('https://', '')}
         </p>
       </div>
+    </div>
     </div>
   </div>
 </Basis>

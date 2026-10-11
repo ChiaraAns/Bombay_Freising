@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-11T19:10:21Z",
+  "generatedAt": "2026-10-11T19:20:24Z",
   "title": "Design System: Bombay – Indische Spezialitäten, Freising",
   "extensions": {
     "colorMeta": {
@@ -181,8 +181,8 @@
       "kind": "card",
       "refersTo": "etikett",
       "description": "Dunkle Karte (14px) mit Doppelrahmen in Safran und Rani-Bordüre – Gerichte, Öffnungszeiten, Kompass (über .nacht); auf Papier weiterhin Creme.",
-      "html": "<div class=\"ds-etikett\"><span class=\"ds-bordure\"></span><h3>Frisch aus dem Lehmofen.</h3><p>Tandoori und Naan aus dem Holzkohle-Lehmofen.</p></div>",
-      "css": ".ds-etikett{background:#f6efe4;color:#1b1714;border:1px solid rgb(27 23 20/.55);outline:1px solid rgb(27 23 20/.3);outline-offset:-7px;padding:0 0 20px;box-shadow:0 24px 48px -18px rgb(0 0 0/.65)}.ds-etikett h3{font:400 2rem/1.05 'Rozha One',Georgia,serif;margin:18px 22px 0}.ds-etikett p{font:400 1rem/1.5 Mukta,system-ui,sans-serif;color:#5b4636;margin:8px 22px 0}.ds-bordure{display:block;height:14px;background:#be036c;-webkit-mask:url('/ornament/band.svg') repeat-x left center/auto 100%;mask:url('/ornament/band.svg') repeat-x left center/auto 100%}"
+      "html": "<div class=\"ds-etikett\"><span class=\"ds-bordure\"></span><h3>Butter Chicken</h3><p>Zartes Hühnerfleisch in Butter-Tomaten-Soße</p><b>14,90 €</b></div>",
+      "css": ".ds-etikett{max-width:20rem;padding:1.4rem 1.2rem 1.2rem;border-radius:14px;border:1px solid rgb(232 163 61/.2);background:linear-gradient(180deg,#241d18,#1e1814);color:#f6efe4;font-family:Mukta,system-ui,sans-serif}.ds-bordure{display:block;height:2px;margin-bottom:1rem;background:repeating-linear-gradient(90deg,#e04a92 0 6px,transparent 6px 12px)}.ds-etikett h3{margin:0;font:400 1.6rem/1.08 'Rozha One',Georgia,serif}.ds-etikett p{margin:.5rem 0 1rem;color:#cdbfad}.ds-etikett b{display:block;text-align:right;color:#f07a52;font:400 1.5rem 'Rozha One',Georgia,serif}"
     },
     {
       "name": "Primärknopf",

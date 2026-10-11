@@ -103,7 +103,7 @@ typography:
     fontFamily: "Mukta, Mukta Ersatz, system-ui, sans-serif"
     fontSize: "clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem)"
     fontWeight: 500
-    lineHeight: 1.15"
+    lineHeight: 1.15
   preis:
     fontFamily: "Mukta, Mukta Ersatz, system-ui, sans-serif"
     fontWeight: 700
@@ -173,9 +173,9 @@ components:
 
 **Creative North Star: „Glut bei Nacht“**
 
-Die Startseite ist ein einziger dunkler Raum, wie ein Restaurant am Abend: warm-schwarzer, fein gekörnter Grund (Tinte, Kohle, Ruß), aus dem die Gerichte auftauchen. Abschnitte wechseln nie die Bühne; sie heben sich nur durch leise Tonstufen, die nach oben und unten weich in die Tinte zurücklaufen, und durch Haarlinien voneinander ab. Licht kommt von der Glut: Primärknöpfe tragen eine leuchtende Kante von Glutrot zu Safran, unter Überschriften liegt ein kurzer Goldfaden in Safran, hinter den Tellern und in der Bestell-Tafel glimmt ein warmer Schein. Alles Bedienbare ist rund (Pillen), Karten haben weiche Ecken.
+Die Startseite ist ein einziger dunkler Raum, wie ein Restaurant am Abend: warm-schwarzer, fein gekörnter Grund (Tinte, Kohle, Ruß), aus dem die Gerichte auftauchen. Abschnitte wechseln nie die Bühne; sie heben sich nur durch leise Tonstufen, die nach oben und unten weich in die Tinte zurücklaufen, und durch auslaufende Haarlinien (`.naht`) voneinander ab. Licht kommt von der Glut: Primärknöpfe tragen eine leuchtende Kante von Glutrot zu Safran, unter Überschriften liegt ein kurzer Goldfaden in Safran, hinter den Tellern und in der Bestell-Tafel glimmt ein warmer Schein. Alles Bedienbare ist rund (Pillen), Karten haben weiche Ecken.
 
-Im Hero steht die Headline frei auf dem Foto, das links, oben und unten in die Kohle ausläuft; darunter die drei Fakten groß wie auf einem Schild: Zustand („Jetzt geöffnet“), Reservierungsnummer, Adresse – jeweils kleine Safran-Beschriftung, großer Wert. Die Gerichte stehen als dunkle Etiketten mit feiner Safran-Innenlinie und Rani-Bordüre (die Herkunft aus den Sivakasi-Streichholzetiketten bleibt in der Bordüre und der Seriennummer).
+Im Hero steht die Headline frei auf dem Foto, das links, oben und unten in die Kohle ausläuft; darunter die drei Fakten groß wie auf einem Schild: Zustand („Jetzt geöffnet“), Reservierungsnummer, Adresse – jeweils kleine Safran-Beschriftung, großer Wert. Die Gerichte stehen als dunkle Etiketten mit feiner Safran-Kante und Rani-Bordüre (die Herkunft aus den Sivakasi-Streichholzetiketten bleibt in der Bordüre und der Seriennummer).
 
 Papier gibt es nur noch dort, wo lange gelesen oder ausgefüllt wird: Speisekarte, Bestellung, Rechtstexte liegen als heller Bogen auf dem dunklen Grund und enden mit weich gerundeter Unterkante über dem Footer. Das Logo steht frei, ohne Kasten: auf Dunkel als Negativ (Schriftzug Creme, Kuppel in hellem Rani).
 
@@ -202,7 +202,7 @@ Fassung 1 („Glut und Papier“ mit gerissenen Papierbögen) ist auf dem Branch
 Eine warme Gewürzpalette auf Kohle und Creme, verankert vom Rani-Pink des Logos und dem Glutrot des Ofens.
 
 ### Primary
-- **Rani-Pink** (#be036c): die Logofarbe, gemessen aus dem Original-Logo. Logo auf hellem Grund, Blockdruck-Bordüren auf hellen Etiketten (Gerichte, Öffnungszeiten, Kategorien, Rechtstexte). Nur auf hellem Grund (5,3 : 1 auf Creme).
+- **Rani-Pink** (#be036c): die Logofarbe, gemessen aus dem Original-Logo. Logo auf hellem Grund, Blockdruck-Bordüren auf dem Lesebogen (Kategorien der Speisekarte, Rechtstexte). Nur auf hellem Grund (5,3 : 1 auf Creme); auf den dunklen Etiketten (Gerichte, Öffnungszeiten) erscheint die Bordüre über `.nacht` in Rani hell.
 - **Rani hell** (#e04a92): dieselbe Farbe für dunklen Grund (4,7 : 1 auf Tinte) – Kuppel im Negativ-Logo, Ornament über der Hero-Headline, Fußlinie, aktiver Bestellschritt.
 - **Glutrot** (#b63a1e) / **Glut hell** (#f07a52): Handlungsfarbe. Auf Dunkel als leuchtende Kante der Primärknöpfe (Glut hell → Safran) und als Preis auf dunklen Etiketten (Glut hell, 6 : 1); auf Papier als gefüllter Primärknopf und Preis (Glutrot). Chili-Kennzeichnung. Hover auf Papier: **Glut tief** (#8f2b14).
 
@@ -256,7 +256,7 @@ Eine warme Gewürzpalette auf Kohle und Creme, verankert vom Rani-Pink des Logos
 
 ## Layout
 
-Ein Rahmen von max. 78rem mit 1rem / 1.75rem / 2.5rem Seitenrand (mobil / ab 40rem / ab 64rem). Ab 64rem ein 12-Spalten-Raster mit asymmetrischen Aufteilungen (5/6, 4/8, 7/5) statt gleich breiter Spalten. Sektionen 5rem (mobil) bzw. 7rem (desktop) vertikal. Mobile first: der Hero stapelt Foto über Etikett (Etikett überlappt die Fotokante um 3.25rem), die Signature-Etiketten werden mobil zur horizontal scrollbaren Reihe (84 % Breite mit Anschnitt), Filter-Chips und Kategorien ebenso. Die Speisekarte setzt ab 64rem zwei Spalten. Die Kategorie-Navigation ist sticky.
+Ein Rahmen von max. 78rem mit 1rem / 1.75rem / 2.5rem Seitenrand (mobil / ab 40rem / ab 64rem). Ab 64rem ein 12-Spalten-Raster mit asymmetrischen Aufteilungen (5/6, 4/8, 7/5) statt gleich breiter Spalten. Sektionen 5rem (mobil) bzw. 7rem (desktop) vertikal. Mobile first: der Hero stapelt Foto (16:11, läuft unten aus) über Text, Knöpfen und Fakten (Text überlappt die Fotokante um 5.5rem; Zustand und Straße stehen bei 375×740 über der Leiste), die Signature-Etiketten werden mobil zur horizontal scrollbaren Reihe (84 % Breite mit Anschnitt), Filter-Chips und Kategorien ebenso. Die Speisekarte setzt ab 64rem zwei Spalten. Die Kategorie-Navigation ist sticky.
 
 ## Elevation & Depth
 
@@ -274,19 +274,20 @@ Weiche, gefasste Formen: Knöpfe, Marken, Chips und Kategorie-Links als Pille (9
 
 ## Components
 
-- **Etikett** (`.etikett`): Karte mit Doppelrahmen (14px), oben optional die Bordüre (`.bordure`). Auf Papier Creme mit Tinte-Rahmen (Rechtstexte, leerer Zustand der Karte); in `.nacht` dunkel mit Safran-Innenlinie (Gerichte, Öffnungszeiten, Kompass).
+- **Etikett** (`.etikett`): Karte mit Doppelrahmen (14px), oben optional die Bordüre (`.bordure`). Auf Papier Creme mit Tinte-Rahmen (Rechtstexte, leerer Zustand der Karte); in `.nacht` dunkel mit einer feinen Safran-Außenlinie, ohne zweite Innenlinie (Gerichte, Öffnungszeiten, Kompass).
 - **Nacht** (`.nacht`): bindet innerhalb die Papier-Rollen auf dunkle Gegenstücke um (`tinte` → Creme-Schrift, `creme`/`papier` → Kohle-Kartenflächen, `braun` → Rauch, `glut` → Glut hell, `rani` → Rani hell, `kardamom` → Kardamom hell). So erscheinen Papier-Bausteine ohne eigene Dunkel-Variante auf der Nacht-Seite. Achtung: `creme` heißt darin Kartenfläche; feste Creme-Schrift auf festen dunklen Flächen über `--color-creme-fest`.
 - **Goldfaden** (`.goldfaden`): 3.25rem × 1px Safran, nach rechts auslaufend, 1.15rem unter der Abschnittsüberschrift.
 - **Hero-Fakten** (`Hero.astro`): `dl` unter einer Haarlinie, drei Spalten mit feinen Trennern (Desktop) bzw. Zustand und Adresse übereinander (Handy, die Nummer steht dort im Knopf); Label Safran, Wert groß (Fakt), Zusatz in Rauch. Zustand über `LiveStatus gross` (Titel und Zusatz getrennt).
 - **Logo** (`Logo.astro`): frei stehend, Negativ-Fassung auf Dunkel; Kopf 6.4–7.6rem breit, Fuß bis 16rem zentriert über einer Ornamentlinie.
 - **Hero**: Foto rechts ab 40 % (Desktop) bzw. oben (Handy), läuft weich in Kohle aus; davor Ornament, Headline in Creme, Unterzeile in Rauch, Knöpfe, Hero-Fakten. Kein Kasten; ein weicher radialer Tinte-Schatten hinter dem Text.
 - **Teller** (`Besonderes.astro`): freigestellte Schüsseln (`teller-<nr>-<name>.webp`, transparent) mit doppeltem `drop-shadow` (weit und weich + kurz und dicht), darunter ein Glutschein (`radial-gradient` Glutrot 30 %, Kurkuma 14 %). Bildunterschrift „Nr. … Name“ unter dem Teller, leichte Parallaxe. Ohne Freisteller bleibt der Platz leer.
-- **Blatt** (`.blatt`): heller Lesebogen der Unterseiten (Speisekarte, Bestellen, Rechtstexte) mit gerundeter Unterkante über dem Ruß des Footers.
+- **Blatt** (`.blatt`): heller Lesebogen der Unterseiten (Speisekarte, Bestellen, Rechtstexte) unter dem dunklen Seitenkopf und der Kategorie-Leiste; rundum gerundet (1.5rem / 2.5rem), ab 64rem mit dunklem Rand links und rechts, Safran-Haarlinie und Schatten – ein Bogen auf dem Tisch, kein Folienwechsel.
+- **Naht** (`.naht`): Haarlinie Creme 13 % am oberen Rand der Abschnitte Signature, Kompass und Besuch, innerhalb des Rahmens, an den Enden auslaufend.
+- **Platzhalter** (`.platzhalter--…`): dunkle Kachel, von unten in der Farbe des Gerichts angeglüht, Rapport in Safran 10 %, Name in Rozha Creme mit kurzem Safranstrich – kein Farbfeld, kein Namenskasten.
 - **Helle Bereiche** (`.hell`): `color-scheme: light`, damit native Radios, Checkboxen und Auswahllisten hell gezeichnet werden.
 - **Online-Bestellung** (`/bestellen`): Artikelzeilen mit runden +/−-Knöpfen, Warenkorb (Desktop mitlaufend, Handy als Leiste unten), Formular mit Auswahlkarten für Lieferung/Abholung, Schritte-Anzeige mit Rani-hell für den aktiven Schritt.
 - **Gericht-Etikett** (`GerichtEtikett.astro`): Foto oder Platzhalter 4:3, Seriennummer-Kachel überlappt die Bildkante, Name, Beschreibung, Kennzeichen, Preis.
-- **Platzhalter** (`.platzhalter--glut|kardamom|kurkuma|tinte|safran`): Verlauf + Rapport + Name auf Mini-Etikett, Farbe nach Gerichtsart.
-- **Knöpfe** (`.knopf` + `-glut`, `-kontur`, `-kontur-hell`, `-creme`): Pillen, mind. 3.25rem hoch, Icon links, gesperrte Versalien. `-glut` auf Dunkel mit Glutkante, in `.hell` gefüllt Glutrot. `-kontur-hell` Haarlinie Creme 30 %, Hover Safran.
+- **Knöpfe** (`.knopf` + `-glut`, `-kontur`, `-kontur-hell`, `-creme`): Pillen, mind. 3.25rem hoch, Icon links, gesperrte Versalien. `-glut` auf Dunkel mit Glutkante, auf dem Lesebogen (`.blatt`) gefüllt Glutrot. `-kontur-hell` Haarlinie Creme 30 %, Hover Safran.
 - **Kopfzeile** (`Kopf.astro`): Navigation ab 80rem (gesperrte Versalien, Safran-Unterstrich wächst beim Hover), darunter Menü-Knopf; Reservieren-Pille mit Safran-Beschriftung und Nummer.
 - **Reibefläche** (`Reibeflaeche.astro`): mobile Aktionsleiste, Ruß 94 % mit Weichzeichner und Safran-Haarlinie; „Bestellen“ in Safran.
 - **Curry-Kompass**: Hülle (dunkles Etikett in `.nacht` mit drei Streichhölzern als Fortschritt) und Schublade (Kohle, gleitet heraus); Optionen als runde Kacheln (14px) mit `aria-pressed`, gewählt mit Safran-Kante und Schein; Chili-Regler mit Hitzeverlauf Safran → Glut auf dunkler Spur.

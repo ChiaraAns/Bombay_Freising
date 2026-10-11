@@ -257,6 +257,25 @@
   outline-offset: -7px;
 }
 
+/* Naht: feine Haarlinie am oberen Rand eines Abschnitts, innerhalb des Rahmens, an beiden Enden auslaufend */
+.naht::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: min(74rem, calc(100% - 2rem));
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklab, var(--color-creme) 13%, transparent) 20%,
+    color-mix(in oklab, var(--color-creme) 13%, transparent) 80%,
+    transparent
+  );
+  pointer-events: none;
+}
+
 /* Goldfaden: kurze Safran-Linie unter Abschnittsüberschriften – die feine Kante statt eines Kastens */
 .goldfaden {
   display: block;
@@ -286,9 +305,8 @@
 .nacht .etikett,
 .etikett.nacht {
   background: linear-gradient(180deg, #241d18, #1e1814);
-  border-color: color-mix(in oklab, #f6efe4 12%, transparent);
-  outline-color: color-mix(in oklab, #e8a33d 22%, transparent);
-  outline-offset: -6px;
+  border-color: color-mix(in oklab, #e8a33d 20%, transparent);
+  outline: 0;
 }
 
 @utility etikett-schatten {
@@ -300,7 +318,7 @@
 
 /* ---------- Knöpfe ----------
    Runde Pillen. Der Hauptknopf ist dunkel und trägt die Glut als leuchtende Kante (Glutrot → Safran),
-   die stillen Knöpfe eine feine Haarlinie. Auf hellem Papier (.hell) wird der Hauptknopf Glutrot gefüllt. */
+   die stillen Knöpfe eine feine Haarlinie. Auf dem hellen Lesebogen (.blatt) wird der Hauptknopf Glutrot gefüllt. */
 
 @utility knopf {
   position: relative;
@@ -358,14 +376,14 @@
       0 0 22px -2px rgb(240 122 82 / 0.6),
       inset 0 0 16px -8px rgb(240 122 82 / 0.8);
   }
-  .hell & {
+  .blatt & {
     --knopf-grund: var(--color-glut);
     background:
       linear-gradient(var(--knopf-grund), var(--knopf-grund)) padding-box,
       linear-gradient(var(--knopf-grund), var(--knopf-grund)) border-box;
     box-shadow: 0 10px 22px -12px rgb(182 58 30 / 0.9);
   }
-  .hell &:hover {
+  .blatt &:hover {
     --knopf-grund: var(--color-glut-tief);
   }
 }
@@ -464,19 +482,28 @@
   transform: none !important;
 }
 
-/* Blatt: die hellen Lese- und Bestellseiten liegen als Bogen auf dem dunklen Grund und enden mit weich
-   gerundeter Unterkante über dem Footer – kein harter Schnitt, kein Riss */
+/* Blatt: die hellen Lese- und Bestellflächen der Unterseiten liegen als Bogen auf dem dunklen Grund –
+   rundum gerundet, ab 64rem mit dunklem Rand links und rechts, unten Abstand zum Footer. Kein Folienwechsel. */
 .blatt {
   position: relative;
-  z-index: 1;
-  border-end-start-radius: 1.5rem;
-  border-end-end-radius: 1.5rem;
-  box-shadow: 0 30px 60px -30px color-mix(in oklab, var(--color-russ) 90%, transparent);
+  margin-top: 1rem;
+  margin-bottom: 2.5rem;
+  border-radius: 1.5rem;
+  box-shadow:
+    0 30px 60px -30px color-mix(in oklab, var(--color-russ) 90%, transparent),
+    0 0 0 1px color-mix(in oklab, var(--color-safran) 18%, transparent);
 }
 @media (width >= 64rem) {
   .blatt {
-    border-end-start-radius: 2.5rem;
-    border-end-end-radius: 2.5rem;
+    margin: 1.5rem clamp(1rem, 3vw, 3rem) 4rem;
+    border-radius: 2.5rem;
+  }
+}
+@media print {
+  .blatt {
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
   }
 }
 
@@ -485,70 +512,64 @@
   color-scheme: light;
 }
 
-/* Gestalteter Bild-Platzhalter (wenn ein Foto noch fehlt) */
+/* Gestalteter Bild-Platzhalter (wenn ein Foto noch fehlt): dunkle Kachel, von unten in der Farbe des Gerichts
+   angeglüht, darüber fein der Blockdruck-Rapport und der Name wie auf einer Karte – kein lautes Farbfeld */
 .platzhalter {
+  --schein: rgb(182 58 30 / 0.7);
+  --schein-zwei: rgb(232 163 61 / 0.22);
   position: relative;
   display: grid;
   place-items: center;
   overflow: hidden;
   background:
-    radial-gradient(120% 90% at 30% 110%, rgb(182 58 30 / 0.95), transparent 60%),
-    radial-gradient(90% 80% at 85% 0%, rgb(232 163 61 / 0.85), transparent 55%),
-    linear-gradient(160deg, #d98e04, #8f2b14);
-  color: var(--color-creme);
+    radial-gradient(90% 75% at 50% 115%, var(--schein), transparent 70%),
+    radial-gradient(60% 50% at 85% 0%, var(--schein-zwei), transparent 70%),
+    linear-gradient(170deg, #241d18, #120f0d);
+  color: var(--color-creme-fest);
 }
-
 .platzhalter--kardamom {
-  background:
-    radial-gradient(120% 90% at 25% 110%, rgb(94 107 72 / 0.95), transparent 62%),
-    radial-gradient(90% 80% at 85% 0%, rgb(232 163 61 / 0.75), transparent 55%),
-    linear-gradient(160deg, color-mix(in oklab, var(--color-kurkuma) 70%, var(--color-kardamom)), #3f4a2f);
+  --schein: rgb(94 107 72 / 0.85);
+  --schein-zwei: rgb(169 180 141 / 0.18);
 }
 .platzhalter--kurkuma {
-  background:
-    radial-gradient(120% 90% at 20% 110%, rgb(143 43 20 / 0.85), transparent 60%),
-    radial-gradient(90% 80% at 90% 0%, rgb(246 239 228 / 0.35), transparent 50%),
-    linear-gradient(160deg, #e8a33d, color-mix(in oklab, var(--color-kurkuma) 82%, var(--color-glut-tief)));
+  --schein: rgb(217 142 4 / 0.6);
+  --schein-zwei: rgb(240 122 82 / 0.18);
 }
 .platzhalter--tinte {
-  background:
-    radial-gradient(110% 90% at 50% 120%, rgb(182 58 30 / 0.75), transparent 60%),
-    linear-gradient(160deg, #352c25, #120f0d);
-}
-.platzhalter--tinte::before {
-  color: rgb(232 163 61 / 0.22) !important;
+  --schein: rgb(143 43 20 / 0.55);
+  --schein-zwei: rgb(232 163 61 / 0.12);
 }
 .platzhalter--safran {
-  background:
-    radial-gradient(110% 90% at 80% 110%, rgb(217 142 4 / 0.9), transparent 60%),
-    linear-gradient(160deg, #f1c27a, #d98e04);
+  --schein: rgb(232 163 61 / 0.55);
+  --schein-zwei: rgb(246 239 228 / 0.1);
 }
 
 .platzhalter::before {
   content: '';
   position: absolute;
   inset: 0;
-  color: rgb(246 239 228 / 0.16);
-  background: currentColor;
+  background: rgb(232 163 61 / 0.1);
   -webkit-mask: url('/ornament/kachel.svg') repeat center / 48px 48px;
   mask: url('/ornament/kachel.svg') repeat center / 48px 48px;
 }
 
 .platzhalter__name {
   position: relative;
-  max-width: 80%;
-  padding: 0.55rem 0.9rem 0.45rem;
+  display: grid;
+  justify-items: center;
+  gap: 0.7rem;
+  max-width: 82%;
   font-family: var(--font-display);
   font-size: clamp(var(--text-lead), 0.9rem + 1vw, var(--text-zwischen));
   line-height: 1.1;
   text-align: center;
-  color: var(--color-tinte);
-  background: var(--color-creme);
-  box-shadow: 0 0 0 1px rgb(27 23 20 / 0.5), 0 0 0 5px var(--color-creme), 0 0 0 6px rgb(27 23 20 / 0.35);
+  color: var(--color-creme-fest);
+  text-shadow: 0 2px 18px rgb(18 15 13 / 0.8);
   text-wrap: balance;
 }
-
-/* Hinter den gerundeten Ecken des Blatts liegt schon der Ruß des Footers */
-main:has(> .blatt:last-child) {
-  background: var(--color-russ);
+.platzhalter__name::after {
+  content: '';
+  width: 2.25rem;
+  height: 1px;
+  background: color-mix(in oklab, var(--color-safran) 80%, transparent);
 }

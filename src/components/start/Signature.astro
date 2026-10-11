@@ -10,7 +10,7 @@ const altTexte: Record<number, string> = {
 const gerichte = signatureNummern.map((nr) => gerichtNr(nr));
 ---
 
-<section id="karte" class="signature koernung py-20 text-creme md:py-28" aria-labelledby="karte-titel">
+<section id="karte" class="signature naht koernung py-20 text-creme md:py-28" aria-labelledby="karte-titel">
   <div class="rahmen">
     <div class="flex flex-wrap items-end justify-between gap-6">
       <div class="max-w-[38rem]">
@@ -20,9 +20,6 @@ const gerichte = signatureNummern.map((nr) => gerichtNr(nr));
           Eine kleine Auswahl aus über 120 Gerichten. Die Nummer hilft, wenn Sie telefonisch bestellen.
         </p>
       </div>
-      <a href={pfad('/speisekarte')} class="knopf knopf-kontur-hell hidden md:inline-flex" data-erscheinen style="--verzoegerung:1">
-        Ganze Speisekarte ansehen <Icon name="pfeil" size={18} />
-      </a>
     </div>
 
     <ul class="etiketten nacht mt-12" role="list">

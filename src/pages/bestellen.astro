@@ -20,7 +20,7 @@ const lieferung = bestellung.lieferung;
   aktiv="bestellen"
   ohneReibeflaeche
 >
-  <div class="bestellseite blatt hell bg-papier pb-28 text-tinte lg:pb-0" data-bestellseite data-endpunkt={bestellung.endpunkt ?? ''} data-email={kontakt.email}>
+  <div class="bestellseite hell pb-28 text-tinte lg:pb-0" data-bestellseite data-endpunkt={bestellung.endpunkt ?? ''} data-email={kontakt.email}>
     <header class="koernung bg-tinte pb-10 pt-10 text-creme md:pb-12 md:pt-14">
       <div class="rahmen">
         <h1 class="display-xl">Online bestellen</h1>
@@ -44,7 +44,8 @@ const lieferung = bestellung.lieferung;
         </ul>
       </nav>
 
-      <div class="rahmen grid gap-10 pt-10 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-12">
+      <div class="blatt bg-papier">
+      <div class="rahmen grid gap-10 pb-12 pt-10 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-12">
         <div>
           {
             speisekarte.map((k) => (
@@ -103,6 +104,7 @@ const lieferung = bestellung.lieferung;
           </div>
         </aside>
       </div>
+      </div>
 
       <!-- Warenkorb-Leiste (Handy) -->
       <div class="korb-leiste fixed inset-x-0 bottom-0 z-40 pb-[env(safe-area-inset-bottom)] lg:hidden" data-korb-leiste hidden>
@@ -121,8 +123,9 @@ const lieferung = bestellung.lieferung;
 
     <!-- ===== Schritt 2: Angaben ===== -->
     <div data-ansicht="kasse" hidden>
+      <div class="blatt bg-papier">
       <div class="rahmen grid gap-10 py-10 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-12 lg:py-14">
-        <form class="kasse" novalidate data-formular>
+        <form class="kasse min-w-0" novalidate data-formular>
           <button type="button" class="zurueck" data-zurueck-auswahl>
             <Icon name="pfeil-links" size={17} /> Zurück zur Auswahl
           </button>
@@ -213,7 +216,7 @@ const lieferung = bestellung.lieferung;
 
           <p class="feld-fehler mt-6" data-mindest-fehler hidden></p>
 
-          <button type="submit" class="knopf knopf-glut mt-8 w-full text-lead sm:w-auto sm:px-10" data-absenden>
+          <button type="submit" class="knopf knopf-glut mt-8 w-full whitespace-normal sm:w-auto sm:px-10" data-absenden>
             Zahlungspflichtig bestellen
           </button>
           {
@@ -233,10 +236,12 @@ const lieferung = bestellung.lieferung;
           </div>
         </aside>
       </div>
+      </div>
     </div>
 
     <!-- ===== Schritt 3: Fertig ===== -->
     <div data-ansicht="fertig" hidden>
+      <div class="blatt bg-papier">
       <div class="rahmen py-14 md:py-20">
         <div class="fertig mx-auto max-w-[40rem]">
           <span class="fertig-ornament" aria-hidden="true"></span>
@@ -255,6 +260,7 @@ const lieferung = bestellung.lieferung;
             <Icon name="pfeil-links" size={17} /> Zur Startseite
           </a>
         </div>
+      </div>
       </div>
     </div>
   </div>
@@ -803,6 +809,7 @@ const lieferung = bestellung.lieferung;
 
   .warenkorb {
     padding: 1.4rem 1.3rem 1.5rem;
+    border-radius: 14px;
     background: var(--color-creme);
     border: 1px solid color-mix(in oklab, var(--color-tinte) 18%, transparent);
     box-shadow: 0 24px 48px -28px color-mix(in oklab, var(--color-russ) 50%, transparent);
