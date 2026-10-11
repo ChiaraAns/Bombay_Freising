@@ -1,0 +1,1 @@
+import{t as e}from"./status.CW8YTvOn.js";var t=()=>{let t=e(new Date);document.querySelectorAll(`[data-live-status]`).forEach(e=>{e.dataset.zustand=t.zustand;let n=e.querySelector(`.live-text`);n&&(n.textContent=t.text)})};t(),setInterval(t,3e4),document.addEventListener(`visibilitychange`,()=>{document.hidden||t()});
