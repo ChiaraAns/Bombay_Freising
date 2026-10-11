@@ -71,6 +71,8 @@
   /* Logofarbe „Rani“ (aus dem Bombay-Logo): nur auf hellem Grund, Kontrast auf Creme 5,3:1 */
   --color-rani: #be036c;
   --color-rani-tief: #8f0251;
+  /* Rani hell: Logo-Kuppel und Akzente auf dunklem Grund (4,7 : 1 auf Tinte) */
+  --color-rani-hell: #e04a92;
   --color-kardamom-hell: #a9b48d;
   /* Text auf Creme */
   --color-braun: #5b4636;
@@ -340,16 +342,74 @@
 @media (prefers-reduced-motion: no-preference) {
   .js [data-erscheinen] {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(28px);
     transition:
-      opacity 0.9s var(--ease-glut),
-      transform 0.9s var(--ease-glut);
-    transition-delay: calc(var(--verzoegerung, 0) * 90ms);
+      opacity 1.1s var(--ease-glut),
+      transform 1.2s var(--ease-glut);
+    transition-delay: calc(var(--verzoegerung, 0) * 110ms);
   }
   .js [data-erscheinen].sichtbar {
     opacity: 1;
     transform: none;
   }
+
+  /* Überschriften: Wörter steigen nacheinander aus einer Linie auf */
+  .woerter .wort {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    padding-bottom: 0.12em;
+    margin-bottom: -0.12em;
+  }
+  .woerter .wort > span {
+    display: inline-block;
+    transform: translateY(105%);
+    opacity: 0;
+    transition:
+      transform 1.15s var(--ease-glut),
+      opacity 0.9s var(--ease-glut);
+    transition-delay: calc(var(--i) * 75ms + 80ms);
+  }
+  .woerter.sichtbar .wort > span {
+    transform: none;
+    opacity: 1;
+  }
+
+  /* Parallaxe-Bilder */
+  [data-parallax] {
+    transform: translate3d(0, var(--parallax, 0px), 0);
+    will-change: transform;
+  }
+}
+
+/* Helle Abschnitte liegen wie Papierbögen auf dem dunklen Grund: gerissener Rand statt harter Kante */
+.papier {
+  position: relative;
+  z-index: 1;
+}
+.papier::before,
+.papier::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background-color: inherit;
+  pointer-events: none;
+  -webkit-mask: url('/ornament/kante.svg') repeat-x left bottom / 960px 100%;
+  mask: url('/ornament/kante.svg') repeat-x left bottom / 960px 100%;
+}
+.papier::before {
+  top: -29px;
+}
+.papier::after {
+  bottom: -29px;
+  transform: scaleY(-1);
+  -webkit-mask-position: 37% bottom;
+  mask-position: 37% bottom;
+}
+.papier.ohne-unterkante::after {
+  display: none;
 }
 
 /* Gestalteter Bild-Platzhalter (wenn ein Foto noch fehlt) */

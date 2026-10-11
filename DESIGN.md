@@ -1,6 +1,6 @@
 ---
 name: Bombay – Indische Spezialitäten, Freising
-description: Ein indisches Streichholzetikett, aufgeklebt auf glutige Kohle – warm, flach gedruckt, mit Rani-Pink aus dem Logo.
+description: Glut und Papier – Gerichte tauchen aus dunkler Kohle auf, helle Papierbögen tragen Karte und Etiketten; Rani-Pink aus dem Logo.
 colors:
   tinte: "#1b1714"
   russ: "#120f0d"
@@ -11,6 +11,7 @@ colors:
   papier-dunkel: "#e2d4bc"
   rani: "#be036c"
   rani-tief: "#8f0251"
+  rani-hell: "#e04a92"
   glut: "#b63a1e"
   glut-tief: "#8f2b14"
   safran: "#e8a33d"
@@ -39,7 +40,7 @@ typography:
     letterSpacing: "-0.015em"
   display-hero:
     fontFamily: "Rozha One, Rozha Ersatz, Georgia, serif"
-    fontSize: "clamp(2.45rem, 1.35rem + 4.1vw, 4.85rem)"
+    fontSize: "clamp(2.7rem, 1.35rem + 5vw, 5.6rem)"
     fontWeight: 400
     lineHeight: 0.98
     letterSpacing: "-0.015em"
@@ -154,16 +155,20 @@ components:
 
 ## Overview
 
-**Creative North Star: „Das Streichholzetikett“**
+**Creative North Star: „Glut und Papier“**
 
-Die Seite ist gebaut wie eine Serie indischer Streichholzetiketten aus der Druckstadt Sivakasi: jede wichtige Einheit (Hero, Gericht, Öffnungszeiten, Logo) ist ein cremefarbenes Etikett mit Doppelrahmen und Blockdruck-Bordüre, aufgeklebt auf einen kohleschwarzen, fein gekörnten Grund. Farben sind flach gedruckt; Verläufe gibt es nur dort, wo Hitze gemeint ist (Chili-Regler, Glut-Schein, Platzhalter-Fotos). Das Feuer des Lehmofens steckt im Grund und in der Glutrot-Reibefläche; die Marke steckt im Rani-Pink des Logos.
+Zwei Materialien tragen die Seite. **Glut:** ein kohleschwarzer, fein gekörnter Grund, aus dem die Gerichte weich auftauchen – das Hero-Foto läuft nach links und unten in die Dunkelheit aus, in „Was man bei uns schmeckt“ liegen runde, randlos ausgeblendete Teller auf dem dunklen Tisch. **Papier:** helle Abschnitte liegen wie Papierbögen mit gerissenem Rand darauf; auf ihnen stehen die Gerichte als kleine Etiketten mit Blockdruck-Bordüre (die Herkunft aus indischen Streichholzetiketten aus Sivakasi). Das Logo steht frei, ohne Kasten: auf Dunkel als Negativ (Schriftzug Creme, Kuppel in hellem Rani).
+
+Bewegung ist ruhig: Überschriften steigen Wort für Wort aus einer Linie auf, Absätze gleiten weich nach oben, Teller bewegen sich beim Scrollen minimal in die Tiefe, das Hero-Foto „atmet“ einmal beim Laden.
 
 Die Dichte wechselt bewusst: großzügige, ruhige dunkle Strecken (Das Besondere, Curry-Kompass) wechseln mit hellen Papierflächen zum Lesen (Signature-Gerichte, Besuch, Speisekarte). Die Speisekarte ist ein gedruckter Bogen mit Punktlinien zwischen Name und Preis.
 
 Abgelehnt laut Auftraggeber: Taj-Mahal-Clipart, Kitsch, Gold-auf-Rot, Template- und Lieferdienst-Optik, Stock-Icon-Sammlungen.
 
 **Key Characteristics:**
-- Creme-Etiketten mit Doppelrahmen (`border` + `outline` mit negativem Offset) auf Kohle-Grund mit Körnung
+- Fotos ohne harte Kanten auf Dunkel: Hero mit Masken-Verlauf, Teller rund ausgeblendet (`mask: radial-gradient`)
+- Helle Abschnitte als Papierbögen mit gerissenem Rand (`.papier`, `public/ornament/kante.svg`)
+- Gericht-Etiketten mit Doppelrahmen und eigener Bordüre auf dem Papier
 - Eigene Blockdruck-Bordüre (`public/ornament/band.svg`) als Maske, Farbe frei wählbar
 - Rozha One für alles mit Stimme, Mukta für alles zum Lesen; Preise tabellarisch
 - Gerichtsnummern als gerahmte Seriennummer, weil Gäste per Nummer bestellen
@@ -174,7 +179,8 @@ Abgelehnt laut Auftraggeber: Taj-Mahal-Clipart, Kitsch, Gold-auf-Rot, Template- 
 Eine warme Gewürzpalette auf Kohle und Creme, verankert vom Rani-Pink des Logos und dem Glutrot des Ofens.
 
 ### Primary
-- **Rani-Pink** (#be036c): die Logofarbe, gemessen aus dem Original-Logo. Logo, Blockdruck-Bordüren auf hellen Etiketten (Hero, Öffnungszeiten, Kategorien der Speisekarte, Rechtstexte). Nur auf hellem Grund (5,3 : 1 auf Creme).
+- **Rani-Pink** (#be036c): die Logofarbe, gemessen aus dem Original-Logo. Logo auf hellem Grund, Blockdruck-Bordüren auf hellen Etiketten (Gerichte, Öffnungszeiten, Kategorien, Rechtstexte). Nur auf hellem Grund (5,3 : 1 auf Creme).
+- **Rani hell** (#e04a92): dieselbe Farbe für dunklen Grund (4,7 : 1 auf Tinte) – Kuppel im Negativ-Logo, Ornament über der Hero-Headline, Fußlinie, aktiver Bestellschritt.
 - **Glutrot** (#b63a1e): Handlungsfarbe. Primärknöpfe (Reservieren, Bestellen), Preise, Chili-Kennzeichnung, das Bestellen-Band und die mobile Reibefläche. Hover: **Glut tief** (#8f2b14).
 
 ### Secondary
@@ -193,7 +199,7 @@ Eine warme Gewürzpalette auf Kohle und Creme, verankert vom Rani-Pink des Logos
 - **Funktionsfarben:** Creme hell (#fbf6ee, Kompass-Optionen), Glut hell (#f07a52, Chili auf dunklem Chip), Offen-Grün (#6f9a3e, nur der Live-Status-Punkt), Holz / Holzkopf (#d7b98c / #6a5446, Streichhölzer der Kompass-Fortschrittsanzeige), Hinweis-Gelb (#fff5d6 / #5a3b00, nur TODO-Kästen der Rechtstexte), Druck-Schwarz/-Weiß (nur Print-Stylesheet).
 
 ### Named Rules
-**Die Logo-braucht-Licht-Regel.** Rani-Pink steht nie direkt auf Kohle. Auf dunklen Flächen bekommt das Logo ein Creme-Etikett oder erscheint in Creme.
+**Die Logo-steht-frei-Regel.** Das Logo bekommt nie einen Kasten. Auf Dunkel immer die Negativ-Fassung (`bombay-logo-negativ.svg`), auf Hell das Original in Magenta.
 
 **Die Feuer-ist-Handlung-Regel.** Glutrot bedeutet „tu etwas“ (anrufen, bestellen, Preis) oder „scharf“. Für Dekoration wird es nicht verwendet.
 
@@ -207,7 +213,7 @@ Eine warme Gewürzpalette auf Kohle und Creme, verankert vom Rani-Pink des Logos
 **Character:** Rozha One ist eine schwere, kontrastreiche Didone mit Kugel-Endungen aus einer indischen Schriftgießerei – nah am Schriftzug des Logos, laut wie ein Etikettendruck. Mukta ist eine ruhige, offene Grotesk derselben Herkunft mit echten Tabellenziffern.
 
 ### Hierarchy
-- **Display** (400, clamp 2.65–5.6rem, 0.98): Seitentitel (z. B. „Speisekarte“). **Display-Hero** (clamp 2.45–4.85rem): die Headline im Hero-Etikett („Aus Glut und Gewürz.“).
+- **Display** (400, clamp 2.65–5.6rem, 0.98): Seitentitel (z. B. „Speisekarte“). **Display-Hero** (clamp 2.7–5.6rem): die Headline im Hero, Creme direkt auf dem dunklen Foto („Aus Glut und Gewürz.“).
 - **Headline** (400, clamp 2.15–3.9rem, 1.02): Abschnittsüberschriften, Kategorien der Speisekarte.
 - **Title** (400, clamp 1.55–2.15rem, 1.08): Gerichtnamen auf Etiketten, USP-Titel, Kompass-Fragen.
 - **Body** (Mukta 400, 1.0625rem, 1.6): Fließtext, max. ca. 36rem Breite.
@@ -225,7 +231,7 @@ Ein Rahmen von max. 78rem mit 1rem / 1.75rem / 2.5rem Seitenrand (mobil / ab 40r
 
 ## Elevation & Depth
 
-Etiketten liegen auf dem Grund wie aufgeklebt: weiche, versetzte Schatten (`0 24px 48px -18px rgb(0 0 0 / .65), 0 6px 14px -6px rgb(0 0 0 / .45)`), keine harten Offset-Schatten. Tiefe entsteht sonst durch Tonwechsel (Tinte → Kohle → Ruß) und die Körnung (feTurbulence-Rauschen, `soft-light`, 16 %).
+Tiefe auf Dunkel entsteht durch Licht, nicht durch Kästen: Fotos laufen über Masken-Verläufe in den Grund aus, Teller liegen in drei Größen und bewegen sich beim Scrollen unterschiedlich schnell (Parallaxe 0,05 / 0,12 / 0,18). Helle Abschnitte liegen als Papierbögen mit gerissenem Rand auf dem dunklen Grund. Etiketten liegen auf dem Grund wie aufgeklebt: weiche, versetzte Schatten (`0 24px 48px -18px rgb(0 0 0 / .65), 0 6px 14px -6px rgb(0 0 0 / .45)`), keine harten Offset-Schatten. Tiefe entsteht sonst durch Tonwechsel (Tinte → Kohle → Ruß) und die Körnung (feTurbulence-Rauschen, `soft-light`, 16 %).
 
 ### Shadow Vocabulary
 - **etikett** (`0 24px 48px -18px rgb(0 0 0 / .65), 0 6px 14px -6px rgb(0 0 0 / .45)`): Hero-Etikett, Kompass-Hülle, Fotos auf Dunkel.
@@ -239,7 +245,11 @@ Gedruckte, fast eckige Formen: Etiketten 0 Radius mit Doppelrahmen (1px Rand, 1p
 ## Components
 
 - **Etikett** (`.etikett`): Creme, Doppelrahmen, oben optional die Bordüre (`.bordure`). Träger für Hero-Text, Gerichte, Öffnungszeiten, Logo, Rechtstexte.
-- **Logo-Etikett** (`LogoEtikett.astro`): Magenta-Logo-SVG auf kleinem Creme-Etikett; Kopf 5.6–6.9rem breit, Fuß 12rem.
+- **Logo** (`Logo.astro`): frei stehend, Negativ-Fassung auf Dunkel; Kopf 6.4–7.6rem breit, Fuß bis 16rem zentriert über einer Ornamentlinie.
+- **Hero**: Foto rechts (Desktop) bzw. oben (Handy), läuft weich in Kohle aus; davor Ornament, Headline in Creme, Unterzeile in Rauch, Knöpfe, Live-Status. Kein Kasten.
+- **Teller** (`Besonderes.astro`): runde, randlos ausgeblendete Fotos (`radial-gradient`-Maske, 64 % deckend) mit Bildunterschrift „Nr. … Name“, leichte Parallaxe.
+- **Papierbogen** (`.papier`): heller Abschnitt mit gerissenem Rand oben und unten.
+- **Online-Bestellung** (`/bestellen`): Artikelzeilen mit runden +/−-Knöpfen, Warenkorb (Desktop mitlaufend, Handy als Leiste unten), Formular mit Auswahlkarten für Lieferung/Abholung, Schritte-Anzeige mit Rani-hell für den aktiven Schritt.
 - **Gericht-Etikett** (`GerichtEtikett.astro`): Foto oder Platzhalter 4:3, Seriennummer-Kachel überlappt die Bildkante, Name, Beschreibung, Kennzeichen, Preis.
 - **Platzhalter** (`.platzhalter--glut|kardamom|kurkuma|tinte|safran`): Verlauf + Rapport + Name auf Mini-Etikett, Farbe nach Gerichtsart.
 - **Knöpfe** (`.knopf` + `-glut`, `-kontur`, `-kontur-hell`, `-creme`): mind. 3.25rem hoch, Icon links.
@@ -256,6 +266,8 @@ Gedruckte, fast eckige Formen: Etiketten 0 Radius mit Doppelrahmen (1px Rand, 1p
 - Neue Farben aus der Gewürzpalette ableiten; Rani-Pink bleibt für Logo und Bordüren.
 
 **Don't**
+- Keine weißen oder cremefarbenen Kästen hinter Logo oder Hero-Text.
+- Fotos auf dunklem Grund nie als harte Rechtecke – auslaufen lassen oder als Teller zeigen.
 - Keine Kuppeln, Bögen oder Paläste als Deko – die Kuppel gehört nur ins Logo.
 - Kein Gold auf Rot, keine Stock-Icons, keine Emoji als Symbole.
 - Safran nie als Text auf Creme.

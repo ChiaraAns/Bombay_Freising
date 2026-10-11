@@ -1,6 +1,7 @@
 ---
 import Icon from '../Icon.astro';
 import { kontakt } from '../../data/kontakt';
+import { pfad } from '../../lib/pfad';
 import { angebote } from '../../data/angebote';
 
 const extras = [angebote.mittagsbuffet, angebote.catering].filter((a) => a.aktiv);
@@ -16,7 +17,7 @@ const extras = [angebote.mittagsbuffet, angebote.catering].filter((a) => a.aktiv
       </p>
     </div>
     <div class="flex flex-col gap-3 sm:flex-row lg:col-span-5 lg:flex-col lg:items-stretch" data-erscheinen style="--verzoegerung:1">
-      <a href={kontakt.bestellUrl} class="knopf knopf-creme min-h-[3.75rem] justify-between px-6 text-lead" rel="noopener">
+      <a href={pfad('/bestellen')} class="knopf knopf-creme min-h-[3.75rem] justify-between px-6 text-lead">
         <span class="inline-flex items-center gap-3"><Icon name="tasche" size={22} /> Online bestellen</span>
         <Icon name="pfeil" size={20} />
       </a>

@@ -1,6 +1,6 @@
 ---
 import { pfad } from '../lib/pfad';
-import LogoEtikett from './LogoEtikett.astro';
+import Logo from './Logo.astro';
 import { kontakt } from '../data/kontakt';
 import { feiertagsHinweis } from '../data/oeffnungszeiten';
 import { zeitenKompakt } from '../lib/zeiten';
@@ -9,53 +9,84 @@ const zeiten = zeitenKompakt();
 ---
 
 <footer class="fuss koernung bg-russ text-rauch">
-  <span class="bordure text-glut/70" aria-hidden="true"></span>
-  <div class="rahmen grid gap-10 py-14 md:grid-cols-[1.2fr_1fr_1fr] md:py-16">
-    <div>
-      <LogoEtikett groesse="fuss" />
-      <p class="feinsatz mt-4 text-mini text-rauch-dunkel" style="letter-spacing:.14em">Indische Spezialitäten · Freising</p>
-      <address class="mt-6 not-italic leading-relaxed">
-        {kontakt.strasse}<br />
-        {kontakt.plz} {kontakt.ort} ({kontakt.ortsteil})
-      </address>
-      <p class="mt-3">
-        <a href={kontakt.telefonLink} class="tabellenziffern text-creme underline">{kontakt.telefonAnzeige}</a><br />
-        <a href={`mailto:${kontakt.email}`} class="text-creme underline">{kontakt.email}</a>
+  <div class="rahmen pb-10 pt-20 md:pt-24">
+    <!-- Marke: großes Logo, zentriert, ohne Hintergrund -->
+    <div class="fuss-marke flex flex-col items-center text-center" data-erscheinen>
+      <a href={pfad('/')} aria-label="Bombay – zur Startseite" class="inline-block">
+        <Logo groesse="fuss" />
+      </a>
+      <p class="feinsatz mt-5 text-mini text-rauch-dunkel" style="letter-spacing:.22em">
+        Indische Spezialitäten · Freisinger Altstadt
       </p>
+      <span class="fuss-linie mt-8" aria-hidden="true"></span>
     </div>
 
-    <div>
-      <h2 class="font-display text-zwischen text-creme">Öffnungszeiten</h2>
-      <dl class="tabellenziffern mt-4 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5">
-        {
-          zeiten.map((z) => (
-            <>
-              <dt class="font-semibold text-creme">{z.tage}</dt>
-              <dd>{z.text}</dd>
-            </>
-          ))
-        }
-      </dl>
-      <p class="mt-3 text-fein">{feiertagsHinweis}</p>
+    <div class="mt-12 grid gap-10 text-center md:grid-cols-3 md:gap-8">
+      <div>
+        <h2 class="font-display text-zwischen text-creme">Besuch</h2>
+        <address class="mt-4 not-italic leading-relaxed">
+          {kontakt.strasse}<br />
+          {kontakt.plz} {kontakt.ort}
+        </address>
+        <p class="mt-3 leading-relaxed">
+          <a href={kontakt.telefonLink} class="fuss-link tabellenziffern">{kontakt.telefonAnzeige}</a><br />
+          <a href={`mailto:${kontakt.email}`} class="fuss-link break-all">{kontakt.email}</a>
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-display text-zwischen text-creme">Öffnungszeiten</h2>
+        <dl class="tabellenziffern mx-auto mt-4 grid w-max grid-cols-[auto_auto] gap-x-4 gap-y-1.5 text-left">
+          {
+            zeiten.map((z) => (
+              <>
+                <dt class="font-semibold text-creme">{z.tage}</dt>
+                <dd>{z.text}</dd>
+              </>
+            ))
+          }
+        </dl>
+        <p class="mt-3 text-fein">{feiertagsHinweis}</p>
+      </div>
+
+      <div>
+        <h2 class="font-display text-zwischen text-creme">Bombay online</h2>
+        <ul class="mt-4 space-y-1.5" role="list">
+          <li><a href={pfad('/speisekarte')} class="fuss-link">Speisekarte</a></li>
+          <li><a href={pfad('/bestellen')} class="fuss-link">Online bestellen</a></li>
+          <li><a href={kontakt.iosAppUrl} class="fuss-link" rel="noopener">iOS-App</a></li>
+          <li><a href={kontakt.mapsUrl} class="fuss-link" rel="noopener">Route in Google Maps</a></li>
+        </ul>
+      </div>
     </div>
 
-    <div>
-      <h2 class="font-display text-zwischen text-creme">Bombay online</h2>
-      <ul class="mt-4 space-y-1.5" role="list">
-        <li><a href={pfad('/speisekarte')} class="text-creme underline">Speisekarte</a></li>
-        <li><a href={kontakt.bestellUrl} class="text-creme underline" rel="noopener">Online bestellen</a></li>
-        <li><a href={kontakt.iosAppUrl} class="text-creme underline" rel="noopener">iOS-App</a></li>
-        <li><a href={kontakt.mapsUrl} class="text-creme underline" rel="noopener">Route in Google Maps</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="border-t border-white/8">
-    <div class="rahmen flex flex-wrap items-center justify-between gap-4 py-6 text-fein">
+    <div class="mt-16 flex flex-col items-center gap-4 border-t border-white/8 pt-6 text-fein md:flex-row md:justify-between">
       <p>© {new Date().getFullYear()} Bombay – Indische Spezialitäten, Freising</p>
       <ul class="flex gap-6" role="list">
-        <li><a href={pfad('/impressum')} class="text-creme underline">Impressum</a></li>
-        <li><a href={pfad('/datenschutz')} class="text-creme underline">Datenschutz</a></li>
+        <li><a href={pfad('/impressum')} class="fuss-link">Impressum</a></li>
+        <li><a href={pfad('/datenschutz')} class="fuss-link">Datenschutz</a></li>
       </ul>
     </div>
   </div>
 </footer>
+
+<style>
+  .fuss-linie {
+    display: block;
+    width: min(18rem, 60vw);
+    height: 14px;
+    background: var(--color-rani-hell);
+    opacity: 0.7;
+    -webkit-mask: url('/ornament/band.svg') repeat-x center / auto 100%;
+    mask: url('/ornament/band.svg') repeat-x center / auto 100%;
+  }
+  .fuss-link {
+    color: var(--color-creme);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in oklab, var(--color-creme) 35%, transparent);
+    transition: text-decoration-color 0.25s var(--ease-glut);
+  }
+  .fuss-link:hover {
+    text-decoration-color: var(--color-rani-hell);
+  }
+</style>

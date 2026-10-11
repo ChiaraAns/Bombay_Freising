@@ -10,7 +10,7 @@ const altTexte: Record<number, string> = {
 const gerichte = signatureNummern.map((nr) => gerichtNr(nr));
 ---
 
-<section id="karte" class="hell bg-papier py-20 text-tinte md:py-28" aria-labelledby="karte-titel">
+<section id="karte" class="papier hell bg-papier py-20 text-tinte md:py-28" aria-labelledby="karte-titel">
   <div class="rahmen">
     <div class="flex flex-wrap items-end justify-between gap-6" data-erscheinen>
       <div class="max-w-[38rem]">
@@ -64,6 +64,11 @@ const gerichte = signatureNummern.map((nr) => gerichtNr(nr));
     }
     .etiketten > li {
       scroll-snap-align: start;
+    }
+    /* In der Wisch-Reihe sind alle Karten sofort sichtbar (kein Einblenden beim seitlichen Wischen) */
+    :global(.js) .etiketten > li[data-erscheinen] {
+      opacity: 1;
+      transform: none;
     }
   }
   .ganze-karte {

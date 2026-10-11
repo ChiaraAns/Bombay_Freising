@@ -5,6 +5,7 @@ import Kennzeichen from '../components/Kennzeichen.astro';
 import { speisekarte, preisFormat } from '../data/speisekarte';
 import { glossar, vokabular } from '../data/glossar';
 import { kontakt } from '../data/kontakt';
+import { pfad } from '../lib/pfad';
 import { zeitenKompakt } from '../lib/zeiten';
 
 const filter = [
@@ -41,7 +42,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
           </p>
         </div>
         <div class="flex flex-wrap gap-3 lg:col-span-5 lg:justify-end print:hidden">
-          <a href={kontakt.bestellUrl} class="knopf knopf-glut" rel="noopener">
+          <a href={pfad('/bestellen')} class="knopf knopf-glut">
             <Icon name="tasche" size={19} /> Online bestellen
           </a>
           <button type="button" class="knopf knopf-kontur-hell hidden sm:inline-flex" data-drucken>

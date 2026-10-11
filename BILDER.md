@@ -22,10 +22,10 @@ Die ursprünglichen Dateien `IMG_9581` bis `IMG_9591` wurden nach Motiv umbenann
 |---|---|---|---|---|
 | `gericht-93-jheenga-masala.webp` | IMG_9591 | 1485 × 1485 | Riesengarnelen in Masala-Soße, Karahi von oben, Reis und Chilis | **Hero** (bis `hero.*` existiert), OG-Bild, Kompass |
 | `gericht-57-butter-chicken.webp` | IMG_9581 | 1485 × 1485 | Butter Chicken in Karahi, Sahnehaube, dunkler Holztisch | Signature-Karte Nr. 57, Kompass |
-| `gericht-39-chicken-tikka.webp` | IMG_9582 | 1485 × 1485 | Chicken Tikka am Spieß, Minz-Joghurt, Zwiebeln, Limette (heller Hintergrund) | „Das Besondere“ (Lehmofen, bis `tandoor.*` existiert), Kompass |
-| `gericht-116-paneer-butter-masala.webp` | IMG_9583 | 1485 × 1485 | Paneer-Würfel in orangefarbener Soße, Karahi von oben | „Das Besondere“ (Paneer), Kompass |
-| `gericht-89-fisch-curry.webp` | IMG_9584 | **400 × 400** | Fischfilet in Curry mit Gemüse, blaue Schale | Kompass |
-| `gericht-66-lamm-curry.webp` | IMG_9586 | **400 × 400** | Lammcurry in Kupferschale mit Koriander | Kompass |
+| `gericht-39-chicken-tikka.webp` | IMG_9582 | 1485 × 1485 | Chicken Tikka am Spieß, Minz-Joghurt, Zwiebeln, Limette (heller Hintergrund) | Kompass |
+| `gericht-116-paneer-butter-masala.webp` | IMG_9583 | 1485 × 1485 | Paneer-Würfel in orangefarbener Soße, Karahi von oben | großer Teller in „Was man bei uns schmeckt“, Kompass |
+| `gericht-89-fisch-curry.webp` | IMG_9584 | **400 × 400** | Fischfilet in Curry mit Gemüse, blaue Schale | kleiner Teller in „Was man bei uns schmeckt“, Kompass |
+| `gericht-66-lamm-curry.webp` | IMG_9586 | **400 × 400** | Lammcurry in Kupferschale mit Koriander | mittlerer Teller in „Was man bei uns schmeckt“, Kompass |
 | `gericht-69-bhuna-gosht.webp` | IMG_9587 | **400 × 400** | Gebratenes Fleisch in kräftiger Soße, schwarzer Teller | Kompass |
 | `gericht-63-chicken-ananas.webp` | IMG_9588 | **400 × 400** | Hühnchen mit Ananas, Tontopf, Naan | Kompass |
 
@@ -41,7 +41,13 @@ Die ursprünglichen Dateien `IMG_9581` bis `IMG_9591` wurden nach Motiv umbenann
 | `tandoor.jpg` | 4:5 hoch | 1200 × 1500 | Der Holzkohle-Lehmofen aus Indien: Öffnung von oben oder schräg, glühende Kohle, Hände des Kochs mit Spieß oder Naan. |
 | `ambiente-1.jpg` | 16:9 quer | 1600 × 900 | Gastraum am Abend: gedeckte Tische, warmes Licht, Blick in den Raum. Ohne erkennbare Gäste (Datenschutz). Liegt hinter dem Kartenhinweis im Abschnitt „Besuchen Sie uns“. |
 
+## Hinweis zu den Tellern („Was man bei uns schmeckt“)
+
+Die Fotos werden dort rund ausgeschnitten und laufen weich in den dunklen Hintergrund aus. Am besten wirken **Fotos von oben auf dunklem Holz oder Stein**, das Gericht mittig. Helle Hintergründe (z. B. Nr. 39 Chicken Tikka) passen dort nicht und werden nur im Kompass gezeigt.
+
 ## Gesucht: Signature-Gerichte (Startseite)
+
+**TODO:** Für 58, 104, 128, 96 und 159 sollten frei lizenzierte Beispielfotos (z. B. Unsplash) eingesetzt werden. Das war in dieser Umgebung nicht möglich, weil die Bildquellen durch die Netzwerk-Richtlinie gesperrt sind. Sobald Fotos vorliegen, einfach mit dem Dateinamen unten in `public/images/` legen. Beispielfotos vor dem Livegang durch eigene ersetzen.
 
 Seitenverhältnis 4:3 quer, Mindestgröße 1600 × 1200. Einheitlicher Look: dunkler Holztisch, Kupfer- oder Karahi-Geschirr, Licht von der Seite, leicht von schräg oben.
 
@@ -64,11 +70,12 @@ Vorlage war ein Screenshot (`assets/logo/logo-original-screenshot.jpeg`, ursprü
 | Datei | Was |
 |---|---|
 | `public/logo/bombay-logo.svg` | **Hauptlogo.** Vektor-Nachbau: Kuppel und Bogen nachgezeichnet, Schriftzug aus Rozha One Buchstabe für Buchstabe an die Original-Positionen gesetzt (Flächenübereinstimmung mit dem Original ca. 81–86 %). Farbe Magenta `#BE036C` (aus dem Original gemessen). |
-| `public/logo/bombay-logo-creme.svg` | Dieselbe Form in Creme `#F6EFE4` für dunkle Flächen |
+| `public/logo/bombay-logo-negativ.svg` | **Fassung für dunklen Grund** (Header, Footer): Schriftzug Creme, Kuppel und Bogen in hellem Rani `#E04A92` |
+| `public/logo/bombay-logo-creme.svg` | Dieselbe Form komplett in Creme `#F6EFE4` |
 | `public/logo/bombay-logo.png` | Hauptlogo als PNG (1600 px, transparent) für Drucksachen und Plattformen |
 | `public/logo/bombay-logo-original-freigestellt.png` | Der Original-Screenshot, sauber zugeschnitten, Hintergrund transparent, Farbe vereinheitlicht. Kanten bleiben so weich wie die Vorlage. |
 
-**Regel:** Das Magenta-Logo braucht hellen Grund (Kontrast auf Creme 5,3 : 1, auf Dunkel nur 2,9 : 1). Auf dunklen Flächen steht es deshalb auf einem Creme-Etikett (Header, Footer) oder wird in Creme gezeigt.
+**Regel:** Das Logo steht immer frei, ohne Kasten. Das Magenta-Original nur auf hellem Grund (Kontrast auf Creme 5,3 : 1); auf Dunkel die Negativ-Fassung.
 
 **TODO:** Falls es das Logo als Originaldatei gibt (AI, EPS, PDF oder SVG von der Druckerei bzw. vom Gestalter), bitte nachliefern. Dann ersetzen wir den Nachbau 1 : 1.
 

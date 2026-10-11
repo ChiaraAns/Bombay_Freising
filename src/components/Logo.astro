@@ -1,0 +1,47 @@
+---
+/**
+ * Das Bombay-Logo ohne Hintergrund.
+ * Auf dunklem Grund: Negativ-Fassung (Schriftzug Creme, Kuppel in hellem Rani #E04A92).
+ * Auf hellem Grund: Original in Magenta #BE036C.
+ */
+import { pfad } from '../lib/pfad';
+
+interface Props {
+  groesse?: 'kopf' | 'fuss';
+  grund?: 'dunkel' | 'hell';
+  class?: string;
+}
+const { groesse = 'kopf', grund = 'dunkel', class: klasse = '' } = Astro.props;
+const VERHAELTNIS = 3873 / 1671;
+const breite = groesse === 'fuss' ? 260 : 120;
+const datei = grund === 'dunkel' ? '/logo/bombay-logo-negativ.svg' : '/logo/bombay-logo.svg';
+---
+
+<img
+  src={pfad(datei)}
+  alt="Bombay"
+  width={breite}
+  height={Math.round(breite / VERHAELTNIS)}
+  decoding="async"
+  fetchpriority={groesse === 'kopf' ? 'high' : undefined}
+  loading={groesse === 'fuss' ? 'lazy' : undefined}
+  class:list={['logo', `logo--${groesse}`, klasse]}
+/>
+
+<style>
+  .logo {
+    display: block;
+    height: auto;
+  }
+  .logo--kopf {
+    width: 6.4rem;
+  }
+  @media (width >= 48rem) {
+    .logo--kopf {
+      width: 7.6rem;
+    }
+  }
+  .logo--fuss {
+    width: min(16rem, 70vw);
+  }
+</style>

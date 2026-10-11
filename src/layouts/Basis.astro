@@ -12,12 +12,14 @@ interface Props {
   beschreibung: string;
   /** JSON-LD nur auf der Startseite ausgeben */
   strukturierteDaten?: boolean;
-  aktiv?: 'start' | 'speisekarte' | 'recht';
+  aktiv?: 'start' | 'speisekarte' | 'bestellen' | 'recht';
+  /** mobile Aktionsleiste ausblenden (z. B. auf /bestellen mit eigener Warenkorb-Leiste) */
+  ohneReibeflaeche?: boolean;
   /** Seiten ohne Indexierung (z. B. Rechtstexte mit Platzhaltern) */
   noindex?: boolean;
 }
 
-const { titel, beschreibung, strukturierteDaten = false, aktiv = 'start', noindex = false } = Astro.props;
+const { titel, beschreibung, strukturierteDaten = false, aktiv = 'start', noindex = false, ohneReibeflaeche = false } = Astro.props;
 // Vorschau-Build (GitHub Pages): nicht indexieren, Canonical zeigt auf die echte Domain
 const vorschau = process.env.VORSCHAU === '1';
 const canonical = new URL(Astro.url.pathname.replace(BASIS, '') || '/', Astro.site).href;
@@ -64,7 +66,7 @@ const jsonLd = {
   ),
   potentialAction: {
     '@type': 'OrderAction',
-    target: kontakt.bestellUrl,
+    target: new URL('/bestellen', Astro.site).href,
   },
 };
 ---
@@ -112,27 +114,10 @@ const jsonLd = {
       <slot />
     </main>
     <Fuss />
-    <Reibeflaeche />
+    {!ohneReibeflaeche && <Reibeflaeche />}
 
     <script>
-      // Dezentes Einblenden beim Scrollen (respektiert prefers-reduced-motion per CSS)
-      const elemente = document.querySelectorAll<HTMLElement>('[data-erscheinen]');
-      if ('IntersectionObserver' in window && elemente.length) {
-        const io = new IntersectionObserver(
-          (eintraege) => {
-            for (const e of eintraege) {
-              if (e.isIntersecting) {
-                e.target.classList.add('sichtbar');
-                io.unobserve(e.target);
-              }
-            }
-          },
-          { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
-        );
-        elemente.forEach((el) => io.observe(el));
-      } else {
-        elemente.forEach((el) => el.classList.add('sichtbar'));
-      }
+      import '../scripts/bewegung';
     </script>
   </body>
 </html>

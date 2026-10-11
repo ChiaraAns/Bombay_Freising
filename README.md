@@ -4,6 +4,7 @@ Website des indischen Restaurants Bombay in der Freisinger Altstadt.
 Statische Seite mit [Astro](https://astro.build) und Tailwind CSS, ohne Backend, ohne Tracking und ohne externe Schriften.
 
 - **Startseite** `/`: Hero mit Live-Öffnungsstatus, Das Besondere, Signature-Gerichte, Curry-Kompass, Bestellen, Öffnungszeiten & Anfahrt
+- **Online bestellen** `/bestellen`: eigener Bestellvorgang (Auswahl → Angaben → Fertig), Warenkorb, Lieferung oder Abholung, Wunschzeit aus den Öffnungszeiten
 - **Speisekarte** `/speisekarte`: komplette Karte mit Nummern, Kategorie-Navigation, Filtern, Suche, Glossar und Druckansicht
 - **Impressum** `/impressum` und **Datenschutz** `/datenschutz`: Platzhalter, müssen noch ausgefüllt werden
 
@@ -19,6 +20,7 @@ Alle Inhalte stehen in wenigen Dateien im Ordner `src/data/`. Jede Datei ist obe
 | **Signature-Gerichte (Startseite)** | `src/data/speisekarte.ts`, ganz unten `signatureNummern` | Liste der sechs Gerichtsnummern |
 | **Öffnungszeiten** | `src/data/oeffnungszeiten.ts` | `[]` bedeutet Ruhetag. Wirkt auf Live-Status, Tabelle, Footer und Google-Daten. |
 | **Telefon, Adresse, E-Mail, Links** | `src/data/kontakt.ts` | |
+| **Online-Bestellung** | `src/data/bestellung.ts` | Übermittlung (E-Mail oder eigener Empfang), Vorlaufzeit, Lieferung/Abholung, Mindestbestellwert, Liefergebühr |
 | **Mittagsbuffet / Catering** | `src/data/angebote.ts` | erscheint erst mit `aktiv: true` |
 | **Glossar „Was ist eigentlich …?“** | `src/data/glossar.ts` | |
 | **Fotos** | `public/images/` | siehe [BILDER.md](BILDER.md) |
@@ -42,6 +44,15 @@ Eine vorhandene Zeile in der passenden Kategorie kopieren und anpassen. Kennzeic
 - `beliebt: true` → „Beliebt“-Marke
 - `protein` und `geschmack` steuern nur den Curry-Kompass (siehe Kommentar in der Datei)
 
+### Online-Bestellung
+
+Die Bestellung läuft komplett im Browser. Am Ende wird sie über `endpunkt` in `src/data/bestellung.ts` übermittelt:
+
+- `endpunkt: null` (Standard): Das E-Mail-Programm des Gastes öffnet sich mit der fertigen Bestellung an `kontakt.email`. Der Gast muss die E-Mail absenden. Funktioniert ohne Server, ist aber nur eine Übergangslösung.
+- `endpunkt: 'https://…'`: Die Bestellung wird als JSON per POST gesendet (Bestellnummer, Art, Wunschzeit, Kunde, Positionen, Summe, fertiger Text). Geeignet für einen Formular-Dienst oder ein Kassensystem.
+
+Wunschzeiten ergeben sich aus den Öffnungszeiten (heute ab jetzt + Vorlaufzeit und der nächste Öffnungstag). Mindestbestellwert, Liefergebühr, Liefergebiet und Zahlungshinweis erscheinen erst, wenn sie eingetragen sind.
+
 ### Live-Status
 
 Der Satz unter dem Hero („Jetzt geöffnet – Küche bis 14:00“ / „Öffnet heute um 17:30“ / „Heute Ruhetag“) wird im Browser aus `oeffnungszeiten.ts` berechnet, immer in der Zeitzone Europe/Berlin. Bayerische Feiertage werden erkannt: Ein Feiertag am Ruhetag gilt als geöffnet, siehe `feiertagsZeitenAmRuhetag`.
@@ -61,6 +72,14 @@ npm test          # prüft Live-Status, alle 120 Curry-Kompass-Kombinationen und
 ```
 
 Beim ersten Build erzeugt `scripts/bilder.mjs` die Bildvarianten. Das dauert etwa eine Minute, danach wird nur noch neu gerechnet, was sich geändert hat.
+
+### Vorschau auf GitHub Pages
+
+```bash
+npm run build:vorschau    # baut mit Basis-Pfad /Bombay_Freising und noindex
+```
+
+Den Inhalt von `dist/` (plus eine leere Datei `.nojekyll`) auf den Branch `gh-pages` legen. Adresse: https://chiaraans.github.io/Bombay_Freising/
 
 ### Vorschaubild (og.jpg) neu erzeugen
 

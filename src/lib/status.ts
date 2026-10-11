@@ -74,7 +74,7 @@ export function istFeiertagBayern(jahr: number, monat: number, tag: number): boo
   return [-2, 1, 39, 50, 60].some((offset) => ostern + offset * tagMs === heute);
 }
 
-function addiereTage(z: BerlinZeit, n: number): BerlinZeit {
+export function addiereTage(z: BerlinZeit, n: number): BerlinZeit {
   const d = new Date(Date.UTC(z.jahr, z.monat - 1, z.tag + n));
   return {
     jahr: d.getUTCFullYear(),

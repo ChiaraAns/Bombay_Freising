@@ -423,10 +423,9 @@ export const speisekarte: Kategorie[] = [
 
 /**
  * Signature-Gerichte für die Vorschau auf der Startseite (Gerichtsnummern, Reihenfolge = Anzeige).
- * Briefing-Vorschlag war 57, 58, 104, 128, 96, 159. Nr. 104 Palak Paneer ist gegen Nr. 116 Paneer Butter Masala
- * getauscht, weil es davon ein eigenes Foto gibt. Sobald `gericht-104-…` als Foto vorliegt, einfach zurücktauschen.
+ * Wie im Briefing vorgeschlagen. Das Paneer-Foto (Nr. 116) steht groß in „Was man bei uns schmeckt“.
  */
-export const signatureNummern = [57, 58, 116, 128, 96, 159];
+export const signatureNummern = [57, 58, 104, 128, 96, 159];
 
 // ---------- Hilfsfunktionen ----------
 

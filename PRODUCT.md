@@ -36,7 +36,7 @@ Tandoori-Gerichte und Brote aus einem original Holzkohle-Lehmofen aus Indien, ha
 ## Operating Context
 
 - Reservierung ausschließlich telefonisch: 08161 / 49 65 102.
-- Lieferung und Abholung über eine externe Bestellplattform plus iOS-App.
+- Lieferung und Abholung über eine eigene Bestellseite (/bestellen, Übermittlung zunächst per E-Mail) plus iOS-App. Die frühere externe Bestellplattform wird nicht mehr verlinkt.
 - Gäste bestellen am Telefon oft per Gerichtsnummer, deshalb sind die Nummern sichtbar.
 - Mittagsöffnung und Abendöffnung, dienstags Ruhetag, an Feiertagen geöffnet.
 

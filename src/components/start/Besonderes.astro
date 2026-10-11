@@ -1,17 +1,20 @@
 ---
-import Foto from '../Foto.astro';
-import { bild, gerichtBild } from '../../lib/bilder';
-import { gerichtNr } from '../../data/speisekarte';
-import { speisekarte } from '../../data/speisekarte';
+import { bild, gerichtBild, srcset, fallbackSrc, type BildInfo } from '../../lib/bilder';
+import { gerichtNr, speisekarte } from '../../data/speisekarte';
 
-// Eigenes Lehmofen-Foto (`tandoor.*`) hat Vorrang, sonst Chicken Tikka vom Spieß.
+/**
+ * „Teller auf dem Tisch“: runde, weich auslaufende Fotos auf dunklem Grund.
+ * Am besten wirken Fotos mit dunklem Hintergrund, von oben fotografiert.
+ * Ein eigenes Lehmofen-Foto (`tandoor.*`) ersetzt automatisch den großen Teller.
+ */
 const tandoorBild = bild('tandoor');
-const ofenBild = tandoorBild ?? gerichtBild(39);
-
-// Kleine Reihe „Aus unserer Küche“: weitere eigene Fotos (Nummern hier pflegen)
-const kuechenFotos = [66, 69, 63, 89]
-  .map((nr) => ({ nr, name: gerichtNr(nr).name, bild: gerichtBild(nr) }))
-  .filter((f) => f.bild);
+const teller: { bild?: BildInfo; text: string; nr?: number; groesse: 'gross' | 'mittel' | 'klein' }[] = [
+  tandoorBild
+    ? { bild: tandoorBild, text: 'Unser Holzkohle-Lehmofen aus Indien', groesse: 'gross' }
+    : { bild: gerichtBild(116), nr: 116, text: gerichtNr(116).name, groesse: 'gross' },
+  { bild: gerichtBild(66), nr: 66, text: gerichtNr(66).name, groesse: 'mittel' },
+  { bild: gerichtBild(89), nr: 89, text: gerichtNr(89).name, groesse: 'klein' },
+].filter((t) => t.bild);
 
 const vegKategorie = speisekarte.find((k) => k.id === 'vegetarisch')!;
 const anzahlVeg = vegKategorie.gerichte.length;
@@ -35,46 +38,21 @@ const punkte = [
     text: `${anzahlVeg} vegetarische Hauptgerichte, dazu Vorspeisen, Brote und Biryani ohne Fleisch. ${anzahlVegan} Gerichte bekommen Sie auch vegan.`,
   },
 ];
+
+const sizes = { gross: '(min-width: 64rem) 34rem, 92vw', mittel: '(min-width: 64rem) 20rem, 52vw', klein: '(min-width: 64rem) 15rem, 40vw' };
 ---
 
-<section id="haus" class="besonderes koernung bg-tinte py-20 md:py-28" aria-labelledby="haus-titel">
+<section id="haus" class="besonderes koernung relative overflow-hidden bg-tinte pb-28 pt-20 md:pb-36 md:pt-28" aria-labelledby="haus-titel">
   <div class="rahmen">
-    <div class="grid gap-12 lg:grid-cols-12 lg:gap-10">
-      <div class="lg:col-span-5" data-erscheinen>
-        <h2 id="haus-titel" class="display-l text-creme">
-          Was man bei uns<br class="hidden sm:block" /> schmeckt.
-        </h2>
-        <p class="mt-6 max-w-[30rem] text-lead leading-relaxed text-rauch">
-          Holzkohleglut, Joghurtmarinade, Safran und Ingwer. Bei Bombay kommt das Feuer aus einem echten Lehmofen
-          und der Käse aus der eigenen Küche.
+    <div class="grid gap-14 lg:grid-cols-12 lg:gap-10">
+      <div class="lg:col-span-6 lg:row-start-1">
+        <h2 id="haus-titel" class="display-l text-creme">Was man bei uns schmeckt.</h2>
+        <p class="mt-6 max-w-[30rem] text-lead leading-relaxed text-rauch" data-erscheinen>
+          Holzkohleglut, Joghurtmarinade, Safran und Ingwer. Bei Bombay kommt das Feuer aus einem echten Lehmofen und
+          der Käse aus der eigenen Küche.
         </p>
 
-        <figure class="besonderes-foto-gross mt-8 lg:mt-10">
-          <Foto
-            bild={ofenBild}
-            alt={tandoorBild ? 'Der Holzkohle-Lehmofen (Tandoor) im Bombay' : 'Chicken Tikka vom Spieß mit Minz-Joghurt, roten Zwiebeln und Limette'}
-            platzhalter="Der Lehmofen"
-            sizes="(min-width: 80rem) 30rem, (min-width: 64rem) 40vw, 92vw"
-            verhaeltnis="auto"
-            class="ofen-foto etikett-schatten"
-            position="55% 60%"
-          />
-          <figcaption class="mt-3 text-fein text-rauch-dunkel">
-            {
-              tandoorBild ? (
-                'Unser Holzkohle-Lehmofen aus Indien'
-              ) : (
-                <>
-                  <span class="tabellenziffern text-safran">Nr. 39</span> Chicken Tikka – vom Spieß aus dem Lehmofen
-                </>
-              )
-            }
-          </figcaption>
-        </figure>
-      </div>
-
-      <div class="lg:col-span-6 lg:col-start-7">
-        <ol class="punkte" role="list">
+        <ol class="punkte mt-10" role="list">
           {
             punkte.map((p, i) => (
               <li class="punkt" data-erscheinen style={`--verzoegerung:${i}`}>
@@ -84,32 +62,25 @@ const punkte = [
             ))
           }
         </ol>
+      </div>
 
+      <!-- Teller-Komposition -->
+      <div class="tafel lg:col-span-6 lg:col-start-7 lg:row-start-1" aria-label="Gerichte aus unserer Küche">
         {
-          kuechenFotos.length > 0 && (
-            <div class="mt-12" data-erscheinen>
-              <h3 class="font-display text-zwischen text-creme">Aus unserer Küche</h3>
-              <ul class="kuechen-reihe mt-4" role="list">
-                {kuechenFotos.map((f) => (
-                  <li>
-                    <figure>
-                      <Foto
-                        bild={f.bild}
-                        alt={f.name}
-                        platzhalter={f.name}
-                        sizes="(min-width: 64rem) 8.5rem, 45vw"
-                        verhaeltnis="1 / 1"
-                        class="etikett-schatten"
-                      />
-                      <figcaption class="mt-2 text-klein leading-snug text-rauch-dunkel">
-                        <span class="tabellenziffern text-safran">Nr. {f.nr}</span> {f.name}
-                      </figcaption>
-                    </figure>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )
+          teller.map((t, i) => (
+            <figure class:list={['teller', `teller--${t.groesse}`]} data-parallax={['0.05', '0.12', '0.18'][i]}>
+              <div class="teller-bild" data-erscheinen style={`--verzoegerung:${i + 1}`}>
+                <picture>
+                  <source type="image/avif" srcset={srcset(t.bild!, 'avif')} sizes={sizes[t.groesse]} />
+                  <source type="image/webp" srcset={srcset(t.bild!, 'webp')} sizes={sizes[t.groesse]} />
+                  <img src={fallbackSrc(t.bild!)} alt={t.text} loading="lazy" decoding="async" width={t.bild!.breite} height={t.bild!.hoehe} />
+                </picture>
+              </div>
+              <figcaption class="teller-text">
+                {t.nr && <span class="tabellenziffern text-safran">Nr. {t.nr}</span>} {t.text}
+              </figcaption>
+            </figure>
+          ))
         }
       </div>
     </div>
@@ -117,37 +88,16 @@ const punkte = [
 </section>
 
 <style>
-  .besonderes :global(.ofen-foto) {
-    aspect-ratio: 4 / 3;
-  }
-  @media (width >= 64rem) {
-    .besonderes :global(.ofen-foto) {
-      aspect-ratio: 4 / 5;
-    }
-  }
-  .kuechen-reihe {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1.25rem 1rem;
-  }
-  @media (width >= 40rem) {
-    .kuechen-reihe {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-  }
   .punkt {
     position: relative;
-    padding: 1.6rem 0 1.7rem 2.6rem;
-    border-top: 1px solid rgb(246 239 228 / 0.12);
-  }
-  .punkt:last-child {
-    border-bottom: 1px solid rgb(246 239 228 / 0.12);
+    padding: 1.4rem 0 1.5rem 2.6rem;
+    border-top: 1px solid color-mix(in oklab, var(--color-creme) 10%, transparent);
   }
   .punkt::before {
     content: '';
     position: absolute;
     left: 0;
-    top: 2.05rem;
+    top: 1.85rem;
     width: 1.35rem;
     height: 1.35rem;
     background: var(--color-safran);
@@ -155,9 +105,100 @@ const punkte = [
     mask: url('/ornament/kachel.svg') no-repeat center / 205%;
   }
   .punkt:nth-child(2)::before {
-    background: var(--color-glut);
+    background: var(--color-rani-hell);
   }
   .punkt:nth-child(4)::before {
     background: var(--color-kardamom-hell);
+  }
+
+  /* Teller: runde, weich in den Grund auslaufende Fotos */
+  .tafel {
+    position: relative;
+    min-height: 30rem;
+  }
+  .teller {
+    position: absolute;
+    margin: 0;
+  }
+  .teller-bild {
+    aspect-ratio: 1;
+    -webkit-mask: radial-gradient(closest-side, #000 64%, transparent 100%);
+    mask: radial-gradient(closest-side, #000 64%, transparent 100%);
+  }
+  .teller-bild img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .teller-text {
+    position: absolute;
+    font-size: var(--text-klein);
+    color: var(--color-rauch-dunkel);
+    white-space: nowrap;
+  }
+  .teller--gross {
+    width: min(88%, 34rem);
+    top: 0;
+    right: -6%;
+  }
+  .teller--gross .teller-text {
+    right: 16%;
+    bottom: 5%;
+  }
+  .teller--mittel {
+    width: min(50%, 20rem);
+    left: -4%;
+    top: 46%;
+  }
+  .teller--mittel .teller-text {
+    left: 16%;
+    bottom: -0.5rem;
+  }
+  .teller--klein {
+    width: min(38%, 15rem);
+    right: 4%;
+    top: 74%;
+  }
+  .teller--klein .teller-text {
+    right: 8%;
+    bottom: -0.6rem;
+  }
+
+  @media (width < 64rem) {
+    .tafel {
+      min-height: 0;
+      height: 118vw;
+      max-height: 40rem;
+      margin-inline: -1rem;
+    }
+    .teller--gross {
+      width: 92%;
+      right: -8%;
+    }
+    .teller--mittel {
+      width: 52%;
+      left: -2%;
+      top: 50%;
+    }
+    .teller--klein {
+      width: 38%;
+      right: 2%;
+      top: 70%;
+    }
+  }
+
+  @media (width >= 64rem) {
+    .tafel {
+      min-height: 46rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .js .teller-bild[data-erscheinen] {
+      transform: scale(0.94);
+    }
+    .js .teller-bild[data-erscheinen].sichtbar {
+      transform: none;
+    }
   }
 </style>

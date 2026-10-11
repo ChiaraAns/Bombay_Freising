@@ -157,8 +157,8 @@ for (const g of kompassPool) {
               <a href={kontakt.telefonLink} class="knopf knopf-glut">
                 <Icon name="telefon" size={18} /> Telefonisch reservieren
               </a>
-              <a href={kontakt.bestellUrl} class="knopf knopf-creme" rel="noopener">
-                <Icon name="tasche" size={18} /> Online bestellen
+              <a href={pfad('/bestellen')} class="knopf knopf-creme" data-bestellen>
+                <Icon name="tasche" size={18} /> Diese Kombination bestellen
               </a>
               <button type="button" class="kompass-textknopf hell-auf-dunkel sm:ml-auto" data-nochmal>
                 <Icon name="nochmal" size={17} /> Nochmal
@@ -298,6 +298,9 @@ for (const g of kompassPool) {
       hinweis.textContent = ergebnis.hinweis ?? '';
       el.querySelector('[data-top]')!.replaceChildren(karte(ergebnis.top, true));
       el.querySelector('[data-alternativen]')!.replaceChildren(...ergebnis.alternativen.map((e) => karte(e, false)));
+      // „Diese Kombination bestellen“ legt Top-Empfehlung + Beilage direkt in den Warenkorb
+      el.querySelector<HTMLAnchorElement>('[data-bestellen]')!.href =
+        `${import.meta.env.BASE_URL.replace(/\/$/, '')}/bestellen?add=${ergebnis.top.gericht.nr},${ergebnis.top.dazu.nr}`;
       zeigeSchritt(4);
     });
 
