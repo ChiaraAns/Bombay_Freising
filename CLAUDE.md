@@ -20,4 +20,7 @@ Ablauf bei jeder Design-Aufgabe:
 - Keine Fakten erfinden (Jahreszahlen, Auszeichnungen, Bewertungen, Lieferkosten …). Lücken als `TODO` markieren.
 - Inhalte zentral in `src/data/` (Speisekarte, Öffnungszeiten, Kontakt, Bestellung, Angebote).
 - Prüfen: `npm test` (Live-Status, Curry-Kompass, Preise gegen `Briefing.md`, Bestellung) und `npm run build`.
-- Vorschau: `npm run build:vorschau`, Inhalt von `dist/` plus `.nojekyll` auf Branch `gh-pages` → https://chiaraans.github.io/Bombay_Freising/
+- Vorschau in **Fassungen** (Wunsch der Auftraggeberin): Jede Überarbeitungsrunde bekommt einen **neuen Link**, bestehende Fassungen werden nie überschrieben.
+  - Bauen: `BASE_PATH=/Bombay_Freising/fassung-N VORSCHAU=1 npx astro build`, Inhalt von `dist/` nach `fassung-N/` auf Branch `gh-pages` (andere Ordner dort nicht anfassen, `.nojekyll` bleibt) → https://chiaraans.github.io/Bombay_Freising/fassung-N/
+  - Den Quellstand jeder Fassung als Branch `fassung-N` sichern.
+  - Bisher: `fassung-1` (Glut und Papier, Reißkanten), `fassung-2` (Glut bei Nacht, nach Referenz „Fenster“). Die Wurzel https://chiaraans.github.io/Bombay_Freising/ zeigt unverändert Fassung 1.

@@ -1,12 +1,13 @@
 ---
 name: Bombay – Indische Spezialitäten, Freising
-description: Glut und Papier – Gerichte tauchen aus dunkler Kohle auf, helle Papierbögen tragen Karte und Etiketten; Rani-Pink aus dem Logo.
+description: Glut bei Nacht – eine durchgehend dunkle, warm gekörnte Seite, aus der die Gerichte auftauchen; Glutkanten statt Kästen, Pillen statt Ecken; Rani-Pink aus dem Logo. Papier nur noch als Lesebogen für Karte, Bestellung und Rechtstexte.
 colors:
   tinte: "#1b1714"
   russ: "#120f0d"
   kohle: "#26201b"
   kohle-hell: "#352c25"
   creme: "#f6efe4"
+  creme-fest: "#f6efe4"
   papier: "#ede2cf"
   papier-dunkel: "#e2d4bc"
   rani: "#be036c"
@@ -90,17 +91,31 @@ typography:
     letterSpacing: "0.04em"
   label:
     fontFamily: "Mukta, Mukta Ersatz, system-ui, sans-serif"
-    fontSize: "0.875rem"
+    fontSize: "0.75rem"
     fontWeight: 600
-    letterSpacing: "0.08em"
+    letterSpacing: "0.16em"
+  knopf:
+    fontFamily: "Mukta, Mukta Ersatz, system-ui, sans-serif"
+    fontSize: "0.8rem"
+    fontWeight: 600
+    letterSpacing: "0.14em"
+  fakt:
+    fontFamily: "Mukta, Mukta Ersatz, system-ui, sans-serif"
+    fontSize: "clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem)"
+    fontWeight: 500
+    lineHeight: 1.15"
   preis:
     fontFamily: "Mukta, Mukta Ersatz, system-ui, sans-serif"
     fontWeight: 700
     fontFeature: "'tnum' 1, 'lnum' 1"
 rounded:
-  druck: "2px"
-  knopf: "3px"
-  chip: "999px"
+  bild: "9px"
+  feld: "10px"
+  karte: "14px"
+  tafel: "1.75rem"
+  blatt: "1.5rem"
+  blatt-desktop: "2.5rem"
+  pille: "999px"
 spacing:
   rand-mobil: "1rem"
   rand-tablet: "1.75rem"
@@ -110,33 +125,34 @@ spacing:
   inhalt-max: "78rem"
 components:
   button-primary:
-    backgroundColor: "{colors.glut}"
+    backgroundColor: "{colors.russ}"
     textColor: "{colors.creme}"
-    rounded: "{rounded.knopf}"
-    padding: "0.55rem 1.25rem"
+    typography: "{typography.knopf}"
+    rounded: "{rounded.pille}"
+    padding: "0.6rem 1.6rem"
     height: "3.25rem"
   button-primary-hover:
-    backgroundColor: "{colors.glut-tief}"
+    backgroundColor: "{colors.kohle}"
   button-outline:
-    textColor: "{colors.tinte}"
-    rounded: "{rounded.knopf}"
-    padding: "0.55rem 1.25rem"
+    textColor: "{colors.creme}"
+    typography: "{typography.knopf}"
+    rounded: "{rounded.pille}"
+    padding: "0.6rem 1.6rem"
     height: "3.25rem"
   button-outline-hover:
-    backgroundColor: "{colors.tinte}"
     textColor: "{colors.creme}"
-  button-creme:
-    backgroundColor: "{colors.creme}"
-    textColor: "{colors.tinte}"
-    rounded: "{rounded.knopf}"
+  button-primary-papier:
+    backgroundColor: "{colors.glut}"
+    textColor: "{colors.creme}"
+    rounded: "{rounded.pille}"
   etikett:
-    backgroundColor: "{colors.creme}"
-    textColor: "{colors.tinte}"
-    rounded: "0"
+    backgroundColor: "{colors.kohle}"
+    textColor: "{colors.creme}"
+    rounded: "{rounded.karte}"
   filter-chip:
     backgroundColor: "{colors.creme}"
     textColor: "{colors.tinte}"
-    rounded: "{rounded.chip}"
+    rounded: "{rounded.pille}"
     height: "2.75rem"
   filter-chip-aktiv:
     backgroundColor: "{colors.tinte}"
@@ -147,33 +163,39 @@ components:
     typography: "{typography.title}"
   beliebt-marke:
     backgroundColor: "{colors.safran}"
-    textColor: "{colors.tinte}"
-    rounded: "{rounded.druck}"
+    textColor: "{colors.russ}"
+    rounded: "{rounded.pille}"
 ---
 
 # Design System: Bombay – Indische Spezialitäten, Freising
 
 ## Overview
 
-**Creative North Star: „Glut und Papier“**
+**Creative North Star: „Glut bei Nacht“**
 
-Zwei Materialien tragen die Seite. **Glut:** ein kohleschwarzer, fein gekörnter Grund, aus dem die Gerichte weich auftauchen – das Hero-Foto läuft nach links und unten in die Dunkelheit aus, in „Was man bei uns schmeckt“ stehen freigestellte Schüsseln mit Kontaktschatten auf dem dunklen Tisch, darunter ein warmer Glutschein. **Papier:** helle Abschnitte liegen wie Papierbögen mit gerissenem, faserigem Rand und weichem Schatten darauf; auf ihnen stehen die Gerichte als kleine Etiketten mit Blockdruck-Bordüre (die Herkunft aus indischen Streichholzetiketten aus Sivakasi). Das Logo steht frei, ohne Kasten: auf Dunkel als Negativ (Schriftzug Creme, Kuppel in hellem Rani).
+Die Startseite ist ein einziger dunkler Raum, wie ein Restaurant am Abend: warm-schwarzer, fein gekörnter Grund (Tinte, Kohle, Ruß), aus dem die Gerichte auftauchen. Abschnitte wechseln nie die Bühne; sie heben sich nur durch leise Tonstufen, die nach oben und unten weich in die Tinte zurücklaufen, und durch Haarlinien voneinander ab. Licht kommt von der Glut: Primärknöpfe tragen eine leuchtende Kante von Glutrot zu Safran, unter Überschriften liegt ein kurzer Goldfaden in Safran, hinter den Tellern und in der Bestell-Tafel glimmt ein warmer Schein. Alles Bedienbare ist rund (Pillen), Karten haben weiche Ecken.
 
-Bewegung ist ruhig: Überschriften steigen Wort für Wort aus einer Linie auf, Absätze gleiten weich nach oben (nie Überschrift und umgebender Block doppelt), Teller bewegen sich beim Scrollen minimal in die Tiefe, das Hero-Foto „atmet“ einmal beim Laden. Im Hero sind Knöpfe und Live-Status nach spätestens 0,35 s unterwegs und nach knapp einer Sekunde vollständig da (0,6 s).
+Im Hero steht die Headline frei auf dem Foto, das links, oben und unten in die Kohle ausläuft; darunter die drei Fakten groß wie auf einem Schild: Zustand („Jetzt geöffnet“), Reservierungsnummer, Adresse – jeweils kleine Safran-Beschriftung, großer Wert. Die Gerichte stehen als dunkle Etiketten mit feiner Safran-Innenlinie und Rani-Bordüre (die Herkunft aus den Sivakasi-Streichholzetiketten bleibt in der Bordüre und der Seriennummer).
 
-Die Dichte wechselt bewusst: großzügige, ruhige dunkle Strecken (Das Besondere, Curry-Kompass) wechseln mit hellen Papierflächen zum Lesen (Signature-Gerichte, Besuch, Speisekarte). Die Speisekarte ist ein gedruckter Bogen mit Punktlinien zwischen Name und Preis.
+Papier gibt es nur noch dort, wo lange gelesen oder ausgefüllt wird: Speisekarte, Bestellung, Rechtstexte liegen als heller Bogen auf dem dunklen Grund und enden mit weich gerundeter Unterkante über dem Footer. Das Logo steht frei, ohne Kasten: auf Dunkel als Negativ (Schriftzug Creme, Kuppel in hellem Rani).
 
-Abgelehnt laut Auftraggeber: Taj-Mahal-Clipart, Kitsch, Gold-auf-Rot, Template- und Lieferdienst-Optik, Stock-Icon-Sammlungen.
+Bewegung ist ruhig: Überschriften steigen Wort für Wort aus einer Linie auf, Absätze gleiten weich nach oben (nie Überschrift und umgebender Block doppelt), Teller bewegen sich beim Scrollen minimal in die Tiefe, das Hero-Foto „atmet“ einmal beim Laden. Im Hero sind Knöpfe und Fakten nach spätestens 0,35 s unterwegs und nach knapp einer Sekunde vollständig da (0,6 s).
+
+Abgelehnt laut Auftraggeber: Taj-Mahal-Clipart, Kitsch, Gold-auf-Rot, Template- und Lieferdienst-Optik, Stock-Icon-Sammlungen; ausdrücklich auch harte Bühnenwechsel zwischen Abschnitten („wie PowerPoint“) und eckige Knöpfe.
+
+Fassung 1 („Glut und Papier“ mit gerissenen Papierbögen) ist auf dem Branch `fassung-1` und unter `/fassung-1/` der Vorschau gesichert.
 
 **Key Characteristics:**
-- Fotos ohne harte Kanten auf Dunkel: Hero mit Masken-Verlauf (links, oben und unten), Teller als echte Freisteller mit Alpha-Kanal (`teller-<nr>-*.webp`, `scripts/teller-freistellen.mjs`) und Kontaktschatten – keine geometrischen Masken als Ersatz für die Kontur
-- Helle Abschnitte als Papierbögen mit gerissenem Rand (`.papier`): drei verschiedene Risse (`public/ornament/riss-*-maske.svg` / `-farbe.svg`, erzeugt mit `scripts/kanten.mjs`), helle Papierfasern am Riss, weicher Schatten nach außen; jede Naht mit eigenem Riss (`.riss-b`, `.riss-c`, `--riss-versatz`)
-- Das Bestellen-Band ist ein Glutrot-Bogen mit gerissener Oberkante, Safran-Bordüren und einem großen Blockdruck-Rapport (`kachel-glut.svg`) rechts, der nach links ausläuft
-- Gericht-Etiketten mit Doppelrahmen und eigener Bordüre auf dem Papier
+- Ein durchgehender dunkler Grund auf der Startseite; Tonstufen (z. B. `#201a16` für die Signature-Gerichte) laufen per Verlauf weich ein und aus, „Besuchen Sie uns“ läuft in den Ruß des Footers aus; alle Abschnitte tragen dieselbe Körnung (`koernung` + eigener Grund, sonst entsteht eine hellere Fläche)
+- Fotos ohne harte Kanten: Hero mit Masken-Verlauf und weichem Schatten hinter dem Text, Teller als echte Freisteller mit Alpha-Kanal (`teller-<nr>-*.webp`, `scripts/teller-freistellen.mjs`) und Kontaktschatten
+- Primärknopf = dunkle Pille mit Glutkante (Verlauf Glut hell → Safran) und engem Schein; Sekundär = Haarlinien-Pille; Beschriftung gesperrte Versalien
+- Goldfaden (`.goldfaden`) unter jeder Abschnittsüberschrift der Startseite
+- Bestellen als Tafel (`Bestellen.astro`): gerundete dunkle Fläche, Glutschein unten rechts, großer Blockdruck-Rapport (`kachel-glut.svg`) läuft aus
+- Gericht-Etiketten, Öffnungszeiten und Kompass-Hülle als dunkle Karten über `.nacht` (siehe Components)
 - Eigene Blockdruck-Bordüre (`public/ornament/band.svg`) als Maske, Farbe frei wählbar
 - Rozha One für alles mit Stimme, Mukta für alles zum Lesen; Preise tabellarisch
 - Gerichtsnummern als gerahmte Seriennummer, weil Gäste per Nummer bestellen
-- Mobil eine feste „Reibefläche“ unten: Anrufen · Bestellen · Speisekarte
+- Mobil eine feste dunkle Leiste unten: Anrufen · Bestellen (Safran) · Speisekarte
 
 ## Colors
 
@@ -182,10 +204,10 @@ Eine warme Gewürzpalette auf Kohle und Creme, verankert vom Rani-Pink des Logos
 ### Primary
 - **Rani-Pink** (#be036c): die Logofarbe, gemessen aus dem Original-Logo. Logo auf hellem Grund, Blockdruck-Bordüren auf hellen Etiketten (Gerichte, Öffnungszeiten, Kategorien, Rechtstexte). Nur auf hellem Grund (5,3 : 1 auf Creme).
 - **Rani hell** (#e04a92): dieselbe Farbe für dunklen Grund (4,7 : 1 auf Tinte) – Kuppel im Negativ-Logo, Ornament über der Hero-Headline, Fußlinie, aktiver Bestellschritt.
-- **Glutrot** (#b63a1e): Handlungsfarbe. Primärknöpfe (Reservieren, Bestellen), Preise, Chili-Kennzeichnung, das Bestellen-Band und die mobile Reibefläche. Hover: **Glut tief** (#8f2b14).
+- **Glutrot** (#b63a1e) / **Glut hell** (#f07a52): Handlungsfarbe. Auf Dunkel als leuchtende Kante der Primärknöpfe (Glut hell → Safran) und als Preis auf dunklen Etiketten (Glut hell, 6 : 1); auf Papier als gefüllter Primärknopf und Preis (Glutrot). Chili-Kennzeichnung. Hover auf Papier: **Glut tief** (#8f2b14).
 
 ### Secondary
-- **Safran** (#e8a33d): Akzent auf Dunkel – Fokusring, Links auf Kohle, aktive Kategorie, „Beliebt“-Marke, Platzhalter-Verläufe. Auf Creme nie als Text (Kontrast nur ca. 2 : 1).
+- **Safran** (#e8a33d): das „Gold“ der Seite, nur auf Dunkel – Goldfaden, Fakten-Beschriftungen, Reservieren-Pille, Innenlinie der Etiketten, gewählte Kompass-Option, Fokusring, „Beliebt“-Marke, Platzhalter-Verläufe. Auf Creme nie als Text (Kontrast nur ca. 2 : 1).
 - **Kurkuma** (#d98e04): Zwischenstufe der Hitze-Skala, Platzhalter-Variante Fisch, „öffnet bald“-Punkt.
 
 ### Tertiary
@@ -194,7 +216,7 @@ Eine warme Gewürzpalette auf Kohle und Creme, verankert vom Rani-Pink des Logos
 ### Neutral
 - **Tinte** (#1b1714): Grund der dunklen Flächen, Text auf Creme, Seriennummern.
 - **Ruß** (#120f0d) und **Kohle** (#26201b / #352c25): Footer, Kompass-Schublade, Scrollbar.
-- **Creme** (#f6efe4): Etiketten, Text auf Dunkel. **Papier** (#ede2cf) und **Papier dunkel** (#e2d4bc): Lese-Flächen der Startseite und der Speisekarte, „Dazu passt“-Kasten.
+- **Creme** (#f6efe4): Text auf Dunkel, Etiketten auf Papier. **Papier** (#ede2cf) und **Papier dunkel** (#e2d4bc): der Lesebogen der Unterseiten (Speisekarte, Bestellung, Rechtstexte). **Creme fest** (#f6efe4): wie Creme, wird aber in `.nacht` nicht umgebunden.
 - **Braun** (#5b4636) / **Braun hell** (#7a6250): Sekundärtext auf Creme und Papier.
 - **Rauch** (#cdbfad) / **Rauch dunkel** (#a8998a): Sekundärtext auf Dunkel; Rauch auch für ausgeschaltete Chilis im Kompass.
 - **Funktionsfarben:** Creme hell (#fbf6ee, Kompass-Optionen), Glut hell (#f07a52, Chili auf dunklem Chip), Offen-Grün (#6f9a3e, nur der Live-Status-Punkt), Holz / Holzkopf (#d7b98c / #6a5446, Streichhölzer der Kompass-Fortschrittsanzeige), Hinweis-Gelb (#fff5d6 / #5a3b00, nur TODO-Kästen der Rechtstexte), Druck-Schwarz/-Weiß (nur Print-Stylesheet).
@@ -202,7 +224,11 @@ Eine warme Gewürzpalette auf Kohle und Creme, verankert vom Rani-Pink des Logos
 ### Named Rules
 **Die Logo-steht-frei-Regel.** Das Logo bekommt nie einen Kasten. Auf Dunkel immer die Negativ-Fassung (`bombay-logo-negativ.svg`), auf Hell das Original in Magenta.
 
-**Die Feuer-ist-Handlung-Regel.** Glutrot bedeutet „tu etwas“ (anrufen, bestellen, Preis) oder „scharf“. Für Dekoration wird es nicht verwendet.
+**Die Feuer-ist-Handlung-Regel.** Glut bedeutet „tu etwas“ (anrufen, bestellen, Preis) oder „scharf“. Auf Dunkel leuchtet sie als Kante der Primärknöpfe, nicht als Fläche; als Dekoration nur der Schein hinter Tellern und Bestell-Tafel.
+
+**Die Keine-Bühnenwechsel-Regel.** Abschnitte der Startseite wechseln nie hart die Hintergrundfarbe. Tonstufen laufen per Verlauf ein und aus; Trennung entsteht durch Abstand, Haarlinien und den Goldfaden.
+
+**Die Rund-ist-bedienbar-Regel.** Alles Klickbare ist eine Pille (999px); Karten 14px, Bilder in Karten 9px, große Tafeln 1.75rem.
 
 **Die Grün-heißt-Gemüse-Regel.** Kardamom-Grün kennzeichnet nur vegetarisch/vegan und nichts sonst.
 
@@ -220,7 +246,9 @@ Eine warme Gewürzpalette auf Kohle und Creme, verankert vom Rani-Pink des Logos
 - **Body** (Mukta 400, 1.0625rem, 1.6): Fließtext, max. ca. 36rem Breite.
 - **Zwischen** (Rozha 400, 1.5rem) und **Gericht** (Rozha 400, 1.32rem): kleine Überschriften im Fuß, Gerichtnamen in Listen und Kompass-Optionen.
 - **Lead** (Mukta, 1.15rem), **Fein** (0.97rem), **Klein** (0.875rem), **Mini** (0.75rem): Einleitungen, Sekundärtext, Bildunterschriften, Marken. Als Tailwind-Klassen `text-lead`, `text-fein`, `text-klein`, `text-mini`; keine freien Pixel- oder rem-Werte.
-- **Label** (Mukta 600, 0.875rem, 0.08em, Versalien): Zusatz neben dem Logo, Fußzeilen-Feinsatz. Nie als Dachzeile über einer Überschrift.
+- **Label** (Mukta 600, 0.75rem, 0.16em, Versalien): Navigation, Beschriftung der Hero-Fakten („Heute“, „Tisch reservieren“), Zusatz neben dem Logo. Nie als Dachzeile über einer Überschrift.
+- **Knopf** (Mukta 600, 0.75–0.8rem, 0.14em, Versalien): alle `.knopf`-Pillen; eine zweite Zeile (Nummer, „Liefern · Abholen“) normal gesetzt.
+- **Fakt** (Mukta 500, clamp 1.25–1.5rem): die großen Werte der Hero-Fakten (Zustand, Nummer, Straße).
 - **Preis** (Mukta 700, `tnum`): rechtsbündig, in Glutrot; auf Etiketten in Rozha One.
 
 ### Named Rules
@@ -232,43 +260,49 @@ Ein Rahmen von max. 78rem mit 1rem / 1.75rem / 2.5rem Seitenrand (mobil / ab 40r
 
 ## Elevation & Depth
 
-Tiefe auf Dunkel entsteht durch Licht, nicht durch Kästen: Fotos laufen über Masken-Verläufe in den Grund aus, Teller liegen in drei Größen und bewegen sich beim Scrollen unterschiedlich schnell (Parallaxe 0,05 / 0,12 / 0,18). Helle Abschnitte liegen als Papierbögen mit gerissenem Rand auf dem dunklen Grund. Etiketten liegen auf dem Grund wie aufgeklebt: weiche, versetzte Schatten (`0 24px 48px -18px rgb(0 0 0 / .65), 0 6px 14px -6px rgb(0 0 0 / .45)`), keine harten Offset-Schatten. Tiefe entsteht sonst durch Tonwechsel (Tinte → Kohle → Ruß) und die Körnung (feTurbulence-Rauschen, `soft-light`, 16 %).
+Tiefe entsteht durch Licht, nicht durch Kästen: Fotos laufen über Masken-Verläufe in den Grund aus, Teller liegen in drei Größen und bewegen sich beim Scrollen unterschiedlich schnell (Parallaxe 0,05 / 0,12 / 0,18). Glut leuchtet als Kante und Schein (Knöpfe, gewählte Kompass-Option, Reservieren-Pille, Bestell-Tafel). Dunkle Karten liegen mit weichen, versetzten Schatten auf dem Grund. Sonst entsteht Tiefe durch Tonstufen (Tinte → #201a16 → Kohle → Ruß) und die Körnung (feTurbulence-Rauschen, `soft-light`, 16 %).
 
 ### Shadow Vocabulary
-- **etikett** (`0 24px 48px -18px rgb(0 0 0 / .65), 0 6px 14px -6px rgb(0 0 0 / .45)`): Hero-Etikett, Kompass-Hülle, Fotos auf Dunkel.
-- **knopf-glut** (`0 10px 22px -12px rgb(182 58 30 / .9)`): Primärknopf.
-- **schublade** (`0 30px 60px -30px rgb(0 0 0 / .8)`): Kompass-Ergebnis.
+- **etikett** (`0 24px 48px -18px rgb(0 0 0 / .65), 0 6px 14px -6px rgb(0 0 0 / .45)`): Kompass-Hülle, Karten auf Dunkel.
+- **glutkante** (`0 0 16px -3px rgb(240 122 82 / .5)` + innen `0 0 14px -8px`): Primärknopf; Hover stärker.
+- **safranschein** (`0 0 14px -4px rgb(232 163 61 / .45)`): Reservieren-Pille, gewählte Kompass-Option.
+- **tafel** (`0 40px 80px -40px rgb(18 15 13 / .9)`): Bestell-Tafel; **blatt** (`0 30px 60px -30px`): Papierbogen über dem Footer.
 
 ## Shapes
 
-Gedruckte, fast eckige Formen: Etiketten 0 Radius mit Doppelrahmen (1px Rand, 1px Linie 6–7px innen), Knöpfe 3px, Marken 2px. Einzige runde Form: Filter-Chips (Pille) und Live-Status-Punkt. Ornamente kommen aus zwei eigenen SVGs (Bordüre 48×16, Rapport 56×56), immer als Maske eingefärbt.
+Weiche, gefasste Formen: Knöpfe, Marken, Chips und Kategorie-Links als Pille (999px), Eingabefelder 10px, Karten und Auswahlkarten 14px mit feiner Innenlinie 6–7px innen (Doppelrahmen als Erbe des Etiketts), Bilder in Karten 9px, Bestell-Tafel 1.75rem, Papierbogen unten 1.5rem / 2.5rem. Ornamente kommen aus zwei eigenen SVGs (Bordüre 48×16, Rapport 56×56), als Maske eingefärbt oder als eingefärbte Datei (`kachel-glut.svg`).
 
 ## Components
 
-- **Etikett** (`.etikett`): Creme, Doppelrahmen, oben optional die Bordüre (`.bordure`). Träger für Hero-Text, Gerichte, Öffnungszeiten, Logo, Rechtstexte.
+- **Etikett** (`.etikett`): Karte mit Doppelrahmen (14px), oben optional die Bordüre (`.bordure`). Auf Papier Creme mit Tinte-Rahmen (Rechtstexte, leerer Zustand der Karte); in `.nacht` dunkel mit Safran-Innenlinie (Gerichte, Öffnungszeiten, Kompass).
+- **Nacht** (`.nacht`): bindet innerhalb die Papier-Rollen auf dunkle Gegenstücke um (`tinte` → Creme-Schrift, `creme`/`papier` → Kohle-Kartenflächen, `braun` → Rauch, `glut` → Glut hell, `rani` → Rani hell, `kardamom` → Kardamom hell). So erscheinen Papier-Bausteine ohne eigene Dunkel-Variante auf der Nacht-Seite. Achtung: `creme` heißt darin Kartenfläche; feste Creme-Schrift auf festen dunklen Flächen über `--color-creme-fest`.
+- **Goldfaden** (`.goldfaden`): 3.25rem × 1px Safran, nach rechts auslaufend, 1.15rem unter der Abschnittsüberschrift.
+- **Hero-Fakten** (`Hero.astro`): `dl` unter einer Haarlinie, drei Spalten mit feinen Trennern (Desktop) bzw. Zustand und Adresse übereinander (Handy, die Nummer steht dort im Knopf); Label Safran, Wert groß (Fakt), Zusatz in Rauch. Zustand über `LiveStatus gross` (Titel und Zusatz getrennt).
 - **Logo** (`Logo.astro`): frei stehend, Negativ-Fassung auf Dunkel; Kopf 6.4–7.6rem breit, Fuß bis 16rem zentriert über einer Ornamentlinie.
-- **Hero**: Foto rechts (Desktop) bzw. oben (Handy), läuft weich in Kohle aus; davor Ornament, Headline in Creme, Unterzeile in Rauch, Knöpfe, Live-Status. Kein Kasten.
+- **Hero**: Foto rechts ab 40 % (Desktop) bzw. oben (Handy), läuft weich in Kohle aus; davor Ornament, Headline in Creme, Unterzeile in Rauch, Knöpfe, Hero-Fakten. Kein Kasten; ein weicher radialer Tinte-Schatten hinter dem Text.
 - **Teller** (`Besonderes.astro`): freigestellte Schüsseln (`teller-<nr>-<name>.webp`, transparent) mit doppeltem `drop-shadow` (weit und weich + kurz und dicht), darunter ein Glutschein (`radial-gradient` Glutrot 30 %, Kurkuma 14 %). Bildunterschrift „Nr. … Name“ unter dem Teller, leichte Parallaxe. Ohne Freisteller bleibt der Platz leer.
-- **Papierbogen** (`.papier`): Abschnitt mit gerissenem Rand oben und unten; Maske (Papier + Schatten) und Farbschicht (Schattenfläche + Fasern) sind farbneutral, die Papierfarbe erbt der Rand vom Abschnitt. `.ohne-oberkante` / `.ohne-unterkante` lassen eine Seite weg. Unterseiten (Speisekarte, Bestellen, Rechtstexte) enden mit dem Riss im Footer.
+- **Blatt** (`.blatt`): heller Lesebogen der Unterseiten (Speisekarte, Bestellen, Rechtstexte) mit gerundeter Unterkante über dem Ruß des Footers.
 - **Helle Bereiche** (`.hell`): `color-scheme: light`, damit native Radios, Checkboxen und Auswahllisten hell gezeichnet werden.
 - **Online-Bestellung** (`/bestellen`): Artikelzeilen mit runden +/−-Knöpfen, Warenkorb (Desktop mitlaufend, Handy als Leiste unten), Formular mit Auswahlkarten für Lieferung/Abholung, Schritte-Anzeige mit Rani-hell für den aktiven Schritt.
 - **Gericht-Etikett** (`GerichtEtikett.astro`): Foto oder Platzhalter 4:3, Seriennummer-Kachel überlappt die Bildkante, Name, Beschreibung, Kennzeichen, Preis.
 - **Platzhalter** (`.platzhalter--glut|kardamom|kurkuma|tinte|safran`): Verlauf + Rapport + Name auf Mini-Etikett, Farbe nach Gerichtsart.
-- **Knöpfe** (`.knopf` + `-glut`, `-kontur`, `-kontur-hell`, `-creme`): mind. 3.25rem hoch, Icon links.
-- **Reibefläche** (`Reibeflaeche.astro`): mobile Aktionsleiste, Glut tief mit Sandpapier-Rauschen.
-- **Curry-Kompass**: Hülle (Etikett mit drei Streichhölzern als Fortschritt) und Schublade (Kohle, gleitet heraus); Optionen als Kacheln mit `aria-pressed`; Chili-Regler mit Hitzeverlauf Safran → Glut.
+- **Knöpfe** (`.knopf` + `-glut`, `-kontur`, `-kontur-hell`, `-creme`): Pillen, mind. 3.25rem hoch, Icon links, gesperrte Versalien. `-glut` auf Dunkel mit Glutkante, in `.hell` gefüllt Glutrot. `-kontur-hell` Haarlinie Creme 30 %, Hover Safran.
+- **Kopfzeile** (`Kopf.astro`): Navigation ab 80rem (gesperrte Versalien, Safran-Unterstrich wächst beim Hover), darunter Menü-Knopf; Reservieren-Pille mit Safran-Beschriftung und Nummer.
+- **Reibefläche** (`Reibeflaeche.astro`): mobile Aktionsleiste, Ruß 94 % mit Weichzeichner und Safran-Haarlinie; „Bestellen“ in Safran.
+- **Curry-Kompass**: Hülle (dunkles Etikett in `.nacht` mit drei Streichhölzern als Fortschritt) und Schublade (Kohle, gleitet heraus); Optionen als runde Kacheln (14px) mit `aria-pressed`, gewählt mit Safran-Kante und Schein; Chili-Regler mit Hitzeverlauf Safran → Glut auf dunkler Spur.
 - **Speisekarten-Zeile**: Nummernkachel · Name · Punktlinie · Preis, darunter Beschreibung und Kennzeichen.
 
 ## Do's and Don'ts
 
 **Do**
-- Neue Inhaltseinheiten als Etikett auf Kohle oder als Zeile auf Papier bauen.
+- Neue Abschnitte der Startseite auf dunklem Grund mit `koernung` und eigenem (Verlaufs-)Hintergrund bauen; Inhaltseinheiten als dunkles Etikett (`.nacht`) oder als Zeile auf dem Lesebogen.
 - Die Bordüre sparsam setzen: höchstens eine pro Etikett, oben.
 - Gerichtsnummern überall zeigen, wo ein Gericht erscheint.
 - Neue Farben aus der Gewürzpalette ableiten; Rani-Pink bleibt für Logo und Bordüren.
 
 **Don't**
-- Keine weißen oder cremefarbenen Kästen hinter Logo oder Hero-Text.
+- Keine weißen oder cremefarbenen Kästen hinter Logo oder Hero-Text, keine hellen Abschnitte auf der Startseite.
+- Keine eckigen Knöpfe, keine harten Farbwechsel zwischen Abschnitten, keine Reißkanten.
 - Fotos auf dunklem Grund nie als harte Rechtecke – auslaufen lassen oder als Teller zeigen.
 - Keine Kuppeln, Bögen oder Paläste als Deko – die Kuppel gehört nur ins Logo.
 - Kein Gold auf Rot, keine Stock-Icons, keine Emoji als Symbole.

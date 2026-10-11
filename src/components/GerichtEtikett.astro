@@ -61,6 +61,7 @@ const { gericht: g, alt, sizes = '(min-width: 64rem) 24rem, (min-width: 40rem) 4
     align-items: baseline;
     gap: 0.25rem;
     padding: 0.32rem 0.6rem 0.18rem;
+    border-radius: 9px;
     background: var(--color-tinte);
     color: var(--color-creme);
     font-family: var(--font-display);
@@ -75,6 +76,22 @@ const { gericht: g, alt, sizes = '(min-width: 64rem) 24rem, (min-width: 40rem) 4
     letter-spacing: 0.06em;
     color: var(--color-safran);
   }
+  .gericht-etikett :global(.foto),
+  .gericht-etikett :global(.platzhalter),
+  .gericht-etikett :global(picture) {
+    border-radius: 9px;
+  }
+  .gericht-etikett :global(picture) {
+    overflow: hidden;
+  }
+  /* Auf Nacht: Nummernkachel bleibt dunkel mit feiner Safrankante */
+  :global(.nacht) .serie {
+    background: var(--color-russ);
+    color: var(--color-creme-fest);
+    box-shadow:
+      0 0 0 1px color-mix(in oklab, var(--color-safran) 45%, transparent),
+      0 0 0 4px #221c18;
+  }
   .beliebt {
     position: absolute;
     right: 0.6rem;
@@ -84,10 +101,11 @@ const { gericht: g, alt, sizes = '(min-width: 64rem) 24rem, (min-width: 40rem) 4
     gap: 0.3rem;
     padding: 0.25rem 0.55rem 0.15rem;
     background: var(--color-safran);
-    color: var(--color-tinte);
-    font-size: var(--text-klein);
+    color: var(--color-russ);
+    font-size: var(--text-mini);
     font-weight: 700;
-    letter-spacing: 0.02em;
-    border-radius: 2px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 999px;
   }
 </style>

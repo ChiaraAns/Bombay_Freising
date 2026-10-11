@@ -38,27 +38,41 @@ const heroBild = bild('hero') ?? bild('gericht-93-jheenga-masala');
       <div class="hero-knoepfe mt-7 grid grid-cols-2 gap-2.5 sm:flex sm:flex-wrap sm:gap-3">
         <a href={kontakt.telefonLink} class="knopf knopf-glut">
           <Icon name="telefon" size={18} class="hidden sm:block" />
-          <span class="flex flex-col items-start leading-tight sm:block">
+          <span class="flex flex-col items-center leading-tight sm:block">
             <span><span class="sm:hidden">Reservieren</span><span class="hidden sm:inline">Tisch reservieren</span></span>
-            <span class="tabellenziffern text-klein font-medium opacity-90 sm:hidden">{kontakt.telefonAnzeige}</span>
+            <span class="knopf-zeile2 tabellenziffern sm:hidden">{kontakt.telefonAnzeige}</span>
           </span>
         </a>
         <a href={pfad('/bestellen')} class="knopf knopf-kontur-hell">
           <Icon name="tasche" size={18} class="hidden sm:block" />
-          <span class="flex flex-col items-start leading-tight sm:block">
+          <span class="flex flex-col items-center leading-tight sm:block">
             <span><span class="sm:hidden">Bestellen</span><span class="hidden sm:inline">Online bestellen</span></span>
-            <span class="text-klein font-medium opacity-80 sm:hidden">Liefern · Abholen</span>
+            <span class="knopf-zeile2 sm:hidden">Liefern · Abholen</span>
           </span>
         </a>
       </div>
 
-      <div class="hero-fakten mt-7 flex flex-col gap-1 pt-4 text-fein sm:flex-row sm:items-center sm:gap-7">
-        <LiveStatus class="text-creme" />
-        <a href={kontakt.mapsUrl} class="inline-flex items-center gap-1.5 text-rauch no-underline hover:text-creme" rel="noopener">
-          <Icon name="ort" size={17} />
-          {kontakt.strasse}, {kontakt.ort}
-        </a>
-      </div>
+      <!-- Die drei Fakten: offen?, Reservierung, Adresse – groß und auf einen Blick -->
+      <dl class="hero-fakten mt-9">
+        <div class="fakt fakt-status">
+          <dt class="fakt-label">Heute</dt>
+          <dd><LiveStatus gross class="text-creme" /></dd>
+        </div>
+        <div class="fakt fakt-telefon">
+          <dt class="fakt-label">Tisch reservieren</dt>
+          <dd>
+            <a href={kontakt.telefonLink} class="fakt-wert tabellenziffern">{kontakt.telefonAnzeige}</a>
+            <span class="fakt-zusatz">Reservierung nur telefonisch</span>
+          </dd>
+        </div>
+        <div class="fakt fakt-adresse">
+          <dt class="fakt-label">Freisinger Altstadt</dt>
+          <dd>
+            <a href={kontakt.mapsUrl} class="fakt-wert" rel="noopener">{kontakt.strasse}</a>
+            <span class="fakt-zusatz">{kontakt.plz} {kontakt.ort} · <a href={kontakt.mapsUrl} rel="noopener">Route planen</a></span>
+          </dd>
+        </div>
+      </dl>
     </div>
   </div>
 </section>
@@ -80,6 +94,7 @@ const heroBild = bild('hero') ?? bild('gericht-93-jheenga-masala');
   }
   .hero-text {
     position: relative;
+    isolation: isolate;
     margin-top: -5.5rem;
     padding-bottom: 3rem;
   }
@@ -99,16 +114,95 @@ const heroBild = bild('hero') ?? bild('gericht-93-jheenga-masala');
     letter-spacing: -0.015em;
     text-shadow: 0 2px 30px color-mix(in oklab, var(--color-russ) 70%, transparent);
   }
+  /* Fakten: Haarlinie oben, drei Spalten mit feinen Trennern; Beschriftung klein in Safran, Wert groß */
   .hero-fakten {
-    border-top: 1px solid color-mix(in oklab, var(--color-creme) 16%, transparent);
-    max-width: 34rem;
+    display: grid;
+    gap: 1.1rem 0;
+    padding-top: 1.4rem;
+    border-top: 1px solid color-mix(in oklab, var(--color-creme) 14%, transparent);
+    max-width: 44rem;
+  }
+  .fakt {
+    display: grid;
+    gap: 0.4rem;
+    align-content: start;
+  }
+  .fakt-label {
+    color: var(--color-safran);
+    font-size: var(--text-mini);
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .fakt dd {
+    display: grid;
+    gap: 0.3rem;
+    margin: 0;
+  }
+  .fakt-wert {
+    color: var(--color-creme);
+    font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    width: fit-content;
+    background: linear-gradient(var(--color-safran), var(--color-safran)) no-repeat left bottom / 0 1px;
+    transition: background-size 0.4s var(--ease-glut);
+  }
+  .fakt-wert:hover {
+    background-size: 100% 1px;
+  }
+  .fakt-zusatz {
+    color: var(--color-rauch);
+    font-size: var(--text-fein);
+  }
+  .fakt-zusatz a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: color-mix(in oklab, var(--color-safran) 70%, transparent);
+  }
+  /* Telefon steht mobil schon im Knopf und in der Leiste unten */
+  .fakt-telefon {
+    display: none;
+  }
+  .knopf-zeile2 {
+    margin-top: 0.2rem;
+    font-size: var(--text-klein);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    text-transform: none;
+    opacity: 0.85;
   }
 
   @media (width < 40rem) {
     .hero-knoepfe :global(.knopf) {
-      justify-content: flex-start;
-      padding-inline: 0.85rem;
-      min-height: 3.4rem;
+      min-height: 3.6rem;
+      padding-inline: 0.75rem;
+    }
+    .hero-fakten {
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .fakt-status {
+      grid-column: 1 / -1;
+    }
+    .fakt-adresse {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (width >= 40rem) {
+    .hero-fakten {
+      grid-template-columns: auto auto auto;
+      justify-content: start;
+    }
+    .fakt-telefon {
+      display: grid;
+    }
+    .fakt + .fakt {
+      padding-left: 1.75rem;
+      margin-left: 1.75rem;
+      border-left: 1px solid color-mix(in oklab, var(--color-creme) 12%, transparent);
     }
   }
 
@@ -119,22 +213,36 @@ const heroBild = bild('hero') ?? bild('gericht-93-jheenga-masala');
     }
     .hero-foto {
       position: absolute;
-      inset: 0 0 0 34%;
+      inset: 0 0 0 40%;
       aspect-ratio: auto;
       /* Foto rechts, nach links, oben und unten weich in die Kohle hinein auslaufend */
       -webkit-mask:
-        linear-gradient(90deg, transparent 0%, #000 38%),
+        linear-gradient(90deg, transparent 0%, #000 34%),
         linear-gradient(180deg, transparent 0%, #000 11%, #000 68%, transparent 100%);
       -webkit-mask-composite: source-in;
       mask:
-        linear-gradient(90deg, transparent 0%, #000 38%),
+        linear-gradient(90deg, transparent 0%, #000 34%),
         linear-gradient(180deg, transparent 0%, #000 11%, #000 68%, transparent 100%);
       mask-composite: intersect;
     }
     .hero-text {
       margin: 0;
       padding: 6rem 0 5rem;
-      max-width: 40rem;
+      max-width: 46rem;
+    }
+    /* Weicher Schatten hinter Text und Fakten: das Foto taucht darunter in die Kohle, ohne Kasten */
+    .hero-text::before {
+      content: '';
+      position: absolute;
+      inset: -2rem -8rem -2rem -30vw;
+      z-index: -1;
+      pointer-events: none;
+      background: radial-gradient(
+        closest-side at 45% 60%,
+        color-mix(in oklab, var(--color-tinte) 88%, transparent),
+        color-mix(in oklab, var(--color-tinte) 55%, transparent) 60%,
+        transparent
+      );
     }
   }
 

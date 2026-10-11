@@ -20,7 +20,7 @@ const lieferung = bestellung.lieferung;
   aktiv="bestellen"
   ohneReibeflaeche
 >
-  <div class="bestellseite papier ohne-oberkante riss-b hell bg-papier pb-28 text-tinte lg:pb-0" style="--riss-versatz:-300px" data-bestellseite data-endpunkt={bestellung.endpunkt ?? ''} data-email={kontakt.email}>
+  <div class="bestellseite blatt hell bg-papier pb-28 text-tinte lg:pb-0" data-bestellseite data-endpunkt={bestellung.endpunkt ?? ''} data-email={kontakt.email}>
     <header class="koernung bg-tinte pb-10 pt-10 text-creme md:pb-12 md:pt-14">
       <div class="rahmen">
         <h1 class="display-xl">Online bestellen</h1>
@@ -659,7 +659,7 @@ const lieferung = bestellung.lieferung;
     font-weight: 600;
     font-size: var(--text-fein);
     text-decoration: none;
-    border-radius: 2px;
+    border-radius: 999px;
   }
   .kat-link:hover {
     color: var(--color-creme);
@@ -779,7 +779,7 @@ const lieferung = bestellung.lieferung;
     width: 100%;
     min-height: 2.9rem;
     padding: 0.55rem 0.8rem;
-    border-radius: 3px;
+    border-radius: 10px;
     background: var(--color-creme);
     color: var(--color-tinte);
     box-shadow: inset 0 0 0 1.5px color-mix(in oklab, var(--color-tinte) 30%, transparent);
@@ -924,7 +924,7 @@ const lieferung = bestellung.lieferung;
     display: grid;
     gap: 0.2rem;
     padding: 1rem 1.1rem 1rem 3rem;
-    border-radius: 3px;
+    border-radius: 14px;
     background: var(--color-creme);
     box-shadow: inset 0 0 0 1.5px color-mix(in oklab, var(--color-tinte) 25%, transparent);
     cursor: pointer;

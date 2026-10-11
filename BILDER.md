@@ -93,5 +93,4 @@ Vorlage war ein Screenshot (`assets/logo/logo-original-screenshot.jpeg`, ursprü
 |---|---|
 | `public/og.jpg` (1200 × 630) | Vorschaubild beim Teilen (WhatsApp, Facebook) mit Logo. Neu erzeugen mit `node scripts/og-bild.mjs`, siehe README. |
 | `public/favicon.svg`, `public/apple-touch-icon.png` | Browser- und Homescreen-Symbol: die Kuppel aus dem Logo auf Creme |
-| `public/ornament/band.svg`, `kachel.svg` (+ `band-safran.svg`, `kachel-glut.svg`) | Eigenes Blockdruck-Ornament (Bordüre und Rapport), farbige Fassungen für das Bestellen-Band |
-| `public/ornament/riss-*-maske.svg`, `riss-*-farbe.svg` | Gerissene Papierränder (drei Varianten), erzeugt mit `node scripts/kanten.mjs` |
+| `public/ornament/band.svg`, `kachel.svg` (+ `kachel-glut.svg`) | Eigenes Blockdruck-Ornament (Bordüre und Rapport), eingefärbter Rapport für die Bestell-Tafel |

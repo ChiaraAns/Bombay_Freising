@@ -21,19 +21,19 @@ const links = [
   <div class="rahmen flex h-[4.25rem] items-center justify-between gap-6 md:h-[5rem]">
     <a href={pfad('/')} class="kopf-marke flex shrink-0 items-center gap-4 no-underline" aria-label="Bombay – Indische Spezialitäten, zur Startseite">
       <Logo />
-      <span class="feinsatz hidden text-mini leading-tight text-rauch-dunkel xl:block" style="letter-spacing:.14em" aria-hidden="true"
+      <span class="feinsatz hidden text-mini leading-tight text-rauch-dunkel min-[88rem]:block" style="letter-spacing:.14em" aria-hidden="true"
         >Indische<br />Spezialitäten</span
       >
     </a>
 
-    <nav aria-label="Hauptnavigation" class="hidden lg:block">
-      <ul class="flex items-center gap-7 text-basis font-medium" role="list">
+    <nav aria-label="Hauptnavigation" class="hidden xl:block">
+      <ul class="flex items-center gap-6 xl:gap-8" role="list">
         {
           links.map((l) => (
             <li>
               <a
                 href={l.href}
-                class="kopf-link text-rauch no-underline transition-colors hover:text-creme"
+                class="kopf-link no-underline"
                 aria-current={l.id === aktiv ? 'page' : undefined}
               >
                 {l.text}
@@ -45,13 +45,13 @@ const links = [
     </nav>
 
     <div class="flex items-center gap-2">
-      <a href={kontakt.telefonLink} class="knopf knopf-glut hidden min-h-11 px-4 text-fein md:inline-flex">
-        <Icon name="telefon" size={18} />
-        <span class="tabellenziffern">{kontakt.telefonAnzeige}</span>
+      <a href={kontakt.telefonLink} class="kopf-telefon hidden md:inline-flex" aria-label={`Tisch reservieren: ${kontakt.telefonAnzeige}`}>
+        <span class="kopf-telefon-label hidden sm:inline" aria-hidden="true">Reservieren</span>
+        <span class="tabellenziffern" aria-hidden="true">{kontakt.telefonAnzeige}</span>
       </a>
       <button
         type="button"
-        class="menue-knopf inline-flex h-11 w-11 items-center justify-center rounded-[3px] text-creme ring-1 ring-white/20 lg:hidden"
+        class="menue-knopf inline-flex h-11 w-11 items-center justify-center rounded-full text-creme ring-1 ring-white/20 xl:hidden"
         aria-expanded="false"
         aria-controls="mobil-menue"
         aria-label="Menü öffnen"
@@ -62,7 +62,7 @@ const links = [
     </div>
   </div>
 
-  <nav id="mobil-menue" aria-label="Menü" class="mobil-menue border-t border-white/8 bg-tinte lg:hidden" hidden>
+  <nav id="mobil-menue" aria-label="Menü" class="mobil-menue border-t border-white/8 bg-tinte xl:hidden" hidden>
     <ul class="rahmen flex flex-col py-3" role="list">
       {
         links.map((l) => (
@@ -109,11 +109,69 @@ const links = [
 </script>
 
 <style>
+  /* Feine, gesperrte Navigation wie auf einem Schild */
+  .kopf-link {
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+    padding-block: 0.4rem;
+    color: var(--color-rauch);
+    font-size: var(--text-mini);
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    transition: color 0.3s var(--ease-glut);
+  }
+  .kopf-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0.16em;
+    bottom: 0;
+    height: 1px;
+    background: var(--color-safran);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s var(--ease-glut);
+  }
+  .kopf-link:hover {
+    color: var(--color-creme);
+  }
+  .kopf-link:hover::after,
+  .kopf-link[aria-current='page']::after {
+    transform: scaleX(1);
+  }
   .kopf-link[aria-current='page'] {
     color: var(--color-creme);
-    text-decoration: underline;
-    text-decoration-color: var(--color-safran);
-    text-decoration-thickness: 2px;
-    text-underline-offset: 0.45em;
+  }
+
+  /* Reservieren-Pille oben rechts: Glutkante, Beschriftung in Safran, Nummer in Creme */
+  .kopf-telefon {
+    align-items: center;
+    white-space: nowrap;
+    gap: 0.75rem;
+    min-height: 2.75rem;
+    padding: 0.45rem 1.25rem 0.35rem;
+    border: 1px solid color-mix(in oklab, var(--color-safran) 70%, transparent);
+    border-radius: 999px;
+    color: var(--color-creme);
+    font-weight: 600;
+    font-size: var(--text-fein);
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    box-shadow: 0 0 14px -4px rgb(232 163 61 / 0.45);
+    transition:
+      background-color 0.3s var(--ease-glut),
+      box-shadow 0.3s var(--ease-glut);
+  }
+  .kopf-telefon:hover {
+    background: color-mix(in oklab, var(--color-safran) 10%, transparent);
+    box-shadow: 0 0 20px -3px rgb(232 163 61 / 0.6);
+  }
+  .kopf-telefon-label {
+    color: var(--color-safran);
+    font-size: var(--text-mini);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
   }
 </style>

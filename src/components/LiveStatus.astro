@@ -1,16 +1,34 @@
 ---
 import { pfad } from '../lib/pfad';
-/** Live-Status („Jetzt geöffnet – Küche bis 14:00“), berechnet im Browser in Europe/Berlin. */
+/**
+ * Live-Status („Jetzt geöffnet – Küche bis 14:00“), berechnet im Browser in Europe/Berlin.
+ * `gross`: zweizeilig für den Hero – oben der Zustand groß („Jetzt geöffnet“), darunter der Zusatz („Küche bis 14:00“).
+ */
 interface Props {
   class?: string;
+  gross?: boolean;
 }
-const { class: klasse = '' } = Astro.props;
+const { class: klasse = '', gross = false } = Astro.props;
 ---
 
-<p class:list={['live-status inline-flex items-center gap-2.5', klasse]} data-live-status data-zustand="unbekannt">
-  <span class="live-punkt" aria-hidden="true"></span>
-  <a href={pfad('/#besuch')} class="live-text no-underline hover:underline">Öffnungszeiten ansehen</a>
-</p>
+{
+  gross ? (
+    <p class:list={['live-status live-gross', klasse]} data-live-status data-zustand="unbekannt">
+      <a href={pfad('/#besuch')} class="live-zeile no-underline">
+        <span class="live-punkt" aria-hidden="true" />
+        <span class="live-titel">Öffnungszeiten</span>
+      </a>
+      <span class="live-zusatz">ansehen</span>
+    </p>
+  ) : (
+    <p class:list={['live-status inline-flex items-center gap-2.5', klasse]} data-live-status data-zustand="unbekannt">
+      <span class="live-punkt" aria-hidden="true" />
+      <a href={pfad('/#besuch')} class="live-text no-underline hover:underline">
+        Öffnungszeiten ansehen
+      </a>
+    </p>
+  )
+}
 
 <script>
   import { berechneStatus } from '../lib/status';
@@ -21,6 +39,15 @@ const { class: klasse = '' } = Astro.props;
       el.dataset.zustand = s.zustand;
       const text = el.querySelector('.live-text');
       if (text) text.textContent = s.text;
+      // Große Fassung: Zustand und Zusatz getrennt („Jetzt geöffnet“ / „Küche bis 14:00“)
+      const titel = el.querySelector('.live-titel');
+      const zusatz = el.querySelector('.live-zusatz');
+      if (titel && zusatz) {
+        const [kopf, ...rest] = s.text.split(/ [–·] /);
+        titel.textContent = kopf;
+        zusatz.textContent = rest.join(' · ');
+        zusatz.toggleAttribute('hidden', !rest.length);
+      }
     });
   };
   aktualisiere();
@@ -37,6 +64,32 @@ const { class: klasse = '' } = Astro.props;
   }
   .live-text {
     color: inherit;
+  }
+  .live-gross {
+    display: grid;
+    gap: 0.3rem;
+  }
+  .live-zeile {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    color: inherit;
+  }
+  .live-titel {
+    font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: 0.01em;
+  }
+  .live-zusatz {
+    padding-left: 1.32rem;
+    color: var(--color-rauch);
+    font-size: var(--text-fein);
+    font-weight: 400;
+  }
+  .live-gross .live-punkt {
+    width: 0.62rem;
+    height: 0.62rem;
   }
   .live-punkt {
     width: 0.62rem;

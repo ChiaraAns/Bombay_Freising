@@ -10,21 +10,22 @@ const altTexte: Record<number, string> = {
 const gerichte = signatureNummern.map((nr) => gerichtNr(nr));
 ---
 
-<section id="karte" class="papier hell bg-papier py-20 text-tinte md:py-28" aria-labelledby="karte-titel">
+<section id="karte" class="signature koernung py-20 text-creme md:py-28" aria-labelledby="karte-titel">
   <div class="rahmen">
     <div class="flex flex-wrap items-end justify-between gap-6">
       <div class="max-w-[38rem]">
         <h2 id="karte-titel" class="display-l">Sechs Gründe, heute indisch zu essen.</h2>
-        <p class="mt-4 text-lead leading-relaxed text-braun" data-erscheinen>
+        <span class="goldfaden" aria-hidden="true"></span>
+        <p class="mt-4 text-lead leading-relaxed text-rauch" data-erscheinen>
           Eine kleine Auswahl aus über 120 Gerichten. Die Nummer hilft, wenn Sie telefonisch bestellen.
         </p>
       </div>
-      <a href={pfad('/speisekarte')} class="knopf knopf-kontur hidden md:inline-flex" data-erscheinen style="--verzoegerung:1">
+      <a href={pfad('/speisekarte')} class="knopf knopf-kontur-hell hidden md:inline-flex" data-erscheinen style="--verzoegerung:1">
         Ganze Speisekarte ansehen <Icon name="pfeil" size={18} />
       </a>
     </div>
 
-    <ul class="etiketten mt-12" role="list">
+    <ul class="etiketten nacht mt-12" role="list">
       {
         gerichte.map((g, i) => (
           <li data-erscheinen style={`--verzoegerung:${i % 3}`}>
@@ -36,7 +37,6 @@ const gerichte = signatureNummern.map((nr) => gerichtNr(nr));
 
     <div class="mt-12 flex justify-center">
       <a href={pfad('/speisekarte')} class="knopf knopf-glut ganze-karte w-full sm:w-auto">
-        <Icon name="karte" size={20} />
         Ganze Speisekarte ansehen
         <Icon name="pfeil" size={18} />
       </a>
@@ -72,8 +72,17 @@ const gerichte = signatureNummern.map((nr) => gerichtNr(nr));
     }
   }
   .ganze-karte {
-    min-height: 3.75rem;
-    padding-inline: 2rem;
-    font-size: var(--text-lead);
+    min-height: 3.5rem;
+    padding-inline: 2.25rem;
+  }
+  /* Kein Bühnenwechsel: der Abschnitt hebt sich nur als leiser Tonwechsel aus der Tinte, Kanten laufen weich aus */
+  .signature {
+    background: linear-gradient(
+      180deg,
+      var(--color-tinte) 0%,
+      #201a16 14%,
+      #201a16 86%,
+      var(--color-tinte) 100%
+    );
   }
 </style>

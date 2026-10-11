@@ -28,7 +28,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
   beschreibung="Die komplette Speisekarte des Bombay in Freising mit Nummern und Preisen: Tandoori aus dem Lehmofen, Curries mit Huhn, Lamm, Ente und Fisch, Biryani, Thalis, 20 vegetarische Spezialitäten und frisches Naan."
   aktiv="speisekarte"
 >
-  <div class="papier ohne-oberkante riss-c hell bg-papier text-tinte" style="--riss-versatz:-420px">
+  <div class="blatt hell bg-papier text-tinte">
     <!-- Kopf der Karte -->
     <header class="karte-kopf koernung bg-tinte pb-9 pt-9 text-creme md:pb-16 md:pt-16">
       <div class="rahmen grid gap-8 lg:grid-cols-12 lg:items-end">
@@ -408,7 +408,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
     align-items: center;
     min-height: 2.5rem;
     padding: 0.2rem 0.85rem 0;
-    border-radius: 2px;
+    border-radius: 999px;
     white-space: nowrap;
     color: var(--color-rauch);
     font-weight: 600;
@@ -603,7 +603,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
     font-weight: 700;
     letter-spacing: 0.03em;
     vertical-align: 0.2em;
-    border-radius: 2px;
+    border-radius: 999px;
     white-space: nowrap;
   }
   .punktlinie {

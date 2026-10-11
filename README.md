@@ -73,18 +73,19 @@ npm test          # prüft Live-Status, alle 120 Curry-Kompass-Kombinationen und
 
 Beim ersten Build erzeugt `scripts/bilder.mjs` die Bildvarianten. Das dauert etwa eine Minute, danach wird nur noch neu gerechnet, was sich geändert hat.
 
-### Vorschau auf GitHub Pages
+### Vorschau auf GitHub Pages (Fassungen)
+
+Jede Überarbeitung wird als eigene Fassung veröffentlicht; ältere Fassungen bleiben erreichbar.
 
 ```bash
-npm run build:vorschau    # baut mit Basis-Pfad /Bombay_Freising und noindex
+BASE_PATH=/Bombay_Freising/fassung-2 VORSCHAU=1 npx astro build   # Basis-Pfad der Fassung, noindex
 ```
 
-Den Inhalt von `dist/` (plus eine leere Datei `.nojekyll`) auf den Branch `gh-pages` legen. Adresse: https://chiaraans.github.io/Bombay_Freising/
+Den Inhalt von `dist/` in den Ordner `fassung-2/` auf dem Branch `gh-pages` legen (andere Ordner nicht anfassen). Adresse: https://chiaraans.github.io/Bombay_Freising/fassung-2/ – der Quellstand jeder Fassung liegt zusätzlich als Branch `fassung-N`.
 
 ### Grafiken neu erzeugen
 
 ```bash
-node scripts/kanten.mjs              # gerissene Papierränder → public/ornament/riss-*.svg
 node scripts/teller-freistellen.mjs  # Teller freistellen, Werte siehe BILDER.md
 ```
 
