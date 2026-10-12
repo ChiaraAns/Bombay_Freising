@@ -44,8 +44,8 @@ const musterStimmen = [
               <div class="wertung-rest">
                 <Sterne wert={google.sterne!} groesse={22} label={`${sterneText} von 5 Sternen`} />
                 <p class="mt-1.5 text-fein text-rauch">
-                  {anzahlText && <>{anzahlText} Bewertungen </>}auf Google
-                  {google.stand && <span class="whitespace-nowrap"> · Stand {google.stand}</span>}
+                  <span class="whitespace-nowrap">{anzahlText && <>{anzahlText} Bewertungen </>}auf Google</span>
+                  {google.stand && <span class="block text-klein text-rauch-dunkel">Stand {google.stand}</span>}
                 </p>
                 {vorlaeufig && <p class="vorlaeufig mt-2.5">Vorläufig – im Google-Profil prüfen</p>}
               </div>

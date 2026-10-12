@@ -905,13 +905,16 @@ const suchtext = (...teile: (string | undefined)[]) =>
       inset 0 0 0 1px var(--color-safran),
       0 0 14px -4px rgb(232 163 61 / 0.6);
   }
-  /* Handy: liegt ein Gericht im Korb, rückt der Stepper in eine eigene Zeile – der Name bricht nie mitten im Wort */
+  /* Handy: der Stepper steht senkrecht – Plus bleibt oben an seinem Platz, Anzahl und Minus erscheinen darunter.
+     So springt nichts, die Spalte bleibt schmal (Namen brechen nie mitten im Wort) und die Preise bleiben bündig. */
   @media (width < 40rem) {
-    .gericht.im-korb .korb-stepper {
-      grid-column: 2 / -1;
-      grid-row: 2;
-      justify-self: end;
-      margin-top: -0.3rem;
+    .korb-stepper {
+      flex-direction: column-reverse;
+      gap: 0.2rem;
+    }
+    .korb-zahl {
+      min-width: 0;
+      line-height: 1.2;
     }
   }
   .sorten {
