@@ -22,6 +22,7 @@ Alle Inhalte stehen in wenigen Dateien im Ordner `src/data/`. Jede Datei ist obe
 | **Telefon, Adresse, E-Mail, Links** | `src/data/kontakt.ts` | |
 | **Online-Bestellung** | `src/data/bestellung.ts` | Übermittlung (E-Mail oder eigener Empfang), Vorlaufzeit, Lieferung/Abholung, Mindestbestellwert, Liefergebühr |
 | **Mittagsbuffet / Catering** | `src/data/angebote.ts` | erscheint erst mit `aktiv: true` |
+| **Google-Bewertungen** | `src/data/bewertungen.ts` | Sterne, Anzahl und ausgewählte Bewertungen (wörtlich, nichts erfinden) |
 | **Glossar „Was ist eigentlich …?“** | `src/data/glossar.ts` | |
 | **Fotos** | `public/images/` | siehe [BILDER.md](BILDER.md) |
 | **Logo** | `public/logo/` | siehe [BILDER.md](BILDER.md#logo) |
@@ -46,7 +47,7 @@ Eine vorhandene Zeile in der passenden Kategorie kopieren und anpassen. Kennzeic
 
 ### Online-Bestellung
 
-Die Bestellung läuft komplett im Browser. Am Ende wird sie über `endpunkt` in `src/data/bestellung.ts` übermittelt:
+Gerichte lassen sich direkt auf der Speisekarte (Plus je Gericht) oder auf `/bestellen` in den Warenkorb legen; beide Seiten teilen sich den Warenkorb im Browser (`src/lib/korb-speicher.ts`). Die Bestellung läuft komplett im Browser. Am Ende wird sie über `endpunkt` in `src/data/bestellung.ts` übermittelt:
 
 - `endpunkt: null` (Standard): Das E-Mail-Programm des Gastes öffnet sich mit der fertigen Bestellung an `kontakt.email`. Der Gast muss die E-Mail absenden. Funktioniert ohne Server, ist aber nur eine Übergangslösung.
 - `endpunkt: 'https://…'`: Die Bestellung wird als JSON per POST gesendet (Bestellnummer, Art, Wunschzeit, Kunde, Positionen, Summe, fertiger Text). Geeignet für einen Formular-Dienst oder ein Kassensystem.
@@ -113,7 +114,7 @@ Danach alle bisherigen Domains per 301-Weiterleitung auf die neue Domain zeigen 
 ## Technik & Qualität
 
 - **Stack:** Astro 7 (statisch), Tailwind CSS 4, kleine Inseln in TypeScript für Live-Status, Speisekarten-Filter und Curry-Kompass. Kein Framework-Runtime im Browser.
-- **Logo:** Vektor-Nachbau des Original-Logos in Magenta `#BE036C`; im Header und Footer steht es frei als Negativ-Fassung (Creme mit hellem Rani), siehe [BILDER.md](BILDER.md#logo).
+- **Logo:** Vektor-Nachbau des Original-Logos (Magenta `#BE036C`); auf der Website in Gold mit Glanz (`bombay-logo-gold.svg`), beim ersten Öffnen ein kurzes Logo-Intro, siehe [BILDER.md](BILDER.md#logo).
 - **Schriften:** Rozha One (Indian Type Foundry) für Überschriften, Mukta (Ek Type) für Text. Beide liegen selbst gehostet in `public/fonts/` (SIL Open Font License).
 - **Bilder:** AVIF + WebP in mehreren Breiten, `srcset`, Lazy Loading unterhalb des Folds, feste Seitenverhältnisse.
 - **DSGVO:** keine Cookies, kein Tracking, keine externen Schriften. Google Maps nur per Zwei-Klick-Lösung.

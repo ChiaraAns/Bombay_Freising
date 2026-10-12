@@ -1,0 +1,226 @@
+---
+/**
+ * „Was unsere Gäste sagen“: Google-Sterne und ausgewählte Google-Bewertungen (Daten: src/data/bewertungen.ts).
+ * Nichts wird erfunden: Ohne eingetragene Stimmen erscheint auf der Live-Seite nur Sterne + Link zu Google,
+ * in der Vorschau (VORSCHAU=1) stattdessen deutlich markierte Platzhalter.
+ */
+import Icon from '../Icon.astro';
+import Sterne from '../Sterne.astro';
+import { bewertungen } from '../../data/bewertungen';
+
+const { google, profilUrl, schreibenUrl, stimmen } = bewertungen;
+const vorschau = process.env.VORSCHAU === '1';
+const platzhalter = !stimmen.length && vorschau;
+const zeigeSterne = google.sterne != null;
+const sterneText = google.sterne != null ? google.sterne.toLocaleString('de-DE', { minimumFractionDigits: 1 }) : '';
+const anzahlText = google.anzahl != null ? google.anzahl.toLocaleString('de-DE') : '';
+const [erste, ...weitere] = stimmen;
+
+const musterStimmen = [
+  'Hier steht eine echte Google-Bewertung Ihrer Gäste – wörtlich übernommen, mit Vorname und Datum.',
+  'Platz für eine zweite Bewertung, zum Beispiel über ein Lieblingsgericht.',
+  'Und eine dritte – etwa über Service, Lieferung oder den Abend im Lokal.',
+];
+---
+
+{
+  (zeigeSterne || stimmen.length > 0 || platzhalter) && (
+    <section id="stimmen" class="stimmen naht koernung relative py-20 text-creme md:py-28" aria-labelledby="stimmen-titel">
+      <div class="rahmen grid gap-12 lg:grid-cols-12 lg:gap-12">
+        <div class="lg:col-span-5">
+          <h2 id="stimmen-titel" class="display-l">Was unsere Gäste sagen.</h2>
+          <span class="goldfaden" aria-hidden="true" />
+
+          {zeigeSterne && (
+            <div class="wertung mt-9" data-erscheinen>
+              <p class="wertung-zahl tabellenziffern" aria-hidden="true">
+                {sterneText}
+              </p>
+              <div class="wertung-rest">
+                <Sterne wert={google.sterne!} groesse={22} label={`${sterneText} von 5 Sternen`} />
+                <p class="mt-1.5 text-fein text-rauch">
+                  {anzahlText && <>{anzahlText} Bewertungen </>}auf Google
+                </p>
+              </div>
+            </div>
+          )}
+
+          <div class="mt-8 flex flex-wrap gap-3" data-erscheinen style="--verzoegerung:1">
+            <a href={profilUrl} class="knopf knopf-kontur-hell" rel="noopener">
+              Alle Bewertungen auf Google <Icon name="extern" size={16} />
+            </a>
+            {schreibenUrl && (
+              <a href={schreibenUrl} class="knopf knopf-kontur-hell" rel="noopener">
+                Bewertung schreiben <Icon name="extern" size={16} />
+              </a>
+            )}
+          </div>
+        </div>
+
+        {stimmen.length > 0 && (
+          <div class="lg:col-span-7">
+            <figure class="zitat-gross" data-erscheinen>
+              <span class="anfuehrung" aria-hidden="true">“</span>
+              <blockquote>
+                <p>{erste.text}</p>
+              </blockquote>
+              <figcaption class="zitat-quelle">
+                <Sterne wert={erste.sterne} groesse={15} label={`${erste.sterne} von 5 Sternen`} />
+                <span>
+                  {erste.name} · {erste.datum} · Google
+                </span>
+              </figcaption>
+            </figure>
+            {weitere.length > 0 && (
+              <ul class="zitate mt-10 grid gap-5 sm:grid-cols-2" role="list">
+                {weitere.map((s, i) => (
+                  <li data-erscheinen style={`--verzoegerung:${i + 1}`}>
+                    <figure class="zitat">
+                      <Sterne wert={s.sterne} groesse={14} label={`${s.sterne} von 5 Sternen`} />
+                      <blockquote class="mt-3">
+                        <p>„{s.text}“</p>
+                      </blockquote>
+                      <figcaption class="zitat-quelle mt-4">
+                        {s.name} · {s.datum} · Google
+                      </figcaption>
+                    </figure>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
+
+        {platzhalter && (
+          <div class="lg:col-span-7" aria-label="Platzhalter für Google-Bewertungen">
+            <figure class="zitat-gross platzhalter-zitat" data-erscheinen>
+              <span class="platzhalter-marke">Platzhalter</span>
+              <span class="anfuehrung" aria-hidden="true">“</span>
+              <p>{musterStimmen[0]}</p>
+              <figcaption class="zitat-quelle">
+                <Sterne wert={5} groesse={15} />
+                <span>Vorname N. · Monat Jahr · Google</span>
+              </figcaption>
+            </figure>
+            <ul class="zitate mt-10 grid gap-5 sm:grid-cols-2" role="list">
+              {musterStimmen.slice(1).map((t, i) => (
+                <li data-erscheinen style={`--verzoegerung:${i + 1}`}>
+                  <figure class="zitat platzhalter-zitat">
+                    <span class="platzhalter-marke">Platzhalter</span>
+                    <Sterne wert={5} groesse={14} />
+                    <p class="mt-3">{t}</p>
+                    <figcaption class="zitat-quelle mt-4">Vorname N. · Monat Jahr · Google</figcaption>
+                  </figure>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}
+
+<style>
+  /* Leiser Tonschritt mit warmem Licht hinter den Sternen, läuft oben und unten in die Tinte zurück */
+  .stimmen {
+    background:
+      radial-gradient(40% 55% at 18% 45%, color-mix(in oklab, var(--color-safran) 9%, transparent), transparent 70%),
+      linear-gradient(180deg, var(--color-tinte), #201a16 18%, #201a16 82%, var(--color-tinte));
+  }
+
+  .wertung {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+  .wertung-zahl {
+    font-family: var(--font-display);
+    font-size: clamp(3.4rem, 2.6rem + 3vw, 5rem);
+    line-height: 0.9;
+    color: var(--color-creme);
+    padding-top: 0.12em;
+  }
+  .wertung-rest {
+    padding-left: 1.25rem;
+    border-left: 1px solid color-mix(in oklab, var(--color-safran) 40%, transparent);
+  }
+
+  .zitat-gross {
+    position: relative;
+    margin: 0;
+    padding-left: 0.25rem;
+  }
+  /* Dekoratives Anführungszeichen als Ornament über dem Zitat (hohe Form, steht über der Zeile) */
+  .anfuehrung {
+    display: block;
+    height: 2.6rem;
+    margin-bottom: 0.2rem;
+    font-family: var(--font-display);
+    font-size: 5rem;
+    line-height: 1;
+    color: var(--color-safran);
+  }
+  .zitat-gross p {
+    max-width: 34rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.45rem, 1.15rem + 1.1vw, 2.05rem);
+    line-height: 1.25;
+    color: var(--color-creme);
+    text-wrap: pretty;
+  }
+  .zitat-quelle {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem 0.75rem;
+    margin-top: 1.25rem;
+    color: var(--color-rauch);
+    font-size: var(--text-mini);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .zitat {
+    position: relative;
+    height: 100%;
+    margin: 0;
+    padding: 1.4rem 1.4rem 1.3rem;
+    border-radius: 14px;
+    border: 1px solid color-mix(in oklab, var(--color-safran) 20%, transparent);
+    background: linear-gradient(180deg, #241d18, #1e1814);
+    box-shadow: 0 24px 48px -28px color-mix(in oklab, var(--color-russ) 80%, transparent);
+  }
+  .zitat p {
+    color: var(--color-creme);
+    font-size: var(--text-basis);
+    line-height: 1.55;
+  }
+
+  /* Platzhalter (nur Vorschau): gestrichelt und beschriftet, damit sie niemand für echte Bewertungen hält */
+  .platzhalter-zitat {
+    border-style: dashed;
+  }
+  .zitat-gross.platzhalter-zitat {
+    padding: 1.5rem 1.5rem 1.4rem;
+    border: 1px dashed color-mix(in oklab, var(--color-safran) 35%, transparent);
+    border-radius: 14px;
+  }
+  .platzhalter-zitat p {
+    color: var(--color-rauch);
+  }
+  .platzhalter-marke {
+    position: absolute;
+    top: 0.8rem;
+    right: 0.9rem;
+    padding: 0.15rem 0.6rem 0.05rem;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--color-safran) 18%, transparent);
+    color: var(--color-safran);
+    font-size: var(--text-mini);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+</style>

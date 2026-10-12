@@ -50,7 +50,7 @@ Tandoori-Gerichte und Brote aus einem original Holzkohle-Lehmofen aus Indien, ha
 ## Brand Commitments
 
 - Name: „Bombay – Indische Spezialitäten“.
-- **Logo (vom Restaurant geliefert):** magentafarbener Schriftzug „Bombay“ in kontrastreicher Serif unter einem Kuppelbogen mit Spitze. Farbe `#BE036C`. Es ist das einzige verbindliche Markenzeichen und wird nicht verändert; die Kuppel bleibt Teil des Logos und wird nicht als Deko-Motiv wiederholt.
+- **Logo (vom Restaurant geliefert):** magentafarbener Schriftzug „Bombay“ in kontrastreicher Serif unter einem Kuppelbogen mit Spitze. Originalfarbe `#BE036C` (Druck, Plattformen). Form unverändert; die Kuppel bleibt Teil des Logos und wird nicht als Deko-Motiv wiederholt. **Auf der Website seit Fassung 3 in Gold mit Glanz** (ausdrücklicher Wunsch der Auftraggeberin, passend zu den Glutkanten der Knöpfe); dazu ein kurzes Logo-Intro beim ersten Öffnen.
 - Stimmung laut Briefing: warm, sinnlich, modern; Kontrast dunkler, glutiger Flächen mit hellem Creme; Tandoor-Glut, Safran, Kurkuma, Kupfergeschirr, Gewürzmärkte. Gegenwärtig und edel, aber nicht steif.
 - Ausdrücklich zu vermeiden: Taj-Mahal-Clipart, Kitsch, Gold-auf-Rot-Klischees, Template-Optik, Stock-Icon-Sammlungen.
 - Palette (Vorschlag, verfeinerbar): Tinte `#1B1714`, Creme `#F6EFE4`, Safran `#E8A33D`, Kurkuma `#D98E04`, Glutrot `#B63A1E`, Kardamom-Grün `#5E6B48` (vegetarisch).
@@ -62,7 +62,8 @@ Tandoori-Gerichte und Brote aus einem original Holzkohle-Lehmofen aus Indien, ha
 - Vollständige Speisekarte mit Preisen (Briefing Abschnitt 8).
 - Acht eigene Food-Fotos des Restaurants (`public/images/`), alle quadratisch; vier in 1485 px, vier nur in 400 px. Keine Ambiente-, Tandoor- oder Team-Fotos.
 - Logo als Screenshot (`assets/logo/logo-original-screenshot.jpeg`); Vektor-Nachbau in `public/logo/`.
-- **Nicht vorhanden und nicht zu erfinden:** Gründungsjahr, Namen, Auszeichnungen, Bewertungen, Testimonials.
+- **Google-Bewertungen:** Die Auftraggeberin wünscht einen Abschnitt „Was unsere Gäste sagen“ mit Sternen. Vorläufiger Wert 4,5 Sterne / 404 Bewertungen laut Restaurant Guru (12.10.2026), im Google-Profil zu prüfen. Echte Bewertungstexte liegen noch nicht vor (`src/data/bewertungen.ts`, TODO).
+- **Nicht vorhanden und nicht zu erfinden:** Gründungsjahr, Namen, Auszeichnungen, Bewertungstexte, Testimonials.
 
 ## Product Principles
 

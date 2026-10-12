@@ -10,11 +10,11 @@ const { titel, beschreibung } = Astro.props;
 ---
 
 <Basis titel={`${titel} – Bombay Freising`} beschreibung={beschreibung} aktiv="recht" noindex>
-  <div class="hell pt-6 text-tinte md:pt-10">
-    <div class="blatt bg-papier">
+  <div class="pt-6 text-creme md:pt-10">
+    <div class="blatt">
     <div class="rahmen py-16 md:py-24">
       <article class="rechtstext mx-auto max-w-[46rem]">
-        <span class="bordure w-40 text-rani" aria-hidden="true"></span>
+        <span class="bordure w-40" aria-hidden="true"></span>
         <h1 class="display-l mt-6">{titel}</h1>
         <slot />
       </article>

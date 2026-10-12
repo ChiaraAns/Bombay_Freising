@@ -121,3 +121,23 @@ if (fehler) {
   console.error(`${fehler} Fehler (Bestellung)`);
   process.exit(1);
 }
+
+// ---------- Gemeinsamer Warenkorb (Speisekarte ↔ Bestellen) ----------
+import { aendereKorb, mengeArtikel } from '../src/lib/korb-speicher';
+{
+  let k = aendereKorb([], { id: '57' }, +1);
+  k = aendereKorb(k, { id: '57' }, +1);
+  pruefe(mengeArtikel(k, '57') === 2, 'Korb: zweimal Plus ergibt 2');
+  k = aendereKorb(k, { id: 'Säfte', variante: 'Mangosaft' }, +1);
+  k = aendereKorb(k, { id: 'Säfte', variante: 'Lycheesaft' }, +1);
+  pruefe(mengeArtikel(k, 'Säfte') === 2 && k.length === 3, 'Korb: Sorten getrennt, Summe je Artikel');
+  k = aendereKorb(k, { id: '57' }, -2);
+  pruefe(mengeArtikel(k, '57') === 0 && !k.some((p) => p.id === '57'), 'Korb: auf 0 entfernt');
+  pruefe(aendereKorb([], { id: '1' }, -1).length === 0, 'Korb: Minus auf leerem Korb bleibt leer');
+  pruefe(mengeArtikel(aendereKorb([{ id: '1', menge: 99 }], { id: '1' }, +1), '1') === 99, 'Korb: höchstens 99');
+}
+if (fehler) {
+  console.error(`${fehler} Fehler (Warenkorb)`);
+  process.exit(1);
+}
+console.log('✓ Gemeinsamer Warenkorb geprüft');

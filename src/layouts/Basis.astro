@@ -101,6 +101,13 @@ const jsonLd = {
 
     <script is:inline>
       document.documentElement.classList.add('js');
+      // Logo-Vorhang: einmal pro Besuch, nicht bei reduzierter Bewegung (ohne Skript gibt es ihn gar nicht)
+      try {
+        if (!sessionStorage.getItem('bombay-vorhang') && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          document.documentElement.classList.add('vorhang-an');
+          sessionStorage.setItem('bombay-vorhang', '1');
+        }
+      } catch (e) {}
       // Falls das Bewegungs-Skript nicht lädt: nach 2,5 s alles sichtbar machen
       setTimeout(function () {
         if (!window.__bewegung) document.documentElement.classList.add('bewegung-aus');
@@ -108,6 +115,13 @@ const jsonLd = {
     </script>
   </head>
   <body class="min-h-dvh pb-[calc(4.25rem+env(safe-area-inset-bottom))] md:pb-0">
+    <!-- Vorhang: das Gold-Logo öffnet sich aus der Mitte, ein Glanz läuft hindurch, dann hebt sich der Vorhang -->
+    <div class="vorhang" aria-hidden="true" style={`--logo-maske:url('${pfad('/logo/bombay-logo-gold.svg')}')`}>
+      <div class="vorhang-logo">
+        <img src={pfad('/logo/bombay-logo-gold.svg')} alt="" width="340" height="147" />
+        <span class="vorhang-glanz"></span>
+      </div>
+    </div>
     <a
       href="#inhalt"
       class="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[100] focus:bg-creme focus:px-4 focus:py-2 focus:text-tinte"
@@ -122,6 +136,9 @@ const jsonLd = {
 
     <script>
       import '../scripts/bewegung';
+      // Vorhang nach seinem Auftritt ganz entfernen (fängt danach keine Klicks)
+      const vorhang = document.querySelector('.vorhang');
+      if (vorhang) setTimeout(() => vorhang.remove(), document.documentElement.classList.contains('vorhang-an') ? 2200 : 0);
     </script>
   </body>
 </html>

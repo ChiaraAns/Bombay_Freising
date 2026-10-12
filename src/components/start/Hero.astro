@@ -103,7 +103,7 @@ const heroBild = bild('hero') ?? bild('gericht-93-jheenga-masala');
     width: 7.5rem;
     height: 12px;
     margin-bottom: 1.1rem;
-    background: var(--color-rani-hell);
+    background: var(--glanz);
     -webkit-mask: url('/ornament/band.svg') repeat-x left center / auto 100%;
     mask: url('/ornament/band.svg') repeat-x left center / auto 100%;
   }
@@ -120,7 +120,7 @@ const heroBild = bild('hero') ?? bild('gericht-93-jheenga-masala');
     gap: 1.1rem 0;
     padding-top: 1.4rem;
     border-top: 1px solid color-mix(in oklab, var(--color-creme) 14%, transparent);
-    max-width: 44rem;
+    max-width: 52rem;
   }
   .fakt {
     display: grid;
@@ -140,6 +140,7 @@ const heroBild = bild('hero') ?? bild('gericht-93-jheenga-masala');
     margin: 0;
   }
   .fakt-wert {
+    white-space: nowrap;
     color: var(--color-creme);
     font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
     font-weight: 500;
@@ -294,6 +295,19 @@ const heroBild = bild('hero') ?? bild('gericht-93-jheenga-masala');
     }
     .hero-fakten {
       animation-delay: 0.35s;
+    }
+    /* Mit Logo-Vorhang: alles 1,4 s später, wenn der Vorhang sich hebt */
+    :global(.vorhang-an) .hero-ornament {
+      animation-delay: 1.4s;
+    }
+    :global(.vorhang-an) .hero-unterzeile {
+      animation-delay: 1.62s;
+    }
+    :global(.vorhang-an) .hero-knoepfe {
+      animation-delay: 1.7s;
+    }
+    :global(.vorhang-an) .hero-fakten {
+      animation-delay: 1.75s;
     }
     @keyframes hero-auf {
       from {

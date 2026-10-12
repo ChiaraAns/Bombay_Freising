@@ -7,6 +7,7 @@ import { glossar, vokabular } from '../data/glossar';
 import { kontakt } from '../data/kontakt';
 import { pfad } from '../lib/pfad';
 import { zeitenKompakt } from '../lib/zeiten';
+import { findeArtikel } from '../lib/warenkorb';
 
 const filter = [
   { id: 'vegetarisch', text: 'Vegetarisch', gruppe: 'kost', icon: 'blatt' },
@@ -15,6 +16,9 @@ const filter = [
   { id: 'scharf', text: 'Scharf', gruppe: 'schaerfe', chilis: 1 },
   { id: 'sehr-scharf', text: 'Sehr scharf', gruppe: 'schaerfe', chilis: 2 },
 ] as const;
+
+// Bestell-Schlüssel wie auf /bestellen: Gerichtsnummer oder (Getränke) Name; Sorten bei „je“-Gruppen
+const bestellId = (g: { nr?: number; name: string }) => (g.nr ? String(g.nr) : g.name);
 
 const suchtext = (...teile: (string | undefined)[]) =>
   teile
@@ -28,7 +32,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
   beschreibung="Die komplette Speisekarte des Bombay in Freising mit Nummern und Preisen: Tandoori aus dem Lehmofen, Curries mit Huhn, Lamm, Ente und Fisch, Biryani, Thalis, 20 vegetarische Spezialitäten und frisches Naan."
   aktiv="speisekarte"
 >
-  <div class="hell text-tinte">
+  <div class="text-creme">
     <!-- Kopf der Karte -->
     <header class="karte-kopf koernung bg-tinte pb-9 pt-9 text-creme md:pb-16 md:pt-16">
       <div class="rahmen grid gap-8 lg:grid-cols-12 lg:items-end">
@@ -70,7 +74,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
       <p class="filter-status rahmen" data-filter-status hidden aria-live="polite"></p>
     </nav>
 
-    <div class="blatt bg-papier">
+    <div class="blatt">
     <div class="rahmen pb-16 pt-10 md:pb-20 md:pt-12">
       <!-- Suche & Filter -->
       <div class="werkzeug grid gap-5 lg:grid-cols-12 lg:items-center print:hidden">
@@ -157,7 +161,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
                 <h2 id={`titel-${k.id}`} class="display-l">
                   {k.titel}
                 </h2>
-                <span class="bordure mt-4 text-rani/80" aria-hidden="true" />
+                <span class="bordure mt-4" aria-hidden="true" />
                 {k.hinweis && <p class="kategorie-hinweis mt-4 max-w-[48rem] text-basis text-braun">{k.hinweis}</p>}
               </div>
               <ul class="gerichte mt-6" role="list">
@@ -203,6 +207,47 @@ const suchtext = (...teile: (string | undefined)[]) =>
                         </div>
                       )}
                     </div>
+                    {(() => {
+                      const id = bestellId(g);
+                      const sorten = findeArtikel(id)?.varianten;
+                      return (
+                        <div
+                          class="korb-steuer print:hidden"
+                          data-korb-steuer
+                          data-id={id}
+                          data-name={g.name}
+                          data-sorten={sorten ? sorten.join('|') : undefined}
+                        >
+                          <div class="korb-stepper">
+                            {!sorten && (
+                              <button type="button" class="korb-knopf korb-minus" data-minus hidden aria-label={`${g.name}: eins weniger`}>
+                                <Icon name="minus" size={16} />
+                              </button>
+                            )}
+                            <span class="korb-zahl tabellenziffern" data-zahl hidden />
+                            <button
+                              type="button"
+                              class="korb-knopf korb-plus"
+                              data-plus
+                              aria-label={sorten ? `${g.name}: Sorte wählen und in den Warenkorb legen` : `${g.name} in den Warenkorb legen`}
+                              aria-expanded={sorten ? 'false' : undefined}
+                            >
+                              <Icon name="plus" size={18} />
+                            </button>
+                          </div>
+                          {sorten && (
+                            <div class="sorten" data-sorten-wahl hidden>
+                              {sorten.map((sorte) => (
+                                <button type="button" class="sorte" data-sorte={sorte}>
+                                  <span>{sorte}</span>
+                                  <span class="sorte-zahl tabellenziffern" data-sorte-zahl hidden />
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })()}
                   </li>
                 ))}
               </ul>
@@ -235,6 +280,20 @@ const suchtext = (...teile: (string | undefined)[]) =>
       </div>
     </div>
     </div>
+
+    <!-- Schwebender Warenkorb: erscheint, sobald etwas im Korb liegt, führt zur Bestellung -->
+    <a href={pfad('/bestellen')} class="korb-pille print:hidden" data-korb-pille hidden>
+      <span class="korb-pille-symbol" aria-hidden="true">
+        <Icon name="tasche" size={20} />
+        <span class="korb-pille-zahl tabellenziffern" data-pille-zahl>0</span>
+      </span>
+      <span class="korb-pille-text">
+        <span class="korb-pille-summe tabellenziffern" data-pille-summe>0,00 €</span>
+        <span class="korb-pille-zu">Zur Bestellung</span>
+      </span>
+      <Icon name="pfeil" size={18} />
+    </a>
+    <p class="sr-only" aria-live="polite" data-korb-ansage></p>
   </div>
 </Basis>
 
@@ -346,6 +405,90 @@ const suchtext = (...teile: (string | undefined)[]) =>
     { rootMargin: '-120px 0px -65% 0px' },
   );
   kategorien.forEach((k) => io.observe(k));
+
+  // ---------- Direkt in den Warenkorb (gemeinsam mit /bestellen) ----------
+  import { ladeKorb, speichereKorb, aendereKorb, mengeArtikel } from '../lib/korb-speicher';
+  import { zwischensumme, anzahl, preis, schluessel } from '../lib/warenkorb';
+
+  let korb = ladeKorb();
+  const pille = document.querySelector<HTMLAnchorElement>('[data-korb-pille]')!;
+  const ansage = document.querySelector<HTMLElement>('[data-korb-ansage]')!;
+
+  const zeichneKorb = () => {
+    document.querySelectorAll<HTMLElement>('[data-korb-steuer]').forEach((st) => {
+      const id = st.dataset.id!;
+      const n = mengeArtikel(korb, id);
+      const zahl = st.querySelector<HTMLElement>('[data-zahl]')!;
+      zahl.hidden = n === 0;
+      zahl.textContent = String(n);
+      zahl.setAttribute('aria-label', `${n} im Warenkorb`);
+      const minus = st.querySelector<HTMLButtonElement>('[data-minus]');
+      if (minus) minus.hidden = n === 0;
+      st.closest('.gericht')?.classList.toggle('im-korb', n > 0);
+      st.querySelectorAll<HTMLElement>('[data-sorte]').forEach((b) => {
+        const m = korb.find((x) => schluessel(x) === schluessel({ id, variante: b.dataset.sorte }))?.menge ?? 0;
+        const z = b.querySelector<HTMLElement>('[data-sorte-zahl]')!;
+        z.hidden = m === 0;
+        z.textContent = String(m);
+      });
+    });
+    const n = anzahl(korb);
+    pille.hidden = n === 0;
+    document.documentElement.classList.toggle('korb-pille-an', n > 0);
+    pille.querySelector('[data-pille-zahl]')!.textContent = String(n);
+    pille.querySelector('[data-pille-summe]')!.textContent = preis(zwischensumme(korb));
+    pille.setAttribute('aria-label', `Warenkorb: ${n} Artikel, ${preis(zwischensumme(korb))} – zur Bestellung`);
+  };
+
+  const aendern = (id: string, delta: number, name: string, variante?: string) => {
+    korb = aendereKorb(korb, { id, variante }, delta);
+    speichereKorb(korb);
+    zeichneKorb();
+    const n = anzahl(korb);
+    ansage.textContent =
+      delta > 0
+        ? `${variante ?? name} in den Warenkorb gelegt. Im Warenkorb: ${n} Artikel.`
+        : `${name}: eins entfernt. Im Warenkorb: ${n} Artikel.`;
+    if (delta > 0) {
+      pille.classList.remove('stoss');
+      void pille.offsetWidth;
+      pille.classList.add('stoss');
+    }
+  };
+
+  document.querySelector('[data-karte-liste]')?.addEventListener('click', (e) => {
+    const ziel = e.target as HTMLElement;
+    const st = ziel.closest<HTMLElement>('[data-korb-steuer]');
+    if (!st) return;
+    const { id, name = '' } = st.dataset;
+    if (!id) return;
+    const sorteKnopf = ziel.closest<HTMLElement>('[data-sorte]');
+    if (sorteKnopf) return aendern(id, +1, name, sorteKnopf.dataset.sorte);
+    const plus = ziel.closest<HTMLButtonElement>('[data-plus]');
+    if (plus) {
+      if (st.dataset.sorten) {
+        // Getränkegruppe: Sorten aufklappen
+        const wahl = st.querySelector<HTMLElement>('[data-sorten-wahl]')!;
+        wahl.hidden = !wahl.hidden;
+        plus.setAttribute('aria-expanded', String(!wahl.hidden));
+        if (!wahl.hidden) wahl.querySelector<HTMLButtonElement>('[data-sorte]')?.focus();
+        return;
+      }
+      return aendern(id, +1, name);
+    }
+    const minus = ziel.closest<HTMLButtonElement>('[data-minus]');
+    if (minus) {
+      aendern(id, -1, name);
+      if (minus.hidden) st.querySelector<HTMLButtonElement>('[data-plus]')?.focus();
+    }
+  });
+
+  // Änderungen aus einem anderen Tab (z. B. /bestellen) übernehmen
+  window.addEventListener('storage', () => {
+    korb = ladeKorb();
+    zeichneKorb();
+  });
+  zeichneKorb();
 </script>
 
 <style>
@@ -447,11 +590,11 @@ const suchtext = (...teile: (string | undefined)[]) =>
   }
 
   .suche input {
-    box-shadow: inset 0 0 0 1.5px rgb(27 23 20 / 0.35);
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-tinte) 22%, transparent);
     outline: none;
   }
   .suche input:focus-visible {
-    box-shadow: inset 0 0 0 2px var(--color-glut);
+    box-shadow: inset 0 0 0 1.5px var(--color-safran);
   }
   .suche input::-webkit-search-cancel-button {
     display: none;
@@ -491,7 +634,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
     padding: 0.2rem 0.95rem 0;
     border-radius: 999px;
     background: var(--color-creme);
-    box-shadow: inset 0 0 0 1.5px rgb(27 23 20 / 0.28);
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-tinte) 18%, transparent);
     font-weight: 600;
     font-size: var(--text-fein);
     cursor: pointer;
@@ -501,12 +644,15 @@ const suchtext = (...teile: (string | undefined)[]) =>
       color 0.2s;
   }
   .filter-chip:hover {
-    box-shadow: inset 0 0 0 2px var(--color-tinte);
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-safran) 70%, transparent);
   }
+  /* Gewählt: Safrankante mit warmem Schein, wie die gewählte Kompass-Option */
   .filter-chip[aria-pressed='true'] {
-    background: var(--color-tinte);
-    color: var(--color-creme);
-    box-shadow: inset 0 0 0 2px var(--color-tinte);
+    background: color-mix(in oklab, var(--color-safran) 16%, var(--color-creme));
+    color: var(--color-tinte);
+    box-shadow:
+      inset 0 0 0 1px var(--color-safran),
+      0 0 14px -4px rgb(232 163 61 / 0.5);
   }
   .filter-chip[aria-pressed='true'] :global(.text-kardamom) {
     color: var(--color-kardamom-hell);
@@ -553,10 +699,10 @@ const suchtext = (...teile: (string | undefined)[]) =>
   }
   .gericht {
     display: grid;
-    grid-template-columns: 3rem minmax(0, 1fr);
+    grid-template-columns: 3rem minmax(0, 1fr) auto;
     gap: 0.9rem;
     padding: 0.95rem 0 1rem;
-    border-bottom: 1px solid rgb(27 23 20 / 0.12);
+    border-bottom: 1px solid color-mix(in oklab, var(--color-tinte) 10%, transparent);
     break-inside: avoid;
   }
   .gericht-nr {
@@ -564,15 +710,14 @@ const suchtext = (...teile: (string | undefined)[]) =>
     place-items: center;
     height: 2.1rem;
     margin-top: 0.1rem;
-    background: var(--color-tinte);
-    color: var(--color-creme);
+    border-radius: 9px;
+    background: var(--color-russ);
+    color: var(--color-creme-fest);
     font-family: var(--font-display);
     font-size: var(--text-basis);
     line-height: 1;
     padding-top: 0.15rem;
-    box-shadow:
-      0 0 0 2px var(--color-papier),
-      0 0 0 3px rgb(27 23 20 / 0.35);
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-safran) 40%, transparent);
   }
   .gericht-nr.leer {
     background: transparent;
@@ -599,7 +744,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
     margin-left: 0.4rem;
     padding: 0.12rem 0.4rem 0;
     background: var(--color-safran);
-    color: var(--color-tinte);
+    color: var(--color-russ);
     font-family: var(--font-sans);
     font-size: var(--text-mini);
     font-weight: 700;
@@ -611,7 +756,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
   .punktlinie {
     flex: 1;
     min-width: 1rem;
-    border-bottom: 2px dotted rgb(27 23 20 / 0.3);
+    border-bottom: 2px dotted color-mix(in oklab, var(--color-safran) 35%, transparent);
     transform: translateY(-0.3rem);
   }
   .gericht-preis {
@@ -643,6 +788,201 @@ const suchtext = (...teile: (string | undefined)[]) =>
     margin-left: auto;
   }
 
+  /* ---------- Direkt bestellen ----------
+     Plus mit Glutkante je Gericht; liegt etwas im Korb, erscheinen Minus und Anzahl, die Nummernkachel glüht.
+     Getränkegruppen („je …“) klappen ihre Sorten als Pillen unter der Zeile auf. */
+  .korb-steuer {
+    display: contents;
+  }
+  .korb-stepper {
+    grid-column: 3;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    align-self: start;
+  }
+  .korb-knopf {
+    display: inline-grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 999px;
+    color: var(--color-creme-fest);
+    cursor: pointer;
+    transition:
+      box-shadow 0.25s var(--ease-glut),
+      background-color 0.25s var(--ease-glut),
+      transform 0.2s var(--ease-glut);
+  }
+  .korb-knopf:active {
+    transform: scale(0.92);
+  }
+  .korb-plus {
+    border: 1px solid transparent;
+    background:
+      linear-gradient(var(--color-knopf-grund), var(--color-knopf-grund)) padding-box,
+      linear-gradient(120deg, var(--color-glut-hell), var(--color-safran)) border-box;
+    box-shadow: 0 0 12px -4px rgb(240 122 82 / 0.55);
+  }
+  .korb-plus:hover {
+    background:
+      linear-gradient(var(--color-knopf-glut), var(--color-knopf-glut)) padding-box,
+      linear-gradient(120deg, var(--color-glut-hell), var(--color-safran)) border-box;
+    box-shadow: 0 0 18px -3px rgb(240 122 82 / 0.65);
+  }
+  .korb-minus {
+    border: 1px solid color-mix(in oklab, var(--color-tinte) 22%, transparent);
+  }
+  .korb-minus:hover {
+    border-color: var(--color-safran);
+  }
+  .korb-zahl {
+    min-width: 1.5rem;
+    text-align: center;
+    color: var(--color-safran);
+    font-weight: 700;
+  }
+  .gericht.im-korb .gericht-nr.leer {
+    background: transparent;
+    box-shadow: none;
+  }
+  /* Platz unter der Karte, solange die Warenkorb-Pille schwebt */
+  :global(.korb-pille-an) .blatt {
+    margin-bottom: 7rem;
+  }
+  .gericht.im-korb .gericht-nr:not(.leer) {
+    background: color-mix(in oklab, var(--color-safran) 24%, var(--color-russ));
+    box-shadow:
+      inset 0 0 0 1px var(--color-safran),
+      0 0 14px -4px rgb(232 163 61 / 0.6);
+  }
+  .sorten {
+    grid-column: 2 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: -0.2rem;
+  }
+  .sorte {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 2.5rem;
+    padding: 0.2rem 0.95rem 0;
+    border-radius: 999px;
+    border: 1px solid color-mix(in oklab, var(--color-tinte) 20%, transparent);
+    background: var(--color-creme);
+    color: var(--color-tinte);
+    font-weight: 600;
+    font-size: var(--text-fein);
+    cursor: pointer;
+    transition: border-color 0.2s var(--ease-glut);
+  }
+  .sorte:hover {
+    border-color: var(--color-safran);
+  }
+  .sorte-zahl {
+    display: inline-grid;
+    place-items: center;
+    min-width: 1.35rem;
+    height: 1.35rem;
+    margin-top: -0.15rem;
+    padding: 0.1rem 0.3rem 0;
+    border-radius: 999px;
+    background: var(--color-safran);
+    color: var(--color-russ);
+    font-size: var(--text-mini);
+    font-weight: 700;
+  }
+
+  .korb-pille {
+    position: fixed;
+    z-index: 45;
+    left: 1rem;
+    right: 1rem;
+    bottom: calc(4.75rem + env(safe-area-inset-bottom));
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    min-height: 3.6rem;
+    padding: 0.45rem 1.2rem 0.45rem 0.6rem;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    color: var(--color-creme);
+    text-decoration: none;
+    background:
+      linear-gradient(var(--color-knopf-grund), var(--color-knopf-grund)) padding-box,
+      linear-gradient(100deg, var(--color-glut-hell), var(--color-safran) 55%, var(--color-glut-hell)) border-box;
+    box-shadow:
+      0 18px 40px -16px color-mix(in oklab, var(--color-russ) 95%, transparent),
+      0 0 18px -4px rgb(240 122 82 / 0.5);
+  }
+  .korb-pille[hidden] {
+    display: none;
+  }
+  @media (width >= 48rem) {
+    .korb-pille {
+      left: auto;
+      right: 1.5rem;
+      bottom: 1.5rem;
+      min-width: 19rem;
+    }
+  }
+  .korb-pille-symbol {
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--color-safran) 16%, transparent);
+    color: var(--color-safran);
+  }
+  .korb-pille-zahl {
+    position: absolute;
+    top: -0.2rem;
+    right: -0.25rem;
+    display: grid;
+    place-items: center;
+    min-width: 1.3rem;
+    height: 1.3rem;
+    padding: 0.1rem 0.3rem 0;
+    border-radius: 999px;
+    background: var(--color-safran);
+    color: var(--color-russ);
+    font-size: var(--text-mini);
+    font-weight: 700;
+  }
+  .korb-pille-text {
+    display: grid;
+    flex: 1;
+    line-height: 1.15;
+  }
+  .korb-pille-summe {
+    font-weight: 600;
+    font-size: var(--text-lead);
+  }
+  .korb-pille-zu {
+    color: var(--color-safran);
+    font-size: var(--text-mini);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .korb-pille.stoss {
+      animation: stoss 0.55s var(--ease-glut);
+    }
+    @keyframes stoss {
+      30% {
+        transform: translateY(-3px) scale(1.03);
+        box-shadow:
+          0 22px 44px -16px color-mix(in oklab, var(--color-russ) 95%, transparent),
+          0 0 26px -2px rgb(240 122 82 / 0.75);
+      }
+    }
+  }
+
   /* ---------- Druck ---------- */
   @media print {
     @page {
@@ -659,7 +999,9 @@ const suchtext = (...teile: (string | undefined)[]) =>
     :global(.reibeflaeche),
     .werkzeug,
     .kategorien,
-    .glossar {
+    .glossar,
+    .korb-steuer,
+    .korb-pille {
       display: none !important;
     }
     .karte-kopf {
@@ -673,8 +1015,11 @@ const suchtext = (...teile: (string | undefined)[]) =>
     .karte-kopf::before {
       display: none;
     }
-    :global(.hell) {
+    :global(.blatt) {
       background: var(--color-druck-weiss) !important;
+    }
+    .gericht.im-korb .gericht-nr {
+      background: none;
     }
     .kategorie {
       padding-top: 6mm;

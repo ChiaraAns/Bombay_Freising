@@ -78,12 +78,13 @@ Vorlage war ein Screenshot (`assets/logo/logo-original-screenshot.jpeg`, ursprü
 | Datei | Was |
 |---|---|
 | `public/logo/bombay-logo.svg` | **Hauptlogo.** Vektor-Nachbau: Kuppel und Bogen nachgezeichnet, Schriftzug aus Rozha One Buchstabe für Buchstabe an die Original-Positionen gesetzt (Flächenübereinstimmung mit dem Original ca. 81–86 %). Farbe Magenta `#BE036C` (aus dem Original gemessen). |
-| `public/logo/bombay-logo-negativ.svg` | **Fassung für dunklen Grund** (Header, Footer): Schriftzug Creme, Kuppel und Bogen in hellem Rani `#E04A92` |
+| `public/logo/bombay-logo-gold.svg` | **Website-Fassung (seit Fassung 3):** dieselbe Form in Gold mit Glanzverlauf (Glut hell → Safran → Lichtkante). Header, Footer, Logo-Intro, Vorschaubild |
+| `public/logo/bombay-logo-negativ.svg` | Fassung für dunklen Grund (bis Fassung 2): Schriftzug Creme, Kuppel und Bogen in hellem Rani `#E04A92` |
 | `public/logo/bombay-logo-creme.svg` | Dieselbe Form komplett in Creme `#F6EFE4` |
 | `public/logo/bombay-logo.png` | Hauptlogo als PNG (1600 px, transparent) für Drucksachen und Plattformen |
 | `public/logo/bombay-logo-original-freigestellt.png` | Der Original-Screenshot, sauber zugeschnitten, Hintergrund transparent, Farbe vereinheitlicht. Kanten bleiben so weich wie die Vorlage. |
 
-**Regel:** Das Logo steht immer frei, ohne Kasten. Das Magenta-Original nur auf hellem Grund (Kontrast auf Creme 5,3 : 1); auf Dunkel die Negativ-Fassung.
+**Regel:** Das Logo steht immer frei, ohne Kasten. Auf der Website die Goldfassung; das Magenta-Original für hellen Druck und Plattformen (Kontrast auf Creme 5,3 : 1).
 
 **TODO:** Falls es das Logo als Originaldatei gibt (AI, EPS, PDF oder SVG von der Druckerei bzw. vom Gestalter), bitte nachliefern. Dann ersetzen wir den Nachbau 1 : 1.
 
@@ -92,5 +93,5 @@ Vorlage war ein Screenshot (`assets/logo/logo-original-screenshot.jpeg`, ursprü
 | Datei | Zweck |
 |---|---|
 | `public/og.jpg` (1200 × 630) | Vorschaubild beim Teilen (WhatsApp, Facebook) mit Logo. Neu erzeugen mit `node scripts/og-bild.mjs`, siehe README. |
-| `public/favicon.svg`, `public/apple-touch-icon.png` | Browser- und Homescreen-Symbol: die Kuppel aus dem Logo auf Creme |
+| `public/favicon.svg`, `public/apple-touch-icon.png` | Browser- und Homescreen-Symbol: das B aus dem Logo in Gold auf Tinte |
 | `public/ornament/band.svg`, `kachel.svg` (+ `kachel-glut.svg`) | Eigenes Blockdruck-Ornament (Bordüre und Rapport), eingefärbter Rapport für die Bestell-Tafel |

@@ -1,0 +1,49 @@
+---
+/**
+ * Sternbewertung 0–5 (auch halbe/teilweise Sterne). Gefüllter Teil in Safran, Rest als feine Kontur.
+ * `label` wird als Text für Screenreader gesetzt, die Sterne selbst sind dekorativ.
+ */
+interface Props {
+  wert: number;
+  groesse?: number;
+  label?: string;
+  class?: string;
+}
+const { wert, groesse = 18, label, class: klasse = '' } = Astro.props;
+declare global {
+  var __sternZaehler: number;
+}
+const anteile = [0, 1, 2, 3, 4].map((i) => Math.max(0, Math.min(1, wert - i)));
+// Eindeutige IDs für die Clip-Pfade (deterministisch über alle Renderings eines Builds)
+const uid = `stern${++globalThis.__sternZaehler || (globalThis.__sternZaehler = 1)}`;
+const STERN = 'M12 2.6l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17.2l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z';
+---
+
+<span class:list={['sterne', klasse]} role={label ? 'img' : undefined} aria-label={label} aria-hidden={label ? undefined : 'true'}>
+  {
+    anteile.map((a, i) => (
+      <svg width={groesse} height={groesse} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <defs>
+          <clipPath id={`${uid}-${i}`}>
+            <rect x="0" y="0" width={24 * a} height="24" />
+          </clipPath>
+        </defs>
+        <path d={STERN} fill="none" stroke="currentColor" stroke-opacity="0.45" stroke-width="1.2" stroke-linejoin="round" />
+        {a > 0 && <path d={STERN} fill="currentColor" clip-path={`url(#${uid}-${i})`} />}
+      </svg>
+    ))
+  }
+</span>
+
+<style>
+  .sterne {
+    display: inline-flex;
+    gap: 0.15em;
+    color: var(--color-safran);
+    vertical-align: middle;
+  }
+  .sterne svg {
+    display: block;
+    flex: none;
+  }
+</style>

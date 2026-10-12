@@ -20,7 +20,7 @@ const lieferung = bestellung.lieferung;
   aktiv="bestellen"
   ohneReibeflaeche
 >
-  <div class="bestellseite hell pb-28 text-tinte lg:pb-0" data-bestellseite data-endpunkt={bestellung.endpunkt ?? ''} data-email={kontakt.email}>
+  <div class="bestellseite pb-28 text-creme lg:pb-0" data-bestellseite data-endpunkt={bestellung.endpunkt ?? ''} data-email={kontakt.email}>
     <header class="koernung bg-tinte pb-10 pt-10 text-creme md:pb-12 md:pt-14">
       <div class="rahmen">
         <h1 class="display-xl">Online bestellen</h1>
@@ -44,7 +44,7 @@ const lieferung = bestellung.lieferung;
         </ul>
       </nav>
 
-      <div class="blatt bg-papier">
+      <div class="blatt">
       <div class="rahmen grid gap-10 pb-12 pt-10 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-12">
         <div>
           {
@@ -123,7 +123,7 @@ const lieferung = bestellung.lieferung;
 
     <!-- ===== Schritt 2: Angaben ===== -->
     <div data-ansicht="kasse" hidden>
-      <div class="blatt bg-papier">
+      <div class="blatt">
       <div class="rahmen grid gap-10 py-10 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-12 lg:py-14">
         <form class="kasse min-w-0" novalidate data-formular>
           <button type="button" class="zurueck" data-zurueck-auswahl>
@@ -241,7 +241,7 @@ const lieferung = bestellung.lieferung;
 
     <!-- ===== Schritt 3: Fertig ===== -->
     <div data-ansicht="fertig" hidden>
-      <div class="blatt bg-papier">
+      <div class="blatt">
       <div class="rahmen py-14 md:py-20">
         <div class="fertig mx-auto max-w-[40rem]">
           <span class="fertig-ornament" aria-hidden="true"></span>
@@ -281,23 +281,13 @@ const lieferung = bestellung.lieferung;
     type Position,
     type Zeitoption,
   } from '../lib/warenkorb';
+  import { ladeKorb, speichereKorb } from '../lib/korb-speicher';
   import { bestellung } from '../data/bestellung';
 
   const seite = document.querySelector<HTMLElement>('[data-bestellseite]')!;
-  const SPEICHER = 'bombay-warenkorb';
-  let korb: Position[] = [];
-  try {
-    korb = JSON.parse(localStorage.getItem(SPEICHER) || '[]').filter((p: Position) => findeArtikel(p.id) && p.menge > 0);
-  } catch {
-    korb = [];
-  }
-  const speichern = () => {
-    try {
-      localStorage.setItem(SPEICHER, JSON.stringify(korb));
-    } catch {
-      /* privat-Modus o. ä. – Warenkorb gilt dann nur für diese Seite */
-    }
-  };
+  // Gemeinsamer Warenkorb mit der Speisekarte (localStorage)
+  let korb: Position[] = ladeKorb();
+  const speichern = () => speichereKorb(korb);
 
   // Aus dem Curry-Kompass: ?add=75,158
   const neu = new URLSearchParams(location.search).get('add');
@@ -625,7 +615,7 @@ const lieferung = bestellung.lieferung;
     font-size: var(--text-klein);
   }
   .schritte li[aria-current] .schritt-nr {
-    background: var(--color-rani-hell);
+    background: var(--color-safran);
     color: var(--color-tinte);
     box-shadow: none;
   }
@@ -688,15 +678,17 @@ const lieferung = bestellung.lieferung;
     transition: background-color 0.3s var(--ease-glut);
   }
   .artikel.im-korb {
-    background: linear-gradient(90deg, color-mix(in oklab, var(--color-rani) 7%, transparent), transparent 70%);
+    background: linear-gradient(90deg, color-mix(in oklab, var(--color-safran) 9%, transparent), transparent 70%);
   }
   .artikel-nr {
     display: grid;
     place-items: center;
     height: 2rem;
     padding-top: 0.15rem;
-    background: var(--color-tinte);
-    color: var(--color-creme);
+    border-radius: 9px;
+    background: var(--color-russ);
+    color: var(--color-creme-fest);
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-safran) 40%, transparent);
     font-family: var(--font-display);
     line-height: 1;
   }
@@ -743,8 +735,8 @@ const lieferung = bestellung.lieferung;
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 999px;
-    background: var(--color-creme);
-    box-shadow: inset 0 0 0 1.5px color-mix(in oklab, var(--color-tinte) 35%, transparent);
+    background: transparent;
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-tinte) 22%, transparent);
     font-size: 1.35rem;
     line-height: 1;
     color: var(--color-tinte);
@@ -753,10 +745,14 @@ const lieferung = bestellung.lieferung;
       background-color 0.2s,
       transform 0.2s var(--ease-glut);
   }
+  /* Hinzufügen: Glutkante wie auf der Speisekarte */
   .mengen :global(.hinzu) {
-    background: var(--color-tinte);
-    color: var(--color-creme);
-    box-shadow: none;
+    border: 1px solid transparent;
+    background:
+      linear-gradient(var(--color-knopf-grund), var(--color-knopf-grund)) padding-box,
+      linear-gradient(120deg, var(--color-glut-hell), var(--color-safran)) border-box;
+    color: var(--color-creme-fest);
+    box-shadow: 0 0 12px -4px rgb(240 122 82 / 0.55);
   }
   .mengen :global(.hinzu:hover),
   .mengen :global(.stepper-knopf:hover),
@@ -775,8 +771,8 @@ const lieferung = bestellung.lieferung;
     height: 1.6rem;
     padding: 0 0.35rem;
     border-radius: 999px;
-    background: var(--color-rani);
-    color: var(--color-creme);
+    background: var(--color-safran);
+    color: var(--color-russ);
     font-weight: 700;
     font-size: var(--text-klein);
   }
@@ -884,16 +880,28 @@ const lieferung = bestellung.lieferung;
     overflow-wrap: anywhere;
   }
 
+  /* Handy: schwebende Warenkorb-Pille mit Glutkante (wie auf der Speisekarte) */
   .korb-leiste {
-    background: var(--color-glut-tief);
-    box-shadow: 0 -10px 30px -10px color-mix(in oklab, var(--color-russ) 60%, transparent);
+    left: 1rem;
+    right: 1rem;
+    bottom: calc(1rem + env(safe-area-inset-bottom));
+    padding-bottom: 0;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    background:
+      linear-gradient(var(--color-knopf-grund), var(--color-knopf-grund)) padding-box,
+      linear-gradient(100deg, var(--color-glut-hell), var(--color-safran) 55%, var(--color-glut-hell)) border-box;
+    box-shadow:
+      0 18px 40px -16px color-mix(in oklab, var(--color-russ) 95%, transparent),
+      0 0 18px -4px rgb(240 122 82 / 0.5);
   }
   .korb-leiste-knopf {
     display: flex;
     width: 100%;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem 1.1rem;
+    min-height: 3.6rem;
+    padding: 0.6rem 1.3rem;
     color: var(--color-creme);
     cursor: pointer;
   }
@@ -933,7 +941,7 @@ const lieferung = bestellung.lieferung;
     padding: 1rem 1.1rem 1rem 3rem;
     border-radius: 14px;
     background: var(--color-creme);
-    box-shadow: inset 0 0 0 1.5px color-mix(in oklab, var(--color-tinte) 25%, transparent);
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-tinte) 20%, transparent);
     cursor: pointer;
   }
   .art-karte input {
@@ -944,9 +952,12 @@ const lieferung = bestellung.lieferung;
     height: 1.15rem;
     accent-color: var(--color-glut);
   }
+  /* Gewählt: Safrankante mit warmem Schein (wie gewählte Kompass-Option und Filter) */
   .art-karte:has(input:checked) {
-    box-shadow: inset 0 0 0 2px var(--color-tinte);
-    background: var(--color-creme-hell);
+    background: color-mix(in oklab, var(--color-safran) 12%, var(--color-creme));
+    box-shadow:
+      inset 0 0 0 1px var(--color-safran),
+      0 0 16px -4px rgb(232 163 61 / 0.45);
   }
   .art-titel {
     display: inline-flex;
@@ -977,7 +988,7 @@ const lieferung = bestellung.lieferung;
     display: block;
     width: 7.5rem;
     height: 12px;
-    background: var(--color-rani);
+    background: var(--glanz);
     -webkit-mask: url('/ornament/band.svg') repeat-x left center / auto 100%;
     mask: url('/ornament/band.svg') repeat-x left center / auto 100%;
   }

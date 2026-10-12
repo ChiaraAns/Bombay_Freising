@@ -1,6 +1,6 @@
 ---
 name: Bombay – Indische Spezialitäten, Freising
-description: Glut bei Nacht – eine durchgehend dunkle, warm gekörnte Seite, aus der die Gerichte auftauchen; Glutkanten statt Kästen, Pillen statt Ecken; Rani-Pink aus dem Logo. Papier nur noch als Lesebogen für Karte, Bestellung und Rechtstexte.
+description: Glut bei Nacht, Fassung 3 in Gold – eine durchgehend dunkle, warm gekörnte Website, aus der die Gerichte auftauchen; Glutkanten statt Kästen, Pillen statt Ecken; Logo, Bordüren und Ornamente in Gold-Glanz; auch Speisekarte und Bestellung dunkel.
 colors:
   tinte: "#1b1714"
   russ: "#120f0d"
@@ -8,6 +8,9 @@ colors:
   kohle-hell: "#352c25"
   creme: "#f6efe4"
   creme-fest: "#f6efe4"
+  knopf-grund: "#150f0c"
+  knopf-glut: "#2a160e"
+  glanzlicht: "#fff6de"
   papier: "#ede2cf"
   papier-dunkel: "#e2d4bc"
   rani: "#be036c"
@@ -104,6 +107,21 @@ typography:
     fontSize: "clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem)"
     fontWeight: 500
     lineHeight: 1.15
+  wertung:
+    fontFamily: "Rozha One, Rozha Ersatz, Georgia, serif"
+    fontSize: "clamp(3.4rem, 2.6rem + 3vw, 5rem)"
+    fontWeight: 400
+    lineHeight: 0.9
+  zitat:
+    fontFamily: "Rozha One, Rozha Ersatz, Georgia, serif"
+    fontSize: "clamp(1.45rem, 1.15rem + 1.1vw, 2.05rem)"
+    fontWeight: 400
+    lineHeight: 1.25
+  anfuehrung:
+    fontFamily: "Rozha One, Rozha Ersatz, Georgia, serif"
+    fontSize: "5rem"
+    fontWeight: 400
+    lineHeight: 1
   preis:
     fontFamily: "Mukta, Mukta Ersatz, system-ui, sans-serif"
     fontWeight: 700
@@ -175,9 +193,9 @@ components:
 
 Die Startseite ist ein einziger dunkler Raum, wie ein Restaurant am Abend: warm-schwarzer, fein gekörnter Grund (Tinte, Kohle, Ruß), aus dem die Gerichte auftauchen. Abschnitte wechseln nie die Bühne; sie heben sich nur durch leise Tonstufen, die nach oben und unten weich in die Tinte zurücklaufen, und durch auslaufende Haarlinien (`.naht`) voneinander ab. Licht kommt von der Glut: Primärknöpfe tragen eine leuchtende Kante von Glutrot zu Safran, unter Überschriften liegt ein kurzer Goldfaden in Safran, hinter den Tellern und in der Bestell-Tafel glimmt ein warmer Schein. Alles Bedienbare ist rund (Pillen), Karten haben weiche Ecken.
 
-Im Hero steht die Headline frei auf dem Foto, das links, oben und unten in die Kohle ausläuft; darunter die drei Fakten groß wie auf einem Schild: Zustand („Jetzt geöffnet“), Reservierungsnummer, Adresse – jeweils kleine Safran-Beschriftung, großer Wert. Die Gerichte stehen als dunkle Etiketten mit feiner Safran-Kante und Rani-Bordüre (die Herkunft aus den Sivakasi-Streichholzetiketten bleibt in der Bordüre und der Seriennummer).
+Beim ersten Öffnen hebt sich ein kurzer Vorhang: das Bombay-Logo in Gold öffnet sich aus der Mitte, ein Glanzlicht läuft darüber. Logo, Bordüren und Ornamente glänzen in Gold-Orange statt Pink. Im Hero steht die Headline frei auf dem Foto, das links, oben und unten in die Kohle ausläuft; darunter die drei Fakten groß wie auf einem Schild: Zustand („Jetzt geöffnet“), Reservierungsnummer, Adresse – jeweils kleine Safran-Beschriftung, großer Wert. Die Gerichte stehen als dunkle Etiketten mit feiner Safran-Kante und goldener Blockdruck-Bordüre (die Herkunft aus den Sivakasi-Streichholzetiketten bleibt in der Bordüre und der Seriennummer).
 
-Papier gibt es nur noch dort, wo lange gelesen oder ausgefüllt wird: Speisekarte, Bestellung, Rechtstexte liegen als heller Bogen auf dem dunklen Grund und enden mit weich gerundeter Unterkante über dem Footer. Das Logo steht frei, ohne Kasten: auf Dunkel als Negativ (Schriftzug Creme, Kuppel in hellem Rani).
+Auch die Unterseiten sind dunkel: Speisekarte, Bestellung und Rechtstexte liegen als dunkle, rundum gerundete Tafel auf dem Grund; auf der Speisekarte lässt sich jedes Gericht direkt in den Warenkorb legen. Das Logo steht frei, ohne Kasten, in Gold.
 
 Bewegung ist ruhig: Überschriften steigen Wort für Wort aus einer Linie auf, Absätze gleiten weich nach oben (nie Überschrift und umgebender Block doppelt), Teller bewegen sich beim Scrollen minimal in die Tiefe, das Hero-Foto „atmet“ einmal beim Laden. Im Hero sind Knöpfe und Fakten nach spätestens 0,35 s unterwegs und nach knapp einer Sekunde vollständig da (0,6 s).
 
@@ -199,11 +217,11 @@ Fassung 1 („Glut und Papier“ mit gerissenen Papierbögen) ist auf dem Branch
 
 ## Colors
 
-Eine warme Gewürzpalette auf Kohle und Creme, verankert vom Rani-Pink des Logos und dem Glutrot des Ofens.
+Eine warme Gewürzpalette auf Kohle, verankert vom Gold-Glanz des Logos und dem Glutrot des Ofens.
 
 ### Primary
-- **Rani-Pink** (#be036c): die Logofarbe, gemessen aus dem Original-Logo. Logo auf hellem Grund, Blockdruck-Bordüren auf dem Lesebogen (Kategorien der Speisekarte, Rechtstexte). Nur auf hellem Grund (5,3 : 1 auf Creme); auf den dunklen Etiketten (Gerichte, Öffnungszeiten) erscheint die Bordüre über `.nacht` in Rani hell.
-- **Rani hell** (#e04a92): dieselbe Farbe für dunklen Grund (4,7 : 1 auf Tinte) – Kuppel im Negativ-Logo, Ornament über der Hero-Headline, Fußlinie, aktiver Bestellschritt.
+- **Gold-Glanz** (`--glanz`: Glut hell → Safran → Lichtkante #fbe6b0 → Safran → Glut hell): seit Fassung 3 die Farbe des Logos auf der Website (`bombay-logo-gold.svg`), aller Blockdruck-Bordüren, des Ornaments über der Hero-Headline und der Fußlinie. Wunsch der Auftraggeberin: Gold statt Pink, wie die Glutkanten der Knöpfe.
+- **Rani-Pink** (#be036c) / **Rani hell** (#e04a92): die Original-Logofarbe; auf der Website nicht mehr sichtbar, bleibt für Drucksachen, Plattformen und das Original-Logo (`bombay-logo.svg`).
 - **Glutrot** (#b63a1e) / **Glut hell** (#f07a52): Handlungsfarbe. Auf Dunkel als leuchtende Kante der Primärknöpfe (Glut hell → Safran) und als Preis auf dunklen Etiketten (Glut hell, 6 : 1); auf Papier als gefüllter Primärknopf und Preis (Glutrot). Chili-Kennzeichnung. Hover auf Papier: **Glut tief** (#8f2b14).
 
 ### Secondary
@@ -216,13 +234,15 @@ Eine warme Gewürzpalette auf Kohle und Creme, verankert vom Rani-Pink des Logos
 ### Neutral
 - **Tinte** (#1b1714): Grund der dunklen Flächen, Text auf Creme, Seriennummern.
 - **Ruß** (#120f0d) und **Kohle** (#26201b / #352c25): Footer, Kompass-Schublade, Scrollbar.
-- **Creme** (#f6efe4): Text auf Dunkel, Etiketten auf Papier. **Papier** (#ede2cf) und **Papier dunkel** (#e2d4bc): der Lesebogen der Unterseiten (Speisekarte, Bestellung, Rechtstexte). **Creme fest** (#f6efe4): wie Creme, wird aber in `.nacht` nicht umgebunden.
+- **Creme** (#f6efe4): Text auf Dunkel, Etiketten auf Papier. **Papier** (#ede2cf) und **Papier dunkel** (#e2d4bc): nur noch im Druck der Speisekarte und für Papier-Bausteine außerhalb von `.nacht`/`.blatt`. **Creme fest** (#f6efe4): wie Creme, wird aber in `.nacht` nicht umgebunden.
 - **Braun** (#5b4636) / **Braun hell** (#7a6250): Sekundärtext auf Creme und Papier.
 - **Rauch** (#cdbfad) / **Rauch dunkel** (#a8998a): Sekundärtext auf Dunkel; Rauch auch für ausgeschaltete Chilis im Kompass.
 - **Funktionsfarben:** Creme hell (#fbf6ee, Kompass-Optionen), Glut hell (#f07a52, Chili auf dunklem Chip), Offen-Grün (#6f9a3e, nur der Live-Status-Punkt), Holz / Holzkopf (#d7b98c / #6a5446, Streichhölzer der Kompass-Fortschrittsanzeige), Hinweis-Gelb (#fff5d6 / #5a3b00, nur TODO-Kästen der Rechtstexte), Druck-Schwarz/-Weiß (nur Print-Stylesheet).
 
 ### Named Rules
-**Die Logo-steht-frei-Regel.** Das Logo bekommt nie einen Kasten. Auf Dunkel immer die Negativ-Fassung (`bombay-logo-negativ.svg`), auf Hell das Original in Magenta.
+**Die Logo-steht-frei-Regel.** Das Logo bekommt nie einen Kasten. Auf der (dunklen) Website immer die Goldfassung (`bombay-logo-gold.svg`), auf hellem Druck das Original in Magenta.
+
+**Die Gold-statt-Pink-Regel.** Ornamente, Bordüren und Logo glänzen in Gold-Orange (`--glanz`); kein Pink auf der Website. Glanz bleibt Ornament: keine Verlaufsschrift in Überschriften oder Fließtext.
 
 **Die Feuer-ist-Handlung-Regel.** Glut bedeutet „tu etwas“ (anrufen, bestellen, Preis) oder „scharf“. Auf Dunkel leuchtet sie als Kante der Primärknöpfe, nicht als Fläche; als Dekoration nur der Schein hinter Tellern und Bestell-Tafel.
 
@@ -278,16 +298,19 @@ Weiche, gefasste Formen: Knöpfe, Marken, Chips und Kategorie-Links als Pille (9
 - **Nacht** (`.nacht`): bindet innerhalb die Papier-Rollen auf dunkle Gegenstücke um (`tinte` → Creme-Schrift, `creme`/`papier` → Kohle-Kartenflächen, `braun` → Rauch, `glut` → Glut hell, `rani` → Rani hell, `kardamom` → Kardamom hell). So erscheinen Papier-Bausteine ohne eigene Dunkel-Variante auf der Nacht-Seite. Achtung: `creme` heißt darin Kartenfläche; feste Creme-Schrift auf festen dunklen Flächen über `--color-creme-fest`.
 - **Goldfaden** (`.goldfaden`): 3.25rem × 1px Safran, nach rechts auslaufend, 1.15rem unter der Abschnittsüberschrift.
 - **Hero-Fakten** (`Hero.astro`): `dl` unter einer Haarlinie, drei Spalten mit feinen Trennern (Desktop) bzw. Zustand und Adresse übereinander (Handy, die Nummer steht dort im Knopf); Label Safran, Wert groß (Fakt), Zusatz in Rauch. Zustand über `LiveStatus gross` (Titel und Zusatz getrennt).
-- **Logo** (`Logo.astro`): frei stehend, Negativ-Fassung auf Dunkel; Kopf 6.4–7.6rem breit, Fuß bis 16rem zentriert über einer Ornamentlinie.
+- **Logo** (`Logo.astro`): frei stehend, Goldfassung mit Glanzverlauf (`bombay-logo-gold.svg`: Kuppel Glut hell → Safran → Lichtkante, Schriftzug diagonal Gold); Kopf 6.4–7.6rem breit, Fuß bis 16rem zentriert über einer Ornamentlinie. Favicon/Touch-Icon: goldenes B auf Tinte.
+- **Vorhang** (`Basis.astro`, `.vorhang`): Logo-Intro einmal pro Besuch (sessionStorage), nicht bei reduzierter Bewegung, ohne Skript gar nicht. Tinte mit Glutschein; das Gold-Logo öffnet sich aus der Mitte (clip-path, 0,95 s), ein Glanzlicht läuft maskiert über die Logoform (ab 0,4 s), ab 1,35 s hebt sich der Vorhang (0,6 s), nach 2,2 s wird er entfernt. Der Hero-Auftritt beginnt danach (Verzögerungen +1,4 s unter `.vorhang-an`).
 - **Hero**: Foto rechts ab 40 % (Desktop) bzw. oben (Handy), läuft weich in Kohle aus; davor Ornament, Headline in Creme, Unterzeile in Rauch, Knöpfe, Hero-Fakten. Kein Kasten; ein weicher radialer Tinte-Schatten hinter dem Text.
 - **Teller** (`Besonderes.astro`): freigestellte Schüsseln (`teller-<nr>-<name>.webp`, transparent) mit doppeltem `drop-shadow` (weit und weich + kurz und dicht), darunter ein Glutschein (`radial-gradient` Glutrot 30 %, Kurkuma 14 %). Bildunterschrift „Nr. … Name“ unter dem Teller, leichte Parallaxe. Ohne Freisteller bleibt der Platz leer.
-- **Blatt** (`.blatt`): heller Lesebogen der Unterseiten (Speisekarte, Bestellen, Rechtstexte) unter dem dunklen Seitenkopf und der Kategorie-Leiste; rundum gerundet (1.5rem / 2.5rem), ab 64rem mit dunklem Rand links und rechts, Safran-Haarlinie und Schatten – ein Bogen auf dem Tisch, kein Folienwechsel. Der Grund darum läuft unten in den Ton des Footers aus (`main:has(.blatt)`, `display: flow-root`). Rechtstexte stehen direkt auf dem Bogen (Bordüre + Überschrift, keine Karte in der Karte).
+- **Blatt** (`.blatt`): dunkle Tafel der Unterseiten (Speisekarte, Bestellen, Rechtstexte) unter dem Seitenkopf und der Kategorie-Leiste – seit Fassung 3 nicht mehr hell (Wunsch der Auftraggeberin). Bindet innen die Papier-Rollen wie `.nacht` um; Verlauf #211b17 → #1c1714 mit Glutschein oben rechts, rundum gerundet (1.5rem / 2.5rem), ab 64rem mit Rand links und rechts, Safran-Haarlinie und Schatten. Druck: Tokens zurück auf Papier/Tinte, weißer Grund. Der Grund darum läuft unten in den Ton des Footers aus (`main:has(.blatt)`, `display: flow-root`). Rechtstexte stehen direkt auf dem Bogen (Bordüre + Überschrift, keine Karte in der Karte).
 - **Naht** (`.naht`): Haarlinie Creme 13 % am oberen Rand der Abschnitte Signature, Kompass und Besuch, innerhalb des Rahmens, an den Enden auslaufend.
 - **Platzhalter** (`.platzhalter--…`): dunkle Kachel, von unten in der Farbe des Gerichts angeglüht, Rapport in Safran 10 %, Name in Rozha Creme mit kurzem Safranstrich – kein Farbfeld, kein Namenskasten.
 - **Helle Bereiche** (`.hell`): `color-scheme: light`, damit native Radios, Checkboxen und Auswahllisten hell gezeichnet werden.
-- **Online-Bestellung** (`/bestellen`): Artikelzeilen mit runden +/−-Knöpfen, Warenkorb (Desktop mitlaufend, Handy als Leiste unten), Formular mit Auswahlkarten für Lieferung/Abholung, Schritte-Anzeige mit Rani-hell für den aktiven Schritt.
+- **Online-Bestellung** (`/bestellen`): Artikelzeilen mit runden +/−-Knöpfen (Hinzufügen mit Glutkante), Nummernkacheln dunkel mit Safran-Linie, Warenkorb (Desktop mitlaufend, Handy als schwebende Pille mit Glutkante), Formular mit Auswahlkarten für Lieferung/Abholung (gewählt: Safrankante + Schein), Schritte-Anzeige mit Safran für den aktiven Schritt.
+- **Direkt bestellen auf der Speisekarte** (`speisekarte.astro`, `src/lib/korb-speicher.ts`): je Gericht ein Plus mit Glutkante; liegt etwas im Korb, erscheinen Minus und Anzahl, die Nummernkachel glüht. Getränkegruppen klappen ihre Sorten als Pillen auf. Schwebende Warenkorb-Pille (Anzahl, Summe, „Zur Bestellung“) mit kurzem Stoß beim Hinzufügen; gemeinsamer Warenkorb mit /bestellen (localStorage), Ansage für Screenreader.
+- **Stimmen** (`Stimmen.astro`, Daten `src/data/bewertungen.ts`): „Was unsere Gäste sagen.“ – Google-Sterne als große Zahl (Rozha) neben Sternen (`Sterne.astro`, Teilsterne) und Anzahl, Link zu Google; ausgewählte Bewertungen als großes Zitat mit Safran-Anführungszeichen plus kleine dunkle Karten. Ohne eingetragene Bewertungen: live nur Sterne + Link, in der Vorschau gestrichelte, beschriftete Platzhalter. Nie erfundene Bewertungen.
 - **Gericht-Etikett** (`GerichtEtikett.astro`): Foto oder Platzhalter 4:3, Seriennummer-Kachel überlappt die Bildkante, Name, Beschreibung, Kennzeichen, Preis.
-- **Knöpfe** (`.knopf` + `-glut`, `-kontur`, `-kontur-hell`, `-creme`): Pillen, mind. 3.25rem hoch, Icon links, gesperrte Versalien. `-glut` auf Dunkel mit Glutkante, auf dem Lesebogen (`.blatt`) gefüllt Glutrot. `-kontur-hell` Haarlinie Creme 30 %, Hover Safran.
+- **Knöpfe** (`.knopf` + `-glut`, `-kontur`, `-kontur-hell`, `-creme`): Pillen, mind. 3.25rem hoch, Icon links, gesperrte Versalien. `-glut` überall mit Glutkante auf `knopf-grund` (#150f0c, Hover `knopf-glut` #2a160e), Schrift Creme fest. `-kontur-hell` Haarlinie Creme 30 %, Hover Safran.
 - **Kopfzeile** (`Kopf.astro`): Navigation ab 80rem (gesperrte Versalien, Safran-Unterstrich wächst beim Hover), darunter Menü-Knopf; Reservieren-Pille mit Safran-Beschriftung und Nummer.
 - **Reibefläche** (`Reibeflaeche.astro`): mobile Aktionsleiste, Ruß 94 % mit Weichzeichner und Safran-Haarlinie; „Bestellen“ in Safran.
 - **Curry-Kompass**: Hülle (dunkles Etikett in `.nacht` mit drei Streichhölzern als Fortschritt) und Schublade (Kohle, gleitet heraus); Optionen als runde Kacheln (14px) mit `aria-pressed`, gewählt mit Safran-Kante und Schein; Chili-Regler mit Hitzeverlauf Safran → Glut auf dunkler Spur.
@@ -296,10 +319,10 @@ Weiche, gefasste Formen: Knöpfe, Marken, Chips und Kategorie-Links als Pille (9
 ## Do's and Don'ts
 
 **Do**
-- Neue Abschnitte der Startseite auf dunklem Grund mit `koernung` und eigenem (Verlaufs-)Hintergrund bauen; Inhaltseinheiten als dunkles Etikett (`.nacht`) oder als Zeile auf dem Lesebogen.
+- Neue Abschnitte der Startseite auf dunklem Grund mit `koernung` und eigenem (Verlaufs-)Hintergrund bauen; Inhaltseinheiten als dunkles Etikett (`.nacht`) oder als Zeile auf der dunklen Tafel (`.blatt`).
 - Die Bordüre sparsam setzen: höchstens eine pro Etikett, oben.
 - Gerichtsnummern überall zeigen, wo ein Gericht erscheint.
-- Neue Farben aus der Gewürzpalette ableiten; Rani-Pink bleibt für Logo und Bordüren.
+- Neue Farben aus der Gewürzpalette ableiten; Gold-Glanz (`--glanz`) für Logo, Bordüren und Ornamente.
 
 **Don't**
 - Keine weißen oder cremefarbenen Kästen hinter Logo oder Hero-Text, keine hellen Abschnitte auf der Startseite.
