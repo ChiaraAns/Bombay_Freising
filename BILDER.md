@@ -53,19 +53,21 @@ Dort stehen die Schüsseln **freigestellt** (transparenter Hintergrund) auf dem 
 
 Neuer Teller: `FORM='…' node scripts/teller-freistellen.mjs public/images/gericht-…webp teller.png <Schwellen>`, Ergebnis auf dunklem Grund prüfen und als `public/images/teller-<nr>-<name>.webp` speichern (WebP mit Alpha, Qualität 90). Am besten eignen sich **Fotos von oben auf dunklem Holz oder Stein**, das Gericht mittig und ganz im Bild. Am einfachsten ist ein Freisteller aus einem Bildprogramm (z. B. „Hintergrund entfernen“ in Photoshop oder Pixelmator), als PNG oder WebP mit transparentem Hintergrund.
 
-## Gesucht: Signature-Gerichte (Startseite)
+## Signature-Gerichte (Startseite)
 
-**TODO:** Für 58, 104, 128, 96 und 159 sollten frei lizenzierte Beispielfotos (z. B. Unsplash) eingesetzt werden. Das war in dieser Umgebung nicht möglich, weil die Bildquellen durch die Netzwerk-Richtlinie gesperrt sind. Sobald Fotos vorliegen, einfach mit dem Dateinamen unten in `public/images/` legen. Beispielfotos vor dem Livegang durch eigene ersetzen.
+Für 58, 104, 128, 96 und 159 hat die Auftraggeberin am 12.10.2026 Bilder geschickt (je 1254 × 1254, Garlic Naan 1390 × 1132). Sie liegen als WebP in `public/images/`; die Herkunft steht jeweils im Sidecar `*.webp.json`.
 
-Seitenverhältnis 4:3 quer, Mindestgröße 1600 × 1200. Einheitlicher Look: dunkler Holztisch, Kupfer- oder Karahi-Geschirr, Licht von der Seite, leicht von schräg oben.
+**TODO:** Quelle und Nutzungsrechte dieser Bilder vor dem Livegang klären, oder sie durch eigene Fotos des Restaurants ersetzen (gleicher Dateiname, beliebige Endung). Das Thali-Bild zeigt eine allgemeine Thali-Platte (u. a. Linsen und eine Süßspeise), nicht exakt die Zusammenstellung des Bombay Thali (Lamm, Huhn, Ente, Raita, Salat, Pappad, Naan, Reis).
 
-| Datei | Motiv |
-|---|---|
-| `gericht-58-chicken-tikka-masala.jpg` | Chicken Tikka Masala in Kupferschale, von schräg oben, sichtbare Hühnerstücke in leuchtend orangefarbener Soße, frischer Koriander, ein Stück Naan angeschnitten im Bild |
-| `gericht-104-palak-paneer.jpg` | Palak Paneer: sattgrüner Spinat mit hellen Paneer-Würfeln in kleiner Kupferschale, Sahnetupfer, von oben, dunkler Grund für den Farbkontrast |
-| `gericht-128-bombay-thali.jpg` | Bombay Thali auf der original indischen Platte, exakt von oben: alle Schälchen (Lamm, Huhn, Ente, Raita), Salat, Pappad, Naan und Reis vollständig im Bild |
-| `gericht-96-jheenga-mango.jpg` | Jheenga Mango: Riesengarnelen in goldgelber Mango-Safran-Cashew-Soße, ein paar Cashewkerne als Garnitur, von schräg oben |
-| `gericht-159-garlic-naan.jpg` | Garlic Naan frisch aus dem Ofen: Blasen und Brandspuren sichtbar, glänzend mit Knoblauchbutter, gerissen oder gestapelt auf Holzbrett, Dampf willkommen |
+| Datei | Motiv | Wo verwendet |
+|---|---|---|
+| `gericht-58-chicken-tikka-masala.webp` | Gegrillte Hühnerstücke in orangefarbener Soße mit Sahne, Karahi mit Messinggriffen, Naan und Reis | Signature-Karte Nr. 58, Kompass |
+| `gericht-104-palak-paneer.webp` | Paneer-Würfel in Spinat mit Sahne und Ingwerstreifen, dunkle Schale | Signature-Karte Nr. 104, Kompass |
+| `gericht-128-bombay-thali.webp` | Thali-Platte mit Schälchen, Reis, Naan, Pappad und gegrilltem Hähnchen | Signature-Karte Nr. 128, Kompass |
+| `gericht-96-jheenga-mango.webp` | Riesengarnelen mit Mango und Paprika in goldgelber Soße, Karahi | Signature-Karte Nr. 96, Kompass |
+| `gericht-159-garlic-naan.webp` | Garlic Naan mit Knoblauchbutter im Korb | Signature-Karte Nr. 159 |
+
+Eigene Fotos ersetzen sie am besten im selben Look: Seitenverhältnis 4:3 oder 1:1, mindestens 1600 px breit, dunkler Holztisch, Kupfer- oder Karahi-Geschirr, Licht von der Seite.
 
 ## Optional: weitere Gerichte
 
