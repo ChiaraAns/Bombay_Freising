@@ -28,6 +28,6 @@ FIRST VIEWPORT: Desktop 1440: Kopfzeile mit freiem Negativ-Logo, gesperrter Navi
 
 FORM: Glut bei Nacht in Gold (Fassung 3; davor Fassung 2, Weiterentwicklung von „Glut und Papier“, Seed 0bdab163; Referenz der Auftraggeberin: irmonhair „Fenster“).
 
-MOTION: Fokus = Logo-Vorhang einmal pro Besuch (0–1,95 s, nicht bei Reduced Motion, ohne JS gar nicht), danach Hero-Auftritt (Foto atmet einmal, Headline Wort für Wort, Unterzeile/Knöpfe/Fakten folgen ab 0,22–0,35 s in 0,6 s) und Kompass-Schublade. Unterstützend: Überschriften steigen Wort für Wort auf (Wunsch der Auftraggeberin, Staffel gedeckelt), Absätze gleiten kurz herein (nie Überschrift und Block doppelt), Teller mit leichter Parallaxe. Reduced Motion: alles sofort sichtbar.
+MOTION: Fokus = Logo-Vorhang einmal pro Besuch auf der Startseite (Kuppel zeichnet sich als Goldlinie, 0–1,65 s, nur Compositor-Eigenschaften, nicht bei Reduced Motion, ohne JS gar nicht), danach Hero-Auftritt (Foto atmet einmal, Headline Wort für Wort, Unterzeile/Knöpfe/Fakten folgen ab 0,22–0,35 s in 0,6 s) und Kompass-Schublade. Unterstützend: Überschriften steigen Wort für Wort auf (Wunsch der Auftraggeberin, Staffel gedeckelt), Absätze gleiten kurz herein (nie Überschrift und Block doppelt), Teller mit leichter Parallaxe. Reduced Motion: alles sofort sichtbar.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance

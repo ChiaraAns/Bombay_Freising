@@ -11,7 +11,12 @@ import { bewertungen } from '../../data/bewertungen';
 const { google, profilUrl, schreibenUrl, stimmen } = bewertungen;
 const vorschau = process.env.VORSCHAU === '1';
 const platzhalter = !stimmen.length && vorschau;
-const zeigeSterne = google.sterne != null;
+// Sterne nur, wenn im Google-Profil geprüft – in der Vorschau auch vorläufig, dann deutlich markiert
+const zeigeSterne = google.sterne != null && (google.geprueft || vorschau);
+const vorlaeufig = zeigeSterne && !google.geprueft;
+// Ohne Zitate (Live-Seite) verspricht die Überschrift keine Stimmen, und Sterne + Link nehmen die ganze Breite
+const mitZitaten = stimmen.length > 0 || platzhalter;
+const titel = mitZitaten ? 'Was unsere Gäste sagen.' : 'Unsere Google-Bewertungen.';
 const sterneText = google.sterne != null ? google.sterne.toLocaleString('de-DE', { minimumFractionDigits: 1 }) : '';
 const anzahlText = google.anzahl != null ? google.anzahl.toLocaleString('de-DE') : '';
 const [erste, ...weitere] = stimmen;
@@ -24,11 +29,11 @@ const musterStimmen = [
 ---
 
 {
-  (zeigeSterne || stimmen.length > 0 || platzhalter) && (
+  (zeigeSterne || mitZitaten) && (
     <section id="stimmen" class="stimmen naht koernung relative py-20 text-creme md:py-28" aria-labelledby="stimmen-titel">
       <div class="rahmen grid gap-12 lg:grid-cols-12 lg:gap-12">
-        <div class="lg:col-span-5">
-          <h2 id="stimmen-titel" class="display-l">Was unsere Gäste sagen.</h2>
+        <div class:list={[mitZitaten ? 'lg:col-span-5' : 'ohne-zitate lg:col-span-12']}>
+          <h2 id="stimmen-titel" class="display-l">{titel}</h2>
           <span class="goldfaden" aria-hidden="true" />
 
           {zeigeSterne && (
@@ -40,7 +45,9 @@ const musterStimmen = [
                 <Sterne wert={google.sterne!} groesse={22} label={`${sterneText} von 5 Sternen`} />
                 <p class="mt-1.5 text-fein text-rauch">
                   {anzahlText && <>{anzahlText} Bewertungen </>}auf Google
+                  {google.stand && <span class="whitespace-nowrap"> · Stand {google.stand}</span>}
                 </p>
+                {vorlaeufig && <p class="vorlaeufig mt-2.5">Vorläufig – im Google-Profil prüfen</p>}
               </div>
             </div>
           )}
@@ -140,6 +147,33 @@ const musterStimmen = [
     line-height: 0.9;
     color: var(--color-creme);
     padding-top: 0.12em;
+  }
+  .vorlaeufig {
+    display: inline-block;
+    padding: 0.15rem 0.6rem 0.05rem;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--color-safran) 18%, transparent);
+    color: var(--color-safran);
+    font-size: var(--text-mini);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  /* Ohne Zitate: Überschrift über die ganze Breite, darunter Sterne links und der Google-Link rechts */
+  @media (width >= 64rem) {
+    .ohne-zitate {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      column-gap: 3rem;
+    }
+    .ohne-zitate > h2,
+    .ohne-zitate > .goldfaden {
+      grid-column: 1 / -1;
+    }
+    .ohne-zitate > :last-child {
+      justify-self: end;
+    }
   }
   .wertung-rest {
     padding-left: 1.25rem;

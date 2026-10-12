@@ -15,11 +15,15 @@ interface Props {
   aktiv?: 'start' | 'speisekarte' | 'bestellen' | 'recht';
   /** mobile Aktionsleiste ausblenden (z. B. auf /bestellen mit eigener Warenkorb-Leiste) */
   ohneReibeflaeche?: boolean;
+  /** Logo-Vorhang beim ersten Öffnen (nur Startseite) */
+  vorhang?: boolean;
   /** Seiten ohne Indexierung (z. B. Rechtstexte mit Platzhaltern) */
   noindex?: boolean;
 }
 
-const { titel, beschreibung, strukturierteDaten = false, aktiv = 'start', noindex = false, ohneReibeflaeche = false } = Astro.props;
+const { titel, beschreibung, strukturierteDaten = false, aktiv = 'start', noindex = false, ohneReibeflaeche = false, vorhang = false } = Astro.props;
+// Vereinfachte Kontur der Logo-Kuppel (127 Punkte) – zeichnet sich im Vorhang als Goldlinie
+const KUPPEL_LINIE = 'M1891 2L1858 39L1845 72L1845 134L1852 154L1868 171L1806 176L1730 205L1684 238L1644 286L1623 343L1619 391L1628 467L1652 533L1646 538L1512 530L1300 532L1096 546L891 576L669 630L481 697L320 778L215 853L135 926L77 1000L44 1056L11 1142L1 1198L1 1345L29 1457L59 1520L65 1524L72 1519L72 1503L50 1348L50 1302L60 1228L76 1176L96 1127L139 1056L203 985L258 937L404 844L507 797L628 752L773 707L950 663L1106 632L1616 561L1677 545L1683 400L1703 337L1729 295L1768 256L1824 217L1857 204L1879 181L1889 159L1887 102L1896 57L1917 24L1941 11L1970 37L1986 77L1992 111L1990 172L1994 179L2005 193L2058 220L2122 268L2152 301L2172 336L2193 404L2198 528L2208 549L2252 561L2461 585L2742 628L2926 664L3091 704L3260 756L3451 834L3537 881L3625 941L3691 1003L3740 1060L3777 1123L3805 1191L3821 1269L3825 1332L3821 1395L3802 1518L3806 1526L3814 1526L3847 1450L3872 1355L3874 1219L3866 1154L3831 1059L3782 976L3723 908L3636 832L3563 783L3498 746L3322 669L3232 638L2982 577L2768 546L2659 538L2406 530L2313 531L2225 540L2224 531L2251 453L2256 397L2252 343L2228 282L2191 238L2152 208L2070 178L2007 173L2007 165L2026 149L2032 100L2016 38L1983 1L1891 2Z';
 // Vorschau-Build (GitHub Pages): nicht indexieren, Canonical zeigt auf die echte Domain
 const vorschau = process.env.VORSCHAU === '1';
 const canonical = new URL(Astro.url.pathname.replace(BASIS, '') || '/', Astro.site).href;
@@ -101,27 +105,49 @@ const jsonLd = {
 
     <script is:inline>
       document.documentElement.classList.add('js');
-      // Logo-Vorhang: einmal pro Besuch, nicht bei reduzierter Bewegung (ohne Skript gibt es ihn gar nicht)
-      try {
-        if (!sessionStorage.getItem('bombay-vorhang') && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-          document.documentElement.classList.add('vorhang-an');
-          sessionStorage.setItem('bombay-vorhang', '1');
-        }
-      } catch (e) {}
+
       // Falls das Bewegungs-Skript nicht lädt: nach 2,5 s alles sichtbar machen
       setTimeout(function () {
         if (!window.__bewegung) document.documentElement.classList.add('bewegung-aus');
       }, 2500);
     </script>
+    {
+      vorhang && (
+        <script is:inline>
+          // Logo-Vorhang: einmal pro Besuch, nicht bei reduzierter Bewegung (ohne Skript gibt es ihn gar nicht)
+          try {
+            if (!sessionStorage.getItem('bombay-vorhang') && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+              document.documentElement.classList.add('vorhang-an');
+              sessionStorage.setItem('bombay-vorhang', '1');
+            }
+          } catch (e) {}
+        </script>
+      )
+    }
   </head>
   <body class="min-h-dvh pb-[calc(4.25rem+env(safe-area-inset-bottom))] md:pb-0">
-    <!-- Vorhang: das Gold-Logo öffnet sich aus der Mitte, ein Glanz läuft hindurch, dann hebt sich der Vorhang -->
-    <div class="vorhang" aria-hidden="true" style={`--logo-maske:url('${pfad('/logo/bombay-logo-gold.svg')}')`}>
-      <div class="vorhang-logo">
-        <img src={pfad('/logo/bombay-logo-gold.svg')} alt="" width="340" height="147" />
-        <span class="vorhang-glanz"></span>
-      </div>
-    </div>
+    {
+      vorhang && (
+        <div class="vorhang" aria-hidden="true" style={`--logo-maske:url('${pfad('/logo/bombay-logo-gold.svg')}')`}>
+          {/* Vorhang: die Kuppel zeichnet sich als Goldlinie, dann erscheinen Kuppel und Schriftzug in Gold, ein Glanz läuft hindurch. Nur Deckkraft und Verschiebung (Compositor) – kein Neuzeichnen großer Pfade. */}
+          <div class="vorhang-logo">
+            <img class="v-kuppel" src={pfad('/logo/bombay-logo-gold-kuppel.svg')} alt="" width="360" height="155" />
+            <img class="v-wort" src={pfad('/logo/bombay-logo-gold-schriftzug.svg')} alt="" width="360" height="155" />
+            <svg class="v-linie" viewBox="0 0 3873 1671" focusable="false">
+              <defs>
+                <linearGradient id="v-linie-gold" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stop-color="#e58a3a" />
+                  <stop offset="0.5" stop-color="#fbe6b0" />
+                  <stop offset="1" stop-color="#e58a3a" />
+                </linearGradient>
+              </defs>
+              <path d={KUPPEL_LINIE} pathLength="1" fill="none" stroke="url(#v-linie-gold)" stroke-width="14" stroke-linejoin="round" />
+            </svg>
+            <span class="vorhang-glanz"><span></span></span>
+          </div>
+        </div>
+      )
+    }
     <a
       href="#inhalt"
       class="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[100] focus:bg-creme focus:px-4 focus:py-2 focus:text-tinte"
@@ -138,7 +164,7 @@ const jsonLd = {
       import '../scripts/bewegung';
       // Vorhang nach seinem Auftritt ganz entfernen (fängt danach keine Klicks)
       const vorhang = document.querySelector('.vorhang');
-      if (vorhang) setTimeout(() => vorhang.remove(), document.documentElement.classList.contains('vorhang-an') ? 2200 : 0);
+      if (vorhang) setTimeout(() => vorhang.remove(), document.documentElement.classList.contains('vorhang-an') ? 2000 : 0);
     </script>
   </body>
 </html>

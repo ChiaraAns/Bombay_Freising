@@ -15,6 +15,17 @@ export function ladeKorb(): Position[] {
   }
 }
 
+/** Ist localStorage nutzbar? (Privatmodus o. ä.: nein – dann gilt der Korb nur im Speicher der Seite) */
+export function speicherVerfuegbar() {
+  try {
+    localStorage.setItem(`${SPEICHER}-test`, '1');
+    localStorage.removeItem(`${SPEICHER}-test`);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export function speichereKorb(korb: Position[]) {
   try {
     localStorage.setItem(SPEICHER, JSON.stringify(korb));

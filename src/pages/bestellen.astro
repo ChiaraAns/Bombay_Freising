@@ -281,12 +281,13 @@ const lieferung = bestellung.lieferung;
     type Position,
     type Zeitoption,
   } from '../lib/warenkorb';
-  import { ladeKorb, speichereKorb } from '../lib/korb-speicher';
+  import { ladeKorb, speichereKorb, speicherVerfuegbar } from '../lib/korb-speicher';
   import { bestellung } from '../data/bestellung';
 
   const seite = document.querySelector<HTMLElement>('[data-bestellseite]')!;
   // Gemeinsamer Warenkorb mit der Speisekarte (localStorage)
   let korb: Position[] = ladeKorb();
+  const speicherOk = speicherVerfuegbar();
   const speichern = () => speichereKorb(korb);
 
   // Aus dem Curry-Kompass: ?add=75,158
@@ -301,6 +302,8 @@ const lieferung = bestellung.lieferung;
   }
 
   function aendere(p: Pick<Position, 'id' | 'variante'>, delta: number, zeichnen = true) {
+    // Vom gespeicherten Stand aus ändern – die Speisekarte (anderer Tab, „Zurück“) kann ihn geändert haben
+    if (speicherOk) korb = ladeKorb();
     const k = schluessel(p);
     const vorhanden = korb.find((x) => schluessel(x) === k);
     if (vorhanden) vorhanden.menge = Math.max(0, Math.min(99, vorhanden.menge + delta));
@@ -586,6 +589,20 @@ const lieferung = bestellung.lieferung;
     } catch {
       knopf.textContent = 'Bitte Text markieren und kopieren';
     }
+  });
+
+  // Änderungen von der Speisekarte übernehmen (anderer Tab, „Zurück“/„Vor“, Rückkehr in den Tab)
+  const neuLaden = () => {
+    if (!speicherOk) return;
+    korb = ladeKorb();
+    zeichne();
+  };
+  window.addEventListener('storage', neuLaden);
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted) neuLaden();
+  });
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) neuLaden();
   });
 
   // Start

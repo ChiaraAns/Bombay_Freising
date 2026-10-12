@@ -471,10 +471,11 @@
   }
 }
 
-/* ---------- Vorhang (Logo-Intro, einmal pro Besuch) ----------
-   Dunkler Raum, von unten leicht angeglüht. Das Gold-Logo öffnet sich aus der Mitte (clip-path),
-   ein Lichtstreif läuft über Kuppel und Schriftzug (maskiert auf die Logoform), nach 1,35 s hebt sich der Vorhang.
-   Ohne Skript oder bei reduzierter Bewegung gibt es keinen Vorhang. */
+/* ---------- Vorhang (Logo-Intro, einmal pro Besuch, nur Startseite) ----------
+   Dunkler Raum, von unten leicht angeglüht. Die Kuppel zeichnet sich als Goldlinie (vereinfachte Kontur, 0–0,7 s),
+   dann erscheinen Kuppel (0,45–0,8 s) und Schriftzug (0,3–0,8 s) in Gold, ein Glanzstreif läuft über die Logoform
+   (0,6–1,2 s), ab 1,2 s hebt sich der Vorhang (0,45 s). Animiert werden nur Deckkraft und Verschiebung (Compositor)
+   und ein kleiner Linienpfad. Ohne Skript oder bei reduzierter Bewegung kein Vorhang. */
 .vorhang {
   display: none;
 }
@@ -487,44 +488,77 @@
   background:
     radial-gradient(55% 45% at 50% 62%, color-mix(in oklab, var(--color-glut) 22%, transparent), transparent 70%),
     var(--color-tinte);
-  animation: vorhang-hebt 0.6s var(--ease-glut) 1.35s forwards;
+  animation: vorhang-hebt 0.45s var(--ease-glut) 1.2s forwards;
 }
 .vorhang-logo {
   position: relative;
-  width: min(64vw, 340px);
-  animation: vorhang-logo 0.95s var(--ease-glut) both;
+  width: min(68vw, 360px);
 }
-.vorhang-logo img {
+.vorhang-logo > img,
+.vorhang-logo > svg {
   display: block;
   width: 100%;
   height: auto;
 }
-.vorhang-glanz {
+.vorhang-logo > :not(:first-child) {
   position: absolute;
   inset: 0;
-  background: linear-gradient(105deg, transparent 38%, color-mix(in oklab, var(--color-glanzlicht) 95%, transparent) 50%, transparent 62%) no-repeat;
-  background-size: 300% 100%;
-  background-position: 120% 0;
+}
+.vorhang .v-kuppel {
+  opacity: 0;
+  animation: v-da 0.35s ease 0.45s forwards;
+}
+.vorhang .v-wort {
+  opacity: 0;
+  transform: translateY(6px);
+  animation: v-wort 0.5s var(--ease-glut) 0.3s forwards;
+}
+.vorhang .v-linie {
+  overflow: visible;
+  animation: v-weg 0.3s ease 0.75s forwards;
+}
+.vorhang .v-linie path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: v-zeichnen 0.7s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+.vorhang-glanz {
+  overflow: hidden;
   -webkit-mask: var(--logo-maske) center / 100% 100% no-repeat;
   mask: var(--logo-maske) center / 100% 100% no-repeat;
-  mix-blend-mode: screen;
-  animation: vorhang-glanz 0.95s ease-in-out 0.4s both;
 }
-@keyframes vorhang-logo {
-  from {
-    opacity: 0;
-    clip-path: inset(0 50% 0 50%);
-    transform: scale(0.96);
+.vorhang-glanz > span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 45%;
+  background: linear-gradient(105deg, transparent, color-mix(in oklab, var(--color-glanzlicht) 90%, transparent) 50%, transparent);
+  transform: translateX(-120%);
+  animation: vorhang-glanz 0.6s ease-in-out 0.6s forwards;
+}
+@keyframes v-zeichnen {
+  to {
+    stroke-dashoffset: 0;
   }
+}
+@keyframes v-da {
   to {
     opacity: 1;
-    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes v-weg {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes v-wort {
+  to {
+    opacity: 1;
     transform: none;
   }
 }
 @keyframes vorhang-glanz {
   to {
-    background-position: -20% 0;
+    transform: translateX(240%);
   }
 }
 @keyframes vorhang-hebt {
@@ -542,7 +576,7 @@
 /* Der Hero-Auftritt beginnt erst, wenn der Vorhang sich hebt */
 @media (prefers-reduced-motion: no-preference) {
   .vorhang-an .hero-titel .wort > span {
-    transition-delay: calc(min(var(--i), 7) * 60ms + 1.4s);
+    transition-delay: calc(min(var(--i), 7) * 60ms + 1.25s);
   }
 }
 

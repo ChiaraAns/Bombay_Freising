@@ -78,7 +78,8 @@ Vorlage war ein Screenshot (`assets/logo/logo-original-screenshot.jpeg`, ursprü
 | Datei | Was |
 |---|---|
 | `public/logo/bombay-logo.svg` | **Hauptlogo.** Vektor-Nachbau: Kuppel und Bogen nachgezeichnet, Schriftzug aus Rozha One Buchstabe für Buchstabe an die Original-Positionen gesetzt (Flächenübereinstimmung mit dem Original ca. 81–86 %). Farbe Magenta `#BE036C` (aus dem Original gemessen). |
-| `public/logo/bombay-logo-gold.svg` | **Website-Fassung (seit Fassung 3):** dieselbe Form in Gold mit Glanzverlauf (Glut hell → Safran → Lichtkante). Header, Footer, Logo-Intro, Vorschaubild |
+| `public/logo/bombay-logo-gold.svg` | **Website-Fassung (seit Fassung 3):** dieselbe Form in Gold mit Glanzverlauf (Glut hell → Safran → Lichtkante). Header, Footer, Vorschaubild |
+| `public/logo/bombay-logo-gold-kuppel.svg`, `-schriftzug.svg` | Kuppel und Schriftzug der Goldfassung einzeln, für das Logo-Intro (Vorhang) auf der Startseite |
 | `public/logo/bombay-logo-negativ.svg` | Fassung für dunklen Grund (bis Fassung 2): Schriftzug Creme, Kuppel und Bogen in hellem Rani `#E04A92` |
 | `public/logo/bombay-logo-creme.svg` | Dieselbe Form komplett in Creme `#F6EFE4` |
 | `public/logo/bombay-logo.png` | Hauptlogo als PNG (1600 px, transparent) für Drucksachen und Plattformen |
