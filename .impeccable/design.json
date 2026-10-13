@@ -249,7 +249,7 @@
       "kind": "custom",
       "refersTo": "wertung",
       "description": "Google-Sterne: große Zahl in Rozha, Safran-Linie, Sterne mit Teilfüllung, Anzahl in Rauch.",
-      "html": "<div class=\"ds-wertung\"><b>4,5</b><span><i>★★★★½</i><small>404 Bewertungen auf Google</small></span></div>",
+      "html": "<div class=\"ds-wertung\"><b>4,5</b><span><i>★★★★½</i><small>417 Bewertungen auf Google</small></span></div>",
       "css": ".ds-wertung{display:flex;align-items:center;gap:1.25rem;padding:1.5rem;background:#1b1714;color:#f6efe4}.ds-wertung b{font:400 4.2rem/.9 'Rozha One',Georgia,serif}.ds-wertung span{display:grid;gap:.3rem;padding-left:1.25rem;border-left:1px solid rgb(232 163 61/.4)}.ds-wertung i{font-style:normal;color:#e8a33d;letter-spacing:.15em}.ds-wertung small{color:#cdbfad;font:400 .97rem Mukta,system-ui,sans-serif}"
     }
   ],

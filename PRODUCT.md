@@ -62,8 +62,8 @@ Tandoori-Gerichte und Brote aus einem original Holzkohle-Lehmofen aus Indien, ha
 - Vollständige Speisekarte mit Preisen (Briefing Abschnitt 8).
 - Acht eigene Food-Fotos des Restaurants (`public/images/`), alle quadratisch; vier in 1485 px, vier nur in 400 px. Keine Ambiente-, Tandoor- oder Team-Fotos.
 - Logo als Screenshot (`assets/logo/logo-original-screenshot.jpeg`); Vektor-Nachbau in `public/logo/`.
-- **Google-Bewertungen:** Die Auftraggeberin wünscht einen Abschnitt „Was unsere Gäste sagen“ mit Sternen. Vorläufiger Wert 4,5 Sterne / 404 Bewertungen laut Restaurant Guru (12.10.2026), im Google-Profil zu prüfen. Echte Bewertungstexte liegen noch nicht vor (`src/data/bewertungen.ts`, TODO).
-- **Nicht vorhanden und nicht zu erfinden:** Gründungsjahr, Namen, Auszeichnungen, Bewertungstexte, Testimonials.
+- **Google-Bewertungen:** Abschnitt „Was unsere Gäste sagen“ mit Sternen. Google-Profil laut Recherche vom 06.10.2026: 4,5 Sterne aus 417 Bewertungen, dazu drei wörtliche Auszüge ohne Namen (Quelle: `recherche/bombay.md` im Projekt chiaraans/bombay-freising). Zahl von Zeit zu Zeit nachtragen; weitere Bewertungen mit Vorname, Monat und Sternen gern ergänzen (`src/data/bewertungen.ts`).
+- **Nicht vorhanden und nicht zu erfinden:** Gründungsjahr, Namen, Auszeichnungen, weitere Bewertungstexte, Testimonials.
 
 ## Product Principles
 
