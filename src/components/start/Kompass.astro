@@ -303,7 +303,7 @@ for (const g of kompassPool) {
       // Brücke zum Bestellportal: Ein Warenkorb lässt sich nicht übergeben, also nennen wir, was dort zu wählen ist
       const bruecke = el.querySelector<HTMLElement>('[data-portal-bruecke]')!;
       bruecke.replaceChildren(
-        'Im Bestellportal wählst du dann einfach ',
+        'Für deinen Tipp wählst du im Bestellportal einfach ',
         h('strong', 'text-creme', ergebnis.top.gericht.name),
         ' und ',
         h('strong', 'text-creme', ergebnis.top.dazu.name),
