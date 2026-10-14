@@ -1,7 +1,8 @@
 ---
 /**
  * Ein Gericht als Etikett: Foto (oder Platzhalter), Seriennummer, Name, Beschreibung, Kennzeichen, Preis.
- * Gibt es eine freigestellte Schale (`schale-<nr>-…`), steht sie frei auf einem Glutschein statt eines Fotos im Rahmen.
+ * Gibt es eine freigestellte Schale (`schale-<nr>-…`), steht sie frei auf einem Glutschein statt eines Fotos im Rahmen;
+ * Nummer und „Beliebt“ rücken dann in eine Zeile unter die Schale.
  */
 import Foto from './Foto.astro';
 import Icon from './Icon.astro';
@@ -20,7 +21,7 @@ const { gericht: g, alt, sizes = '(min-width: 64rem) 24rem, (min-width: 40rem) 4
 const schale = schaleBild(g.nr);
 ---
 
-<article class:list={['gericht-etikett etikett flex h-full flex-col p-2.5', klasse]}>
+<article class:list={['gericht-etikett etikett flex h-full flex-col p-2.5', schale && 'mit-schale', klasse]}>
   <span class="bordure mb-2.5 h-[11px]" aria-hidden="true"></span>
   <div class="relative">
     {
@@ -56,7 +57,7 @@ const schale = schaleBild(g.nr);
       )
     }
   </div>
-  <div class="flex flex-1 flex-col px-2.5 pb-2.5 pt-5 sm:px-3.5">
+  <div class:list={['flex flex-1 flex-col px-2.5 pb-2.5 sm:px-3.5', schale ? 'pt-3' : 'pt-5']}>
     <h3 class="display-m text-tinte">{g.name}</h3>
     {g.beschreibung && <p class="mt-2 text-basis leading-snug text-braun">{g.beschreibung}</p>}
     <div class="mt-auto flex items-end justify-between gap-3 pt-5">
@@ -121,14 +122,17 @@ const schale = schaleBild(g.nr);
     filter: drop-shadow(0 0.9rem 1.2rem color-mix(in oklab, var(--color-russ) 85%, transparent))
       drop-shadow(0 0.2rem 0.3rem color-mix(in oklab, var(--color-russ) 70%, transparent));
   }
-  /* Beim Darüberfahren dreht sich die Schale ein wenig, wie beim Hinstellen auf den Tisch */
-  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
-    .schale-buehne img {
-      transition: transform 0.6s var(--ease-glut);
-    }
-    .gericht-etikett:hover .schale-buehne img {
-      transform: rotate(-5deg) scale(1.03);
-    }
+  /* Mit Schale: Nummer und „Beliebt“ stehen in einer Zeile unter der Bühne und verdecken die Schale nie */
+  .mit-schale .serie,
+  .mit-schale .beliebt {
+    position: static;
+    vertical-align: middle;
+  }
+  .mit-schale .serie {
+    margin: 0.35rem 0 0 0.75rem;
+  }
+  .mit-schale .beliebt {
+    margin: 0.35rem 0 0 0.5rem;
   }
   /* Auf Nacht: Nummernkachel bleibt dunkel mit feiner Safrankante */
   :global(.nacht) .serie {

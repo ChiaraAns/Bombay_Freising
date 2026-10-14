@@ -219,7 +219,7 @@
       "name": "Schale im Etikett",
       "kind": "card",
       "refersTo": "schale-buehne",
-      "description": "Freigestellte Schüssel (schale-<nr>-*.webp, transparent) in fester 4:3-Bühne auf dunklem Etikett, Glutschein darunter, doppelter Kontaktschatten; dreht sich beim Hover leicht.",
+      "description": "Freigestellte Schüssel (schale-<nr>-*.webp, transparent) in fester 4:3-Bühne auf dunklem Etikett, Glutschein darunter, doppelter Kontaktschatten; Nummer und „Beliebt“ in einer Zeile darunter.",
       "html": "<figure class=\"ds-schale\"><img src=\"../public/images/schale-57-butter-chicken.webp\" alt=\"Butter Chicken\" width=\"300\" height=\"294\"><figcaption><b>Nr. 57</b> Butter Chicken</figcaption></figure>",
       "css": ".ds-schale{margin:0;padding:1.5rem;background:radial-gradient(48% 38% at 50% 64%,rgb(182 58 30/.3),transparent 74%),#1b1714;color:#f6efe4;font:400 .95rem Mukta,system-ui,sans-serif}.ds-schale img{display:block;width:70%;margin:0 auto;filter:drop-shadow(0 .9rem 1.2rem rgb(18 15 13/.85)) drop-shadow(0 .2rem .3rem rgb(18 15 13/.7))}.ds-schale b{color:#e8a33d;margin-right:.4rem}"
     },

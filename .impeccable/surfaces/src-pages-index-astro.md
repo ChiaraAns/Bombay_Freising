@@ -10,7 +10,7 @@ related_targets: ["src/pages/speisekarte.astro"]
 Scope: `/` (Persuade), `/speisekarte` (Read/Operate), `/impressum`, `/datenschutz` – eine gemeinsame Welt.
 Audience: Gäste auf dem Handy via Google Maps; Reisende nahe Flughafen; Telefonbesteller per Nummer; Liefer-/Abholbesteller.
 Action: Anrufen zum Reservieren, online bestellen (Weiterleitung zum Smart-App-Bestellportal des Restaurants, kein eigener Warenkorb), Karte lesen.
-Proof on hand: echte Karte mit Preisen, 8 eigene Food-Fotos, Logo (Vektor-Nachbau). Keine Bewertungen, keine Jahreszahlen.
+Proof on hand: echte Karte mit Preisen, 8 eigene Food-Fotos, 4 freigestellte Restaurantfotos (Schalen 57/109/108/92), Logo (Vektor-Nachbau), Google-Bewertungen seit Fassung 5 (4,5 Sterne, 417, drei Auszüge). Keine Jahreszahlen, keine KI-Bilder.
 Constraints: DSGVO (selbst gehostete Fonts, kein Maps-Embed ohne Klick), Lighthouse ≥95 mobil, Daten zentral, kein Backend; Online-Bestellung ausschließlich im Bestellportal des Restaurants (Smart App), Link zentral in src/data/bestellung.ts.
 Memorable moment: der Logo-Vorhang (Gold-Logo öffnet sich aus der Mitte, Glanzlicht läuft hindurch) und der Curry-Kompass – Ergebnis gleitet wie eine Schublade heraus, Chili-Regler heizt sich von Safran zu Glut auf; „Online bestellen“ führt von dort zum Bestellportal.
 Unresolved: Montagabend, Buffet/Catering, Feiertags-Dienstag, Domain, Rechtstexte (u. a. Anbieter des Bestellportals im Datenschutz). Bestell-Empfang, Lieferkosten, Mindestbestellwert und Gebiet regelt das Bestellportal, nicht die Website.
@@ -28,6 +28,6 @@ FIRST VIEWPORT: Desktop 1440: Kopfzeile mit freiem Negativ-Logo, gesperrter Navi
 
 FORM: Glut bei Nacht in Gold (Fassung 3; davor Fassung 2, Weiterentwicklung von „Glut und Papier“, Seed 0bdab163; Referenz der Auftraggeberin: irmonhair „Fenster“).
 
-MOTION: Fokus = Logo-Vorhang einmal pro Besuch auf der Startseite (Kuppel zeichnet sich als Goldlinie, 0–1,65 s, nur Compositor-Eigenschaften, nicht bei Reduced Motion, ohne JS gar nicht), danach Hero-Auftritt (Foto atmet einmal, Headline Wort für Wort, Unterzeile/Knöpfe/Fakten folgen ab 0,22–0,35 s in 0,6 s) und Kompass-Schublade. Unterstützend: Überschriften steigen Wort für Wort auf (Wunsch der Auftraggeberin, Staffel gedeckelt), Absätze gleiten kurz herein (nie Überschrift und Block doppelt), Schalen drehen sich beim Darüberfahren leicht. Reduced Motion: alles sofort sichtbar.
+MOTION: Fokus = Logo-Vorhang einmal pro Besuch auf der Startseite (Kuppel zeichnet sich als Goldlinie, 0–1,65 s, nur Compositor-Eigenschaften, nicht bei Reduced Motion, ohne JS gar nicht), danach Hero-Auftritt (Foto atmet einmal, Headline Wort für Wort, Unterzeile/Knöpfe/Fakten folgen ab 0,22–0,35 s in 0,6 s) und Kompass-Schublade. Unterstützend: Überschriften steigen Wort für Wort auf (Wunsch der Auftraggeberin, Staffel gedeckelt), Absätze gleiten kurz herein (nie Überschrift und Block doppelt). Reduced Motion: alles sofort sichtbar.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance

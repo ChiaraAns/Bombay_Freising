@@ -60,6 +60,10 @@ const gerichte = signatureNummern.map((nr) => gerichtNr(nr));
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 1.5rem;
     }
+    /* In der Viererreihe passt jeder Gerichtsname in eine Zeile, Beschreibungen beginnen auf gleicher Höhe */
+    .etiketten :global(h3) {
+      font-size: 1.55rem;
+    }
   }
   @media (width < 40rem) {
     .etiketten {
