@@ -7,6 +7,7 @@ import { pfad } from '../../lib/pfad';
  */
 import Icon from '../Icon.astro';
 import { kontakt } from '../../data/kontakt';
+import { bestellung } from '../../data/bestellung';
 import { gerichtBild, srcset, fallbackSrc } from '../../lib/bilder';
 import { kompassPool, wunschLabel, geschmackLabel } from '../../lib/kompass';
 
@@ -158,8 +159,8 @@ for (const g of kompassPool) {
               <a href={kontakt.telefonLink} class="knopf knopf-glut">
                 <Icon name="telefon" size={18} /> Telefonisch reservieren
               </a>
-              <a href={pfad('/bestellen')} class="knopf knopf-kontur-hell" data-bestellen>
-                <Icon name="tasche" size={18} /> Diese Kombination bestellen
+              <a href={bestellung.url} class="knopf knopf-kontur-hell">
+                <Icon name="tasche" size={18} /> Online bestellen
               </a>
               <button type="button" class="kompass-textknopf hell-auf-dunkel sm:ml-auto" data-nochmal>
                 <Icon name="nochmal" size={17} /> Nochmal
@@ -299,9 +300,6 @@ for (const g of kompassPool) {
       hinweis.textContent = ergebnis.hinweis ?? '';
       el.querySelector('[data-top]')!.replaceChildren(karte(ergebnis.top, true));
       el.querySelector('[data-alternativen]')!.replaceChildren(...ergebnis.alternativen.map((e) => karte(e, false)));
-      // „Diese Kombination bestellen“ legt Top-Empfehlung + Beilage direkt in den Warenkorb
-      el.querySelector<HTMLAnchorElement>('[data-bestellen]')!.href =
-        `${import.meta.env.BASE_URL.replace(/\/$/, '')}/bestellen?add=${ergebnis.top.gericht.nr},${ergebnis.top.dazu.nr}`;
       zeigeSchritt(4);
     });
 

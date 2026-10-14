@@ -5,9 +5,8 @@ import Kennzeichen from '../components/Kennzeichen.astro';
 import { speisekarte, preisFormat } from '../data/speisekarte';
 import { glossar, vokabular } from '../data/glossar';
 import { kontakt } from '../data/kontakt';
-import { pfad } from '../lib/pfad';
 import { zeitenKompakt } from '../lib/zeiten';
-import { findeArtikel } from '../lib/warenkorb';
+import { bestellung } from '../data/bestellung';
 
 const filter = [
   { id: 'vegetarisch', text: 'Vegetarisch', gruppe: 'kost', icon: 'blatt' },
@@ -16,9 +15,6 @@ const filter = [
   { id: 'scharf', text: 'Scharf', gruppe: 'schaerfe', chilis: 1 },
   { id: 'sehr-scharf', text: 'Sehr scharf', gruppe: 'schaerfe', chilis: 2 },
 ] as const;
-
-// Bestell-Schlüssel wie auf /bestellen: Gerichtsnummer oder (Getränke) Name; Sorten bei „je“-Gruppen
-const bestellId = (g: { nr?: number; name: string }) => (g.nr ? String(g.nr) : g.name);
 
 const suchtext = (...teile: (string | undefined)[]) =>
   teile
@@ -46,7 +42,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
           </p>
         </div>
         <div class="flex flex-wrap gap-3 lg:col-span-5 lg:justify-end print:hidden">
-          <a href={pfad('/bestellen')} class="knopf knopf-glut">
+          <a href={bestellung.url} class="knopf knopf-glut">
             <Icon name="tasche" size={19} /> Online bestellen
           </a>
           <button type="button" class="knopf knopf-kontur-hell hidden sm:inline-flex" data-drucken>
@@ -70,15 +66,9 @@ const suchtext = (...teile: (string | undefined)[]) =>
             ))
           }
         </ul>
-        <!-- Desktop: der Warenkorb wohnt in der mitlaufenden Leiste und verdeckt nie ein Gericht -->
-        <a href={pfad('/bestellen')} class="leisten-korb" data-korb-pille data-leisten-korb hidden>
-          <span class="korb-pille-symbol" aria-hidden="true">
-            <Icon name="tasche" size={18} />
-            <span class="korb-pille-zahl tabellenziffern" data-pille-zahl>0</span>
-          </span>
-          <span class="korb-pille-summe tabellenziffern" data-pille-summe>0,00 €</span>
-          <span class="korb-pille-zu">Zur Bestellung</span>
-          <Icon name="pfeil" size={16} />
+        <!-- Desktop: „Online bestellen“ läuft in der Leiste mit (auf dem Handy übernimmt das die Leiste unten) -->
+        <a href={bestellung.url} class="leisten-bestellen">
+          <Icon name="tasche" size={17} /> Online bestellen
         </a>
       </div>
       <p class="filter-status rahmen" data-filter-status hidden aria-live="polite"></p>
@@ -217,47 +207,6 @@ const suchtext = (...teile: (string | undefined)[]) =>
                         </div>
                       )}
                     </div>
-                    {(() => {
-                      const id = bestellId(g);
-                      const sorten = findeArtikel(id)?.varianten;
-                      return (
-                        <div
-                          class="korb-steuer print:hidden"
-                          data-korb-steuer
-                          data-id={id}
-                          data-name={g.name}
-                          data-sorten={sorten ? sorten.join('|') : undefined}
-                        >
-                          <div class="korb-stepper">
-                            {!sorten && (
-                              <button type="button" class="korb-knopf korb-minus" data-minus hidden aria-label={`${g.name}: eins weniger`}>
-                                <Icon name="minus" size={16} />
-                              </button>
-                            )}
-                            <span class="korb-zahl tabellenziffern" data-zahl hidden />
-                            <button
-                              type="button"
-                              class="korb-knopf korb-plus"
-                              data-plus
-                              aria-label={sorten ? `${g.name}: Sorte wählen und in den Warenkorb legen` : `${g.name} in den Warenkorb legen`}
-                              aria-expanded={sorten ? 'false' : undefined}
-                            >
-                              <Icon name="plus" size={18} />
-                            </button>
-                          </div>
-                          {sorten && (
-                            <div class="sorten" data-sorten-wahl hidden>
-                              {sorten.map((sorte) => (
-                                <button type="button" class="sorte" data-sorte={sorte}>
-                                  <span>{sorte}</span>
-                                  <span class="sorte-zahl tabellenziffern" data-sorte-zahl hidden />
-                                </button>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })()}
                   </li>
                 ))}
               </ul>
@@ -291,19 +240,6 @@ const suchtext = (...teile: (string | undefined)[]) =>
     </div>
     </div>
 
-    <!-- Schwebender Warenkorb: erscheint, sobald etwas im Korb liegt, führt zur Bestellung -->
-    <a href={pfad('/bestellen')} class="korb-pille print:hidden" data-korb-pille data-schwebe-korb hidden>
-      <span class="korb-pille-symbol" aria-hidden="true">
-        <Icon name="tasche" size={20} />
-        <span class="korb-pille-zahl tabellenziffern" data-pille-zahl>0</span>
-      </span>
-      <span class="korb-pille-text">
-        <span class="korb-pille-summe tabellenziffern" data-pille-summe>0,00 €</span>
-        <span class="korb-pille-zu">Zur Bestellung</span>
-      </span>
-      <Icon name="pfeil" size={18} />
-    </a>
-    <p class="sr-only" aria-live="polite" data-korb-ansage></p>
   </div>
 </Basis>
 
@@ -434,104 +370,6 @@ const suchtext = (...teile: (string | undefined)[]) =>
   );
   pruefeOben();
 
-  // ---------- Direkt in den Warenkorb (gemeinsam mit /bestellen) ----------
-  import { ladeKorb, speichereKorb, aendereKorb, mengeArtikel, speicherVerfuegbar } from '../lib/korb-speicher';
-  import { zwischensumme, anzahl, preis, schluessel } from '../lib/warenkorb';
-
-  let korb = ladeKorb();
-  const speicherOk = speicherVerfuegbar();
-  const pillen = [...document.querySelectorAll<HTMLAnchorElement>('[data-korb-pille]')];
-  const ansage = document.querySelector<HTMLElement>('[data-korb-ansage]')!;
-
-  const zeichneKorb = () => {
-    document.querySelectorAll<HTMLElement>('[data-korb-steuer]').forEach((st) => {
-      const id = st.dataset.id!;
-      const n = mengeArtikel(korb, id);
-      const zahl = st.querySelector<HTMLElement>('[data-zahl]')!;
-      zahl.hidden = n === 0;
-      zahl.textContent = String(n);
-      zahl.setAttribute('aria-label', `${n} im Warenkorb`);
-      const minus = st.querySelector<HTMLButtonElement>('[data-minus]');
-      if (minus) minus.hidden = n === 0;
-      st.closest('.gericht')?.classList.toggle('im-korb', n > 0);
-      st.querySelectorAll<HTMLElement>('[data-sorte]').forEach((b) => {
-        const m = korb.find((x) => schluessel(x) === schluessel({ id, variante: b.dataset.sorte }))?.menge ?? 0;
-        const z = b.querySelector<HTMLElement>('[data-sorte-zahl]')!;
-        z.hidden = m === 0;
-        z.textContent = String(m);
-      });
-    });
-    const n = anzahl(korb);
-    document.documentElement.classList.toggle('korb-pille-an', n > 0);
-    pillen.forEach((p) => {
-      p.hidden = n === 0;
-      p.querySelector('[data-pille-zahl]')!.textContent = String(n);
-      p.querySelector('[data-pille-summe]')!.textContent = preis(zwischensumme(korb));
-      p.setAttribute('aria-label', `Warenkorb: ${n} Artikel, ${preis(zwischensumme(korb))} – zur Bestellung`);
-    });
-  };
-
-  const aendern = (id: string, delta: number, name: string, variante?: string) => {
-    // Immer vom gespeicherten Stand aus ändern (er kann sich auf /bestellen oder in einem anderen Tab geändert haben)
-    if (speicherOk) korb = ladeKorb();
-    korb = aendereKorb(korb, { id, variante }, delta);
-    speichereKorb(korb);
-    zeichneKorb();
-    const n = anzahl(korb);
-    ansage.textContent =
-      delta > 0
-        ? `${variante ?? name} in den Warenkorb gelegt. Im Warenkorb: ${n} Artikel.`
-        : `${name}: eins entfernt. Im Warenkorb: ${n} Artikel.`;
-    if (delta > 0) {
-      pillen.forEach((p) => {
-        p.classList.remove('stoss');
-        void p.offsetWidth;
-        p.classList.add('stoss');
-      });
-    }
-  };
-
-  document.querySelector('[data-karte-liste]')?.addEventListener('click', (e) => {
-    const ziel = e.target as HTMLElement;
-    const st = ziel.closest<HTMLElement>('[data-korb-steuer]');
-    if (!st) return;
-    const { id, name = '' } = st.dataset;
-    if (!id) return;
-    const sorteKnopf = ziel.closest<HTMLElement>('[data-sorte]');
-    if (sorteKnopf) return aendern(id, +1, name, sorteKnopf.dataset.sorte);
-    const plus = ziel.closest<HTMLButtonElement>('[data-plus]');
-    if (plus) {
-      if (st.dataset.sorten) {
-        // Getränkegruppe: Sorten aufklappen
-        const wahl = st.querySelector<HTMLElement>('[data-sorten-wahl]')!;
-        wahl.hidden = !wahl.hidden;
-        plus.setAttribute('aria-expanded', String(!wahl.hidden));
-        if (!wahl.hidden) wahl.querySelector<HTMLButtonElement>('[data-sorte]')?.focus();
-        return;
-      }
-      return aendern(id, +1, name);
-    }
-    const minus = ziel.closest<HTMLButtonElement>('[data-minus]');
-    if (minus) {
-      aendern(id, -1, name);
-      if (minus.hidden) st.querySelector<HTMLButtonElement>('[data-plus]')?.focus();
-    }
-  });
-
-  // Änderungen aus einem anderen Tab, nach „Zurück“ (Back-Forward-Cache) oder beim Zurückkehren übernehmen
-  const neuLaden = () => {
-    if (!speicherOk) return;
-    korb = ladeKorb();
-    zeichneKorb();
-  };
-  window.addEventListener('storage', neuLaden);
-  window.addEventListener('pageshow', (e) => {
-    if (e.persisted) neuLaden();
-  });
-  document.addEventListener('visibilitychange', () => {
-    if (!document.hidden) neuLaden();
-  });
-  zeichneKorb();
 </script>
 
 <style>
@@ -742,7 +580,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
   }
   .gericht {
     display: grid;
-    grid-template-columns: 3rem minmax(0, 1fr) auto;
+    grid-template-columns: 3rem minmax(0, 1fr);
     gap: 0.9rem;
     padding: 0.95rem 0 1rem;
     border-bottom: 1px solid color-mix(in oklab, var(--color-tinte) 10%, transparent);
@@ -831,172 +669,11 @@ const suchtext = (...teile: (string | undefined)[]) =>
     margin-left: auto;
   }
 
-  /* ---------- Direkt bestellen ----------
-     Plus mit Glutkante je Gericht; liegt etwas im Korb, erscheinen Minus und Anzahl, die Nummernkachel glüht.
-     Getränkegruppen („je …“) klappen ihre Sorten als Pillen unter der Zeile auf. */
-  .korb-steuer {
-    display: contents;
-  }
-  .korb-stepper {
-    grid-column: 3;
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-    align-self: start;
-  }
-  .korb-knopf {
-    display: inline-grid;
-    place-items: center;
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 999px;
-    color: var(--color-creme-fest);
-    cursor: pointer;
-    transition:
-      box-shadow 0.25s var(--ease-glut),
-      background-color 0.25s var(--ease-glut),
-      transform 0.2s var(--ease-glut);
-  }
-  .korb-knopf:active {
-    transform: scale(0.92);
-  }
-  /* Glutkante immer, der Schein nur bei Hover, Fokus und wenn das Gericht im Korb liegt */
-  .korb-plus {
-    border: 1px solid transparent;
-    background:
-      linear-gradient(var(--color-knopf-grund), var(--color-knopf-grund)) padding-box,
-      linear-gradient(120deg, var(--color-glut-hell), var(--color-safran)) border-box;
-  }
-  .korb-plus:focus-visible,
-  .gericht.im-korb .korb-plus {
-    box-shadow: 0 0 12px -4px rgb(240 122 82 / 0.55);
-  }
-  .korb-plus:hover {
-    background:
-      linear-gradient(var(--color-knopf-glut), var(--color-knopf-glut)) padding-box,
-      linear-gradient(120deg, var(--color-glut-hell), var(--color-safran)) border-box;
-    box-shadow: 0 0 18px -3px rgb(240 122 82 / 0.65);
-  }
-  .korb-minus {
-    border: 1px solid color-mix(in oklab, var(--color-tinte) 22%, transparent);
-  }
-  .korb-minus:hover {
-    border-color: var(--color-safran);
-  }
-  .korb-zahl {
-    min-width: 1.5rem;
-    text-align: center;
-    color: var(--color-safran);
-    font-weight: 700;
-  }
-  .gericht.im-korb .gericht-nr.leer {
-    background: transparent;
-    box-shadow: none;
-  }
-  /* Platz unter der Karte, solange die Warenkorb-Pille schwebt */
-  @media (width < 64rem) {
-    :global(.korb-pille-an) .blatt {
-      margin-bottom: 7rem;
-    }
-  }
-  .gericht.im-korb .gericht-nr:not(.leer) {
-    background: color-mix(in oklab, var(--color-safran) 24%, var(--color-russ));
-    box-shadow:
-      inset 0 0 0 1px var(--color-safran),
-      0 0 14px -4px rgb(232 163 61 / 0.6);
-  }
-  /* Handy: der Stepper steht senkrecht – Plus bleibt oben an seinem Platz, Anzahl und Minus erscheinen darunter.
-     So springt nichts, die Spalte bleibt schmal (Namen brechen nie mitten im Wort) und die Preise bleiben bündig. */
-  @media (width < 40rem) {
-    .korb-stepper {
-      flex-direction: column-reverse;
-      gap: 0.2rem;
-    }
-    .korb-zahl {
-      min-width: 0;
-      line-height: 1.2;
-    }
-  }
-  .sorten {
-    grid-column: 2 / -1;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.45rem;
-    margin-top: -0.2rem;
-  }
-  .sorte {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    min-height: 2.5rem;
-    padding: 0.2rem 0.95rem 0;
-    border-radius: 999px;
-    border: 1px solid color-mix(in oklab, var(--color-tinte) 20%, transparent);
-    background: var(--color-creme);
-    color: var(--color-tinte);
-    font-weight: 600;
-    font-size: var(--text-fein);
-    cursor: pointer;
-    transition: border-color 0.2s var(--ease-glut);
-  }
-  .sorte:hover {
-    border-color: var(--color-safran);
-  }
-  .sorte-zahl {
-    display: inline-grid;
-    place-items: center;
-    min-width: 1.35rem;
-    height: 1.35rem;
-    margin-top: -0.15rem;
-    padding: 0.1rem 0.3rem 0;
-    border-radius: 999px;
-    background: var(--color-safran);
-    color: var(--color-russ);
-    font-size: var(--text-mini);
-    font-weight: 700;
-  }
-
-  .korb-pille {
-    position: fixed;
-    z-index: 45;
-    left: 1rem;
-    right: 1rem;
-    bottom: calc(4.75rem + env(safe-area-inset-bottom));
-    display: flex;
-    align-items: center;
-    gap: 0.9rem;
-    min-height: 3.6rem;
-    padding: 0.45rem 1.2rem 0.45rem 0.6rem;
-    border: 1px solid transparent;
-    border-radius: 999px;
-    color: var(--color-creme);
-    text-decoration: none;
-    background:
-      linear-gradient(var(--color-knopf-grund), var(--color-knopf-grund)) padding-box,
-      linear-gradient(100deg, var(--color-glut-hell), var(--color-safran) 55%, var(--color-glut-hell)) border-box;
-    box-shadow:
-      0 18px 40px -16px color-mix(in oklab, var(--color-russ) 95%, transparent),
-      0 0 18px -4px rgb(240 122 82 / 0.5);
-  }
-  .korb-pille[hidden] {
-    display: none;
-  }
-  @media (width >= 48rem) {
-    .korb-pille {
-      left: auto;
-      right: 1.5rem;
-      bottom: 1.5rem;
-      min-width: 19rem;
-    }
-  }
-  /* Ab 64rem: statt schwebender Pille ein Warenkorb rechts in der mitlaufenden Kategorie-Leiste */
-  .leisten-korb {
+  /* „Online bestellen“ in der mitlaufenden Kategorie-Leiste – nur ab 64rem, darunter trägt die Leiste unten den Weg */
+  .leisten-bestellen {
     display: none;
   }
   @media (width >= 64rem) {
-    .korb-pille {
-      display: none;
-    }
     .kategorien-innen {
       display: flex;
       align-items: center;
@@ -1006,83 +683,42 @@ const suchtext = (...teile: (string | undefined)[]) =>
       flex: 1;
       min-width: 0;
     }
-    .leisten-korb:not([hidden]) {
+    .leisten-bestellen {
       display: inline-flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.55rem;
       flex: none;
-      min-height: 2.9rem;
-      padding: 0.3rem 1rem 0.3rem 0.35rem;
+      min-height: 2.75rem;
+      padding: 0.15rem 1.15rem 0;
       border: 1px solid transparent;
       border-radius: 999px;
       color: var(--color-creme-fest);
+      font-size: var(--text-mini);
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
       text-decoration: none;
       background:
         linear-gradient(var(--color-knopf-grund), var(--color-knopf-grund)) padding-box,
         linear-gradient(100deg, var(--color-glut-hell), var(--color-safran) 55%, var(--color-glut-hell)) border-box;
-      box-shadow: 0 0 16px -4px rgb(240 122 82 / 0.5);
+      box-shadow: 0 6px 18px -8px rgb(240 122 82 / 0.5);
+      transition:
+        background-color 0.25s var(--ease-glut),
+        box-shadow 0.25s var(--ease-glut);
     }
-    .leisten-korb .korb-pille-symbol {
-      width: 2.2rem;
-      height: 2.2rem;
+    .leisten-bestellen :global(svg) {
+      color: var(--color-safran);
+      margin-top: -0.15rem;
     }
-    .leisten-korb .korb-pille-summe {
-      font-size: var(--text-basis);
+    .leisten-bestellen:hover {
+      background:
+        linear-gradient(var(--color-knopf-glut), var(--color-knopf-glut)) padding-box,
+        linear-gradient(100deg, var(--color-glut-hell), var(--color-safran) 55%, var(--color-glut-hell)) border-box;
+      box-shadow: 0 8px 22px -8px rgb(240 122 82 / 0.7);
     }
-  }
-  .korb-pille-symbol {
-    position: relative;
-    display: inline-grid;
-    place-items: center;
-    width: 2.6rem;
-    height: 2.6rem;
-    border-radius: 999px;
-    background: color-mix(in oklab, var(--color-safran) 16%, transparent);
-    color: var(--color-safran);
-  }
-  .korb-pille-zahl {
-    position: absolute;
-    top: -0.2rem;
-    right: -0.25rem;
-    display: grid;
-    place-items: center;
-    min-width: 1.3rem;
-    height: 1.3rem;
-    padding: 0.1rem 0.3rem 0;
-    border-radius: 999px;
-    background: var(--color-safran);
-    color: var(--color-russ);
-    font-size: var(--text-mini);
-    font-weight: 700;
-  }
-  .korb-pille-text {
-    display: grid;
-    flex: 1;
-    line-height: 1.15;
-  }
-  .korb-pille-summe {
-    font-weight: 600;
-    font-size: var(--text-lead);
-  }
-  .korb-pille-zu {
-    color: var(--color-safran);
-    font-size: var(--text-mini);
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .korb-pille.stoss,
-    .leisten-korb.stoss {
-      animation: stoss 0.55s var(--ease-glut);
-    }
-    @keyframes stoss {
-      30% {
-        transform: translateY(-3px) scale(1.03);
-        box-shadow:
-          0 22px 44px -16px color-mix(in oklab, var(--color-russ) 95%, transparent),
-          0 0 26px -2px rgb(240 122 82 / 0.75);
-      }
+    .leisten-bestellen:focus-visible {
+      outline: 2px solid var(--color-safran);
+      outline-offset: 3px;
     }
   }
 
@@ -1102,9 +738,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
     :global(.reibeflaeche),
     .werkzeug,
     .kategorien,
-    .glossar,
-    .korb-steuer,
-    .korb-pille {
+    .glossar {
       display: none !important;
     }
     .karte-kopf {
@@ -1120,9 +754,6 @@ const suchtext = (...teile: (string | undefined)[]) =>
     }
     :global(.blatt) {
       background: var(--color-druck-weiss) !important;
-    }
-    .gericht.im-korb .gericht-nr {
-      background: none;
     }
     .kategorie {
       padding-top: 6mm;

@@ -6,6 +6,7 @@ import { pfad } from '../lib/pfad';
  */
 import Icon from './Icon.astro';
 import { kontakt } from '../data/kontakt';
+import { bestellung } from '../data/bestellung';
 ---
 
 <nav
@@ -20,7 +21,7 @@ import { kontakt } from '../data/kontakt';
       </a>
     </li>
     <li>
-      <a href={pfad('/bestellen')} class="reibe-link">
+      <a href={bestellung.url} class="reibe-link">
         <Icon name="tasche" size={21} />
         <span>Bestellen</span>
       </a>

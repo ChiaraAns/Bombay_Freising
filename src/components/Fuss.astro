@@ -2,6 +2,7 @@
 import { pfad } from '../lib/pfad';
 import Logo from './Logo.astro';
 import { kontakt } from '../data/kontakt';
+import { bestellung } from '../data/bestellung';
 import { feiertagsHinweis } from '../data/oeffnungszeiten';
 import { zeitenKompakt } from '../lib/zeiten';
 
@@ -53,7 +54,7 @@ const zeiten = zeitenKompakt();
         <h2 class="font-display text-zwischen text-creme">Bombay online</h2>
         <ul class="mt-4 space-y-1.5" role="list">
           <li><a href={pfad('/speisekarte')} class="fuss-link">Speisekarte</a></li>
-          <li><a href={pfad('/bestellen')} class="fuss-link">Online bestellen</a></li>
+          <li><a href={bestellung.url} class="fuss-link">Online bestellen</a></li>
           <li><a href={kontakt.iosAppUrl} class="fuss-link" rel="noopener">iOS-App</a></li>
           <li><a href={kontakt.mapsUrl} class="fuss-link" rel="noopener">Route in Google Maps</a></li>
         </ul>

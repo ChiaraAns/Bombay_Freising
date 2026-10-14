@@ -4,7 +4,6 @@ Website des indischen Restaurants Bombay in der Freisinger Altstadt.
 Statische Seite mit [Astro](https://astro.build) und Tailwind CSS, ohne Backend, ohne Tracking und ohne externe Schriften.
 
 - **Startseite** `/`: Hero mit Live-Öffnungsstatus, Das Besondere, Signature-Gerichte, Curry-Kompass, Bestellen, Öffnungszeiten & Anfahrt
-- **Online bestellen** `/bestellen`: eigener Bestellvorgang (Auswahl → Angaben → Fertig), Warenkorb, Lieferung oder Abholung, Wunschzeit aus den Öffnungszeiten
 - **Speisekarte** `/speisekarte`: komplette Karte mit Nummern, Kategorie-Navigation, Filtern, Suche, Glossar und Druckansicht
 - **Impressum** `/impressum` und **Datenschutz** `/datenschutz`: Platzhalter, müssen noch ausgefüllt werden
 
@@ -47,12 +46,15 @@ Eine vorhandene Zeile in der passenden Kategorie kopieren und anpassen. Kennzeic
 
 ### Online-Bestellung
 
-Gerichte lassen sich direkt auf der Speisekarte (Plus je Gericht) oder auf `/bestellen` in den Warenkorb legen; beide Seiten teilen sich den Warenkorb im Browser (`src/lib/korb-speicher.ts`). Die Bestellung läuft komplett im Browser. Am Ende wird sie über `endpunkt` in `src/data/bestellung.ts` übermittelt:
+Bestellt wird über das bestehende Bestellportal des Restaurants (laut Auftraggeberin ein Vertrag mit der Smart App GmbH): Lieferung und Abholung. Die Website hat keinen eigenen Warenkorb, weil sich ein Warenkorb nicht an das Portal übergeben lässt. Alle „Online bestellen“-Knöpfe (Kopfzeile, Startseite, Curry-Kompass, Speisekarte, Fußzeile, Leiste unten auf dem Handy) führen zur Adresse in `src/data/bestellung.ts`:
 
-- `endpunkt: null` (Standard): Das E-Mail-Programm des Gastes öffnet sich mit der fertigen Bestellung an `kontakt.email`. Der Gast muss die E-Mail absenden. Funktioniert ohne Server, ist aber nur eine Übergangslösung.
-- `endpunkt: 'https://…'`: Die Bestellung wird als JSON per POST gesendet (Bestellnummer, Art, Wunschzeit, Kunde, Positionen, Summe, fertiger Text). Geeignet für einen Formular-Dienst oder ein Kassensystem.
+```ts
+export const bestellung = {
+  url: 'https://restaurant-bombayfreising.de/bombay-freising/delivery',
+};
+```
 
-Wunschzeiten ergeben sich aus den Öffnungszeiten (heute ab jetzt + Vorlaufzeit und der nächste Öffnungstag). Mindestbestellwert, Liefergebühr, Liefergebiet und Zahlungshinweis erscheinen erst, wenn sie eingetragen sind.
+Ändert sich der Bestell-Link, genügt diese eine Zeile.
 
 ### Live-Status
 

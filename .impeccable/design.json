@@ -237,12 +237,12 @@
       "css": ".ds-fakten{display:flex;gap:1.75rem;margin:0;padding:1.4rem 1.5rem;border-top:1px solid rgb(246 239 228/.14);background:#1b1714;color:#f6efe4;font-family:Mukta,system-ui,sans-serif}.ds-fakten div+div{padding-left:1.75rem;border-left:1px solid rgb(246 239 228/.12)}.ds-fakten dt{color:#e8a33d;font-size:.75rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase}.ds-fakten dd{display:grid;gap:.3rem;margin:.4rem 0 0}.ds-fakten b{font-weight:500;font-size:1.4rem;display:inline-flex;align-items:center;gap:.6rem}.ds-fakten i{width:.62rem;height:.62rem;border-radius:999px;background:#6f9a3e}.ds-fakten span{color:#cdbfad;font-size:.97rem}"
     },
     {
-      "name": "Warenkorb-Pille",
+      "name": "Bestell-Pille in der Leiste",
       "kind": "button",
-      "refersTo": "korb-pille",
-      "description": "Schwebende Pille mit Glutkante: Taschen-Symbol mit Anzahl, Summe, „Zur Bestellung“ – auf Speisekarte und (Handy) Bestellseite.",
-      "html": "<a class=\"ds-pille\" href=\"#\"><span class=\"ds-pille-sym\">5</span><span class=\"ds-pille-txt\"><b>42,70 €</b><small>Zur Bestellung</small></span><span aria-hidden=\"true\">→</span></a>",
-      "css": ".ds-pille{display:inline-flex;align-items:center;gap:.9rem;min-height:3.6rem;padding:.45rem 1.2rem .45rem .6rem;border:1px solid transparent;border-radius:999px;color:#f6efe4;text-decoration:none;font-family:Mukta,system-ui,sans-serif;background:linear-gradient(#150f0c,#150f0c) padding-box,linear-gradient(100deg,#f07a52,#e8a33d 55%,#f07a52) border-box;box-shadow:0 0 18px -4px rgb(240 122 82/.5)}.ds-pille-sym{display:grid;place-items:center;width:2.6rem;height:2.6rem;border-radius:999px;background:rgb(232 163 61/.16);color:#e8a33d;font-weight:700}.ds-pille-txt{display:grid;line-height:1.15}.ds-pille-txt small{color:#e8a33d;font-size:.75rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase}"
+      "refersTo": "leisten-bestellen",
+      "description": "Speisekarte ab 64rem: Pille „Online bestellen“ mit Glutkante rechts in der mitlaufenden Kategorie-Leiste; führt zum Bestellportal des Restaurants (kein eigener Warenkorb).",
+      "html": "<a class=\"ds-pille\" href=\"#\">Online bestellen</a>",
+      "css": ".ds-pille{display:inline-flex;align-items:center;gap:.55rem;min-height:2.75rem;padding:.15rem 1.15rem 0;border:1px solid transparent;border-radius:999px;color:#f6efe4;text-decoration:none;font:700 .75rem Mukta,system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;background:linear-gradient(#150f0c,#150f0c) padding-box,linear-gradient(100deg,#f07a52,#e8a33d 55%,#f07a52) border-box;box-shadow:0 6px 18px -8px rgb(240 122 82/.5)}"
     },
     {
       "name": "Sternwertung",

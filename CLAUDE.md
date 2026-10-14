@@ -19,8 +19,8 @@ Ablauf bei jeder Design-Aufgabe:
 - Sprache Deutsch, Anrede „Sie“; nur im Curry-Kompass „du“ (so im Briefing).
 - Keine Fakten erfinden (Jahreszahlen, Auszeichnungen, Bewertungen, Lieferkosten …). Lücken als `TODO` markieren.
 - Inhalte zentral in `src/data/` (Speisekarte, Öffnungszeiten, Kontakt, Bestellung, Angebote).
-- Prüfen: `npm test` (Live-Status, Curry-Kompass, Preise gegen `Briefing.md`, Bestellung) und `npm run build`.
+- Prüfen: `npm test` (Live-Status, Curry-Kompass, Preise gegen `Briefing.md`, Bestell-Link) und `npm run build`.
 - Vorschau in **Fassungen** (Wunsch der Auftraggeberin): Jede Überarbeitungsrunde bekommt einen **neuen Link**, bestehende Fassungen werden nie überschrieben.
   - Bauen: `BASE_PATH=/Bombay_Freising/fassung-N VORSCHAU=1 npx astro build`, Inhalt von `dist/` nach `fassung-N/` auf Branch `gh-pages` (andere Ordner dort nicht anfassen, `.nojekyll` bleibt) → https://chiaraans.github.io/Bombay_Freising/fassung-N/
   - Den Quellstand jeder Fassung als Branch `fassung-N` sichern.
-  - Bisher: `fassung-1` (Glut und Papier, Reißkanten), `fassung-2` (Glut bei Nacht, nach Referenz „Fenster“), `fassung-3` (Gold-Logo mit Vorhang, Gold-Bordüren, dunkle Speisekarte mit Warenkorb, Google-Bewertungen), `fassung-4` (wie 3, dazu Fotos für alle sechs Signature-Gerichte), `fassung-5` (wie 4, dazu echte Google-Bewertungen: 4,5 Sterne, 417 Bewertungen, drei Auszüge). Die Wurzel https://chiaraans.github.io/Bombay_Freising/ zeigt unverändert Fassung 1.
+  - Bisher: `fassung-1` (Glut und Papier, Reißkanten), `fassung-2` (Glut bei Nacht, nach Referenz „Fenster“), `fassung-3` (Gold-Logo mit Vorhang, Gold-Bordüren, dunkle Speisekarte mit Warenkorb, Google-Bewertungen), `fassung-4` (wie 3, dazu Fotos für alle sechs Signature-Gerichte), `fassung-5` (wie 4, dazu echte Google-Bewertungen: 4,5 Sterne, 417 Bewertungen, drei Auszüge), `fassung-6` (wie 5, Bestellen nur noch über das Smart-App-Portal, kein eigener Warenkorb). Die Wurzel https://chiaraans.github.io/Bombay_Freising/ zeigt unverändert Fassung 1.

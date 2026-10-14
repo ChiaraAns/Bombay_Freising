@@ -4,7 +4,7 @@ import Icon from '../Icon.astro';
 import LiveStatus from '../LiveStatus.astro';
 import { bild } from '../../lib/bilder';
 import { kontakt } from '../../data/kontakt';
-import { pfad } from '../../lib/pfad';
+import { bestellung } from '../../data/bestellung';
 
 // Hero-Foto: eigenes `hero.*` hat Vorrang, sonst das Garnelen-Curry (Nr. 93).
 const heroBild = bild('hero') ?? bild('gericht-93-jheenga-masala');
@@ -43,7 +43,7 @@ const heroBild = bild('hero') ?? bild('gericht-93-jheenga-masala');
             <span class="knopf-zeile2 tabellenziffern sm:hidden">{kontakt.telefonAnzeige}</span>
           </span>
         </a>
-        <a href={pfad('/bestellen')} class="knopf knopf-kontur-hell">
+        <a href={bestellung.url} class="knopf knopf-kontur-hell">
           <Icon name="tasche" size={18} class="hidden sm:block" />
           <span class="flex flex-col items-center leading-tight sm:block">
             <span><span class="sm:hidden">Bestellen</span><span class="hidden sm:inline">Online bestellen</span></span>

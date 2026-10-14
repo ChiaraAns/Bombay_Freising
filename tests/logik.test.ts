@@ -86,58 +86,11 @@ if (fehler) {
 }
 console.log('✓ Alle Prüfungen bestanden');
 
-// --- Bestellung: Wunschzeiten und Bestelltext ---
-import { zeitoptionen, bestelltext, zwischensumme, artikel } from '../src/lib/warenkorb';
-{
-  // Mi 14.10.2026 12:00 → offen: „So bald wie möglich“ + Heute ab 12:30
-  const z = zeitoptionen(new Date('2026-10-14T12:00:00+02:00'));
-  pruefe(z[0].wert === 'jetzt', 'Bestellung: „So bald wie möglich“ wenn geöffnet');
-  pruefe(z.some((o) => o.label === 'Heute, 12:30 Uhr'), 'Bestellung: erste Zeit = jetzt + 30 Min.');
-  pruefe(!z.some((o) => o.label === 'Heute, 14:00 Uhr'), 'Bestellung: keine Zeit nach Küchenschluss mittags');
-  pruefe(z.some((o) => o.label === 'Heute, 17:30 Uhr'), 'Bestellung: Abendzeiten heute');
-  // Di 13.10.2026 (Ruhetag) → keine Zeiten heute, nächster Tag Mittwoch
-  const d = zeitoptionen(new Date('2026-10-13T12:00:00+02:00'));
-  pruefe(!d.some((o) => o.gruppe === 'Heute'), 'Bestellung: Dienstag keine Zeiten heute');
-  pruefe(d[0]?.label.startsWith('Morgen, 11:30'), 'Bestellung: Dienstag → Mittwoch 11:30');
-  // Bestelltext
-  const t = bestelltext({
-    nummer: 'B-TEST',
-    art: 'lieferung',
-    zeit: { wert: 'x', label: 'Heute, 18:30 Uhr', gruppe: 'Heute' },
-    kunde: { name: 'Test', telefon: '0123 456', strasse: 'Hauptstr. 1', plz: '85354', ort: 'Freising' },
-    positionen: [
-      { id: '57', menge: 2 },
-      { id: 'Säfte', variante: 'Mangosaft', menge: 1 },
-    ],
-  }).replace(/\u00a0/g, ' ');
-  pruefe(t.includes('2 × Nr. 57 Butter Chicken – 29,80 €'), 'Bestelltext: Position mit Nummer und Preis');
-  pruefe(t.includes('1 × Säfte (Mangosaft) – 4,00 €'), 'Bestelltext: Getränk mit Sorte');
-  pruefe(t.includes('Summe: 33,80 €'), 'Bestelltext: Summe');
-  pruefe(t.includes('Adresse: Hauptstr. 1, 85354 Freising'), 'Bestelltext: Adresse bei Lieferung');
-  pruefe(zwischensumme([{ id: '159', menge: 3 }]) === 10.5, 'Zwischensumme');
-  pruefe(artikel.length === 128, `Alle Artikel bestellbar (${artikel.length})`);
-}
+// --- Online-Bestellung: kein eigener Warenkorb, alle Knöpfe führen zum Bestellportal des Restaurants ---
+import { bestellung } from '../src/data/bestellung';
+pruefe(/^https:\/\/restaurant-bombayfreising\.de\//.test(bestellung.url), 'Bestellung: Link zum Bestellportal');
 if (fehler) {
   console.error(`${fehler} Fehler (Bestellung)`);
   process.exit(1);
 }
-
-// ---------- Gemeinsamer Warenkorb (Speisekarte ↔ Bestellen) ----------
-import { aendereKorb, mengeArtikel } from '../src/lib/korb-speicher';
-{
-  let k = aendereKorb([], { id: '57' }, +1);
-  k = aendereKorb(k, { id: '57' }, +1);
-  pruefe(mengeArtikel(k, '57') === 2, 'Korb: zweimal Plus ergibt 2');
-  k = aendereKorb(k, { id: 'Säfte', variante: 'Mangosaft' }, +1);
-  k = aendereKorb(k, { id: 'Säfte', variante: 'Lycheesaft' }, +1);
-  pruefe(mengeArtikel(k, 'Säfte') === 2 && k.length === 3, 'Korb: Sorten getrennt, Summe je Artikel');
-  k = aendereKorb(k, { id: '57' }, -2);
-  pruefe(mengeArtikel(k, '57') === 0 && !k.some((p) => p.id === '57'), 'Korb: auf 0 entfernt');
-  pruefe(aendereKorb([], { id: '1' }, -1).length === 0, 'Korb: Minus auf leerem Korb bleibt leer');
-  pruefe(mengeArtikel(aendereKorb([{ id: '1', menge: 99 }], { id: '1' }, +1), '1') === 99, 'Korb: höchstens 99');
-}
-if (fehler) {
-  console.error(`${fehler} Fehler (Warenkorb)`);
-  process.exit(1);
-}
-console.log('✓ Gemeinsamer Warenkorb geprüft');
+console.log('✓ Bestell-Link geprüft');

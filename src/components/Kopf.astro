@@ -3,16 +3,17 @@ import { pfad } from '../lib/pfad';
 import Icon from './Icon.astro';
 import Logo from './Logo.astro';
 import { kontakt } from '../data/kontakt';
+import { bestellung } from '../data/bestellung';
 
 interface Props {
-  aktiv?: 'start' | 'speisekarte' | 'bestellen' | 'recht';
+  aktiv?: 'start' | 'speisekarte' | 'recht';
 }
 const { aktiv = 'start' } = Astro.props;
 
 const links = [
   { href: pfad('/speisekarte'), text: 'Speisekarte', id: 'speisekarte' },
   { href: pfad('/#kompass'), text: 'Curry-Kompass' },
-  { href: pfad('/bestellen'), text: 'Online bestellen', id: 'bestellen' },
+  { href: bestellung.url, text: 'Online bestellen' },
   { href: pfad('/#besuch'), text: 'Öffnungszeiten & Anfahrt' },
 ];
 ---
