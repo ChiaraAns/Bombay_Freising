@@ -8,7 +8,7 @@ Alle Fotos liegen in **`public/images/`**. Die Website erkennt sie am **Dateinam
 3. Fertig. Solange ein Foto fehlt, zeigt die Seite an dieser Stelle einen gestalteten Platzhalter (Farbverlauf, Blockdruck-Muster, Gerichtname).
 
 **Regel für Gerichtsfotos:** `gericht-<Nummer>-<name>.jpg`, z. B. `gericht-104-palak-paneer.jpg`.
-Jedes Gericht mit Foto erscheint dann automatisch mit Bild auf der Startseite (falls Signature-Gericht) und in den Ergebnissen des Curry-Kompasses.
+Jedes Gericht mit Foto erscheint dann automatisch in den Ergebnissen des Curry-Kompasses. Für die Startseite gibt es eigene freigestellte Schalen (siehe unten).
 
 **Allgemein:** Bitte Originale in voller Auflösung liefern (keine WhatsApp- oder Instagram-Kopien), hell genug belichtet, ohne Text oder Logos im Bild. Natürliches Licht, warme Töne und ein dunkler Holztisch passen am besten zur Seite.
 
@@ -21,11 +21,11 @@ Die ursprünglichen Dateien `IMG_9581` bis `IMG_9591` wurden nach Motiv umbenann
 | Datei | Ursprung | Größe | Motiv | Wo verwendet |
 |---|---|---|---|---|
 | `gericht-93-jheenga-masala.webp` | IMG_9591 | 1485 × 1485 | Riesengarnelen in Masala-Soße, Karahi von oben, Reis und Chilis | **Hero** (bis `hero.*` existiert), OG-Bild, Kompass |
-| `gericht-57-butter-chicken.webp` | IMG_9581 | 1485 × 1485 | Butter Chicken in Karahi, Sahnehaube, dunkler Holztisch | Signature-Karte Nr. 57, Kompass |
+| `gericht-57-butter-chicken.webp` | IMG_9581 | 1485 × 1485 | Butter Chicken in Karahi, Sahnehaube, dunkler Holztisch | Kompass (auf der Startseite als Schale, siehe unten) |
 | `gericht-39-chicken-tikka.webp` | IMG_9582 | 1485 × 1485 | Chicken Tikka am Spieß, Minz-Joghurt, Zwiebeln, Limette (heller Hintergrund) | Kompass |
-| `gericht-116-paneer-butter-masala.webp` | IMG_9583 | 1485 × 1485 | Paneer-Würfel in orangefarbener Soße, Karahi von oben | Kompass; freigestellt als großer Teller (siehe unten) |
-| `gericht-89-fisch-curry.webp` | IMG_9584 | **400 × 400** | Fischfilet in Curry mit Gemüse, blaue Schale | Kompass; freigestellt als kleiner Teller |
-| `gericht-66-lamm-curry.webp` | IMG_9586 | **400 × 400** | Lammcurry in Kupferschale mit Koriander | Kompass; freigestellt als mittlerer Teller |
+| `gericht-116-paneer-butter-masala.webp` | IMG_9583 | 1485 × 1485 | Paneer-Würfel in orangefarbener Soße, Karahi von oben | Kompass |
+| `gericht-89-fisch-curry.webp` | IMG_9584 | **400 × 400** | Fischfilet in Curry mit Gemüse, blaue Schale | Kompass |
+| `gericht-66-lamm-curry.webp` | IMG_9586 | **400 × 400** | Lammcurry in Kupferschale mit Koriander | Kompass |
 | `gericht-69-bhuna-gosht.webp` | IMG_9587 | **400 × 400** | Gebratenes Fleisch in kräftiger Soße, schwarzer Teller | Kompass |
 | `gericht-63-chicken-ananas.webp` | IMG_9588 | **400 × 400** | Hühnchen mit Ananas, Tontopf, Naan | Kompass |
 
@@ -41,33 +41,20 @@ Die ursprünglichen Dateien `IMG_9581` bis `IMG_9591` wurden nach Motiv umbenann
 | `tandoor.jpg` | 4:5 hoch | 1200 × 1500 | Der Holzkohle-Lehmofen aus Indien: Öffnung von oben oder schräg, glühende Kohle, Hände des Kochs mit Spieß oder Naan. |
 | `ambiente-1.jpg` | 16:9 quer | 1600 × 900 | Gastraum am Abend: gedeckte Tische, warmes Licht, Blick in den Raum. Ohne erkennbare Gäste (Datenschutz). Liegt hinter dem Kartenhinweis im Abschnitt „Besuchen Sie uns“. |
 
-## Teller („Was man bei uns schmeckt“)
+## Startseite: „Vier Gründe, heute indisch zu essen“
 
-Dort stehen die Schüsseln **freigestellt** (transparenter Hintergrund) auf dem dunklen Grund und werfen einen Schatten. Dafür gibt es zu jedem Teller eine eigene Datei `teller-<Nummer>-<name>.webp` neben dem Originalfoto. Ohne freigestellte Datei bleibt der Platz leer.
+Vier Gerichte mit **freigestellter Schale** (transparenter Hintergrund). Sie stehen frei auf dem dunklen Etikett über einem warmen Glutschein. Dateiname: `schale-<Nummer>-<name>.webp` (WebP oder PNG mit Alpha-Kanal). Welche vier Gerichte erscheinen, steht in `src/data/speisekarte.ts` (`signatureNummern`).
 
-| Datei | Aus | Werte für `scripts/teller-freistellen.mjs` |
+| Datei | Gericht | Herkunft |
 |---|---|---|
-| `teller-116-paneer-butter-masala.webp` | `gericht-116-…` (IMG_9583) | `FORM='[{"k":"e","cx":740,"cy":771,"rx":528,"ry":528},{"k":"r","x0":92,"x1":265,"y0":535,"y1":915},{"k":"r","x0":1215,"x1":1380,"y0":625,"y1":1015}]'`, Schwellen `0.45 0.45 0.25 2` |
-| `teller-66-lamm-curry.webp` | `gericht-66-…` (IMG_9586) | `FORM='[{"k":"e","cx":209,"cy":188,"rx":189,"ry":139},{"k":"e","cx":209,"cy":226,"rx":189,"ry":232,"abY":188}]' FUELLEN=1 UNTEN=0.3`, Schwellen `0.40 0.40 0.22 1.5` |
-| `teller-89-fisch-curry.webp` | `gericht-89-…` (IMG_9584) | `FORM='[{"k":"e","cx":201,"cy":200,"rx":156.5,"ry":156.5}]' FUELLEN=1`, Schwellen `0.62 0.45 0.25 1.5` |
+| `schale-57-butter-chicken.webp` | Nr. 57 Butter Chicken | Restaurantfoto (dasselbe Bild wie `gericht-57-…`, IMG_9581), freigestellt |
+| `schale-109-karahi-paneer.webp` | Nr. 109 Karahi Paneer | Restaurantfoto von bombayrestaurant-freising.de, freigestellt |
+| `schale-108-dal-makhani.webp` | Nr. 108 Dal Makhani | Restaurantfoto von bombayrestaurant-freising.de, freigestellt |
+| `schale-92-jheenga-curry.webp` | Nr. 92 Jheenga Curry | Restaurantfoto von bombayrestaurant-freising.de, freigestellt |
 
-Neuer Teller: `FORM='…' node scripts/teller-freistellen.mjs public/images/gericht-…webp teller.png <Schwellen>`, Ergebnis auf dunklem Grund prüfen und als `public/images/teller-<nr>-<name>.webp` speichern (WebP mit Alpha, Qualität 90). Am besten eignen sich **Fotos von oben auf dunklem Holz oder Stein**, das Gericht mittig und ganz im Bild. Am einfachsten ist ein Freisteller aus einem Bildprogramm (z. B. „Hintergrund entfernen“ in Photoshop oder Pixelmator), als PNG oder WebP mit transparentem Hintergrund.
+Die Freisteller (rembg) stammen auf Wunsch der Auftraggeberin unverändert aus dem Entwurf github.com/kebronkg-cmyk/inder (`img/gerichte/*-1100.webp`); Details im Sidecar `*.webp.json`. Die früheren KI-Bilder für 58, 104, 128, 96 und 159 sowie der Abschnitt „Was man bei uns schmeckt“ (Teller-Freisteller) sind entfernt.
 
-## Signature-Gerichte (Startseite)
-
-Für 58, 104, 128, 96 und 159 hat die Auftraggeberin am 12.10.2026 Bilder geschickt (je 1254 × 1254, Garlic Naan 1390 × 1132). Sie liegen als WebP in `public/images/`; die Herkunft steht jeweils im Sidecar `*.webp.json`.
-
-**TODO:** Quelle und Nutzungsrechte dieser Bilder vor dem Livegang klären, oder sie durch eigene Fotos des Restaurants ersetzen (gleicher Dateiname, beliebige Endung). Das Thali-Bild zeigt eine allgemeine Thali-Platte (u. a. Linsen und eine Süßspeise), nicht exakt die Zusammenstellung des Bombay Thali (Lamm, Huhn, Ente, Raita, Salat, Pappad, Naan, Reis).
-
-| Datei | Motiv | Wo verwendet |
-|---|---|---|
-| `gericht-58-chicken-tikka-masala.webp` | Gegrillte Hühnerstücke in orangefarbener Soße mit Sahne, Karahi mit Messinggriffen, Naan und Reis | Signature-Karte Nr. 58, Kompass |
-| `gericht-104-palak-paneer.webp` | Paneer-Würfel in Spinat mit Sahne und Ingwerstreifen, dunkle Schale | Signature-Karte Nr. 104, Kompass |
-| `gericht-128-bombay-thali.webp` | Thali-Platte mit Schälchen, Reis, Naan, Pappad und gegrilltem Hähnchen | Signature-Karte Nr. 128, Kompass |
-| `gericht-96-jheenga-mango.webp` | Riesengarnelen mit Mango und Paprika in goldgelber Soße, Karahi | Signature-Karte Nr. 96, Kompass |
-| `gericht-159-garlic-naan.webp` | Garlic Naan mit Knoblauchbutter im Korb | Signature-Karte Nr. 159 |
-
-Eigene Fotos ersetzen sie am besten im selben Look: Seitenverhältnis 4:3 oder 1:1, mindestens 1600 px breit, dunkler Holztisch, Kupfer- oder Karahi-Geschirr, Licht von der Seite.
+**TODO:** Vor dem Livegang mit dem Restaurant bestätigen, dass die Fotos von bombayrestaurant-freising.de verwendet werden dürfen (sie stammen vom Restaurant, die Seite baute Karvi Solutions). Ein neues Gericht für die Startseite: Foto freistellen (z. B. „Hintergrund entfernen“ in Photoshop oder Pixelmator), als `schale-<nr>-<name>.webp` in `public/images/` legen und die Nummer in `signatureNummern` eintragen.
 
 ## Optional: weitere Gerichte
 

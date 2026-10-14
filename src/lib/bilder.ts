@@ -41,6 +41,13 @@ export function gerichtBild(nr: number | undefined): BildInfo | undefined {
   return basis ? bild(basis) : undefined;
 }
 
+/** Freigestellte Schale eines Gerichts (transparenter Hintergrund): Datei `schale-<nr>-<name>.(webp|png)` */
+export function schaleBild(nr: number | undefined): BildInfo | undefined {
+  if (nr == null) return undefined;
+  const basis = Object.keys(manifest()).find((k) => k.startsWith(`schale-${nr}-`));
+  return basis ? bild(basis) : undefined;
+}
+
 export const srcset = (b: BildInfo, format: 'avif' | 'webp') =>
   b.breiten.map((w) => `${BASIS}/images/opt/${b.basis}-${w}.${format} ${w}w`).join(', ');
 

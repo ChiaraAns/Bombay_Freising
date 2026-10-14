@@ -161,11 +161,6 @@
         "name": "hero-zoom",
         "value": "18s ease-glut, scale(1.08) → 1",
         "purpose": "Hero-Foto atmet einmal beim Laden."
-      },
-      {
-        "name": "parallaxe",
-        "value": "translate3d(0, -(Abstand zur Bildmitte × 0,05–0,18), 0)",
-        "purpose": "Teller in „Was man bei uns schmeckt“ bekommen Tiefe."
       }
     ],
     "breakpoints": [
@@ -221,12 +216,12 @@
       "css": ".ds-chip{min-height:2.75rem;padding:.2rem .95rem 0;border-radius:999px;border:0;background:#f6efe4;box-shadow:inset 0 0 0 1.5px rgb(27 23 20/.28);font:600 .98rem Mukta,sans-serif;color:#1b1714}.ds-chip[aria-pressed=true]{background:#1b1714;color:#f6efe4}"
     },
     {
-      "name": "Teller",
-      "kind": "custom",
-      "refersTo": "teller",
-      "description": "Freigestellte Schüssel (teller-<nr>-*.webp, transparent) mit doppeltem Kontaktschatten auf Tinte, warmer Glutschein dahinter, Bildunterschrift „Nr. … Name“ darunter.",
-      "html": "<figure class=\"ds-teller\"><img src=\"../public/images/teller-89-fisch-curry.webp\" alt=\"Fisch Curry\" width=\"333\" height=\"333\"><figcaption><b>Nr. 89</b> Fisch Curry</figcaption></figure>",
-      "css": ".ds-teller{margin:0;padding:2rem;background:radial-gradient(60% 50% at 50% 40%,rgb(182 58 30/.3),transparent 72%),#1b1714;color:#a8998a;font-size:.875rem;text-align:right}.ds-teller img{display:block;width:12rem;height:auto;margin-inline:auto;filter:drop-shadow(0 1.1rem 1.6rem rgb(18 15 13/.85)) drop-shadow(0 .25rem .35rem rgb(18 15 13/.7))}.ds-teller b{color:#e8a33d;font-weight:400}"
+      "name": "Schale im Etikett",
+      "kind": "card",
+      "refersTo": "schale-buehne",
+      "description": "Freigestellte Schüssel (schale-<nr>-*.webp, transparent) in fester 4:3-Bühne auf dunklem Etikett, Glutschein darunter, doppelter Kontaktschatten; dreht sich beim Hover leicht.",
+      "html": "<figure class=\"ds-schale\"><img src=\"../public/images/schale-57-butter-chicken.webp\" alt=\"Butter Chicken\" width=\"300\" height=\"294\"><figcaption><b>Nr. 57</b> Butter Chicken</figcaption></figure>",
+      "css": ".ds-schale{margin:0;padding:1.5rem;background:radial-gradient(48% 38% at 50% 64%,rgb(182 58 30/.3),transparent 74%),#1b1714;color:#f6efe4;font:400 .95rem Mukta,system-ui,sans-serif}.ds-schale img{display:block;width:70%;margin:0 auto;filter:drop-shadow(0 .9rem 1.2rem rgb(18 15 13/.85)) drop-shadow(0 .2rem .3rem rgb(18 15 13/.7))}.ds-schale b{color:#e8a33d;margin-right:.4rem}"
     },
     {
       "name": "Hero-Fakten",

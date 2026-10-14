@@ -1,9 +1,12 @@
 ---
-/** Ein Gericht als Etikett: Foto (oder Platzhalter), Seriennummer, Name, Beschreibung, Kennzeichen, Preis. */
+/**
+ * Ein Gericht als Etikett: Foto (oder Platzhalter), Seriennummer, Name, Beschreibung, Kennzeichen, Preis.
+ * Gibt es eine freigestellte Schale (`schale-<nr>-…`), steht sie frei auf einem Glutschein statt eines Fotos im Rahmen.
+ */
 import Foto from './Foto.astro';
 import Icon from './Icon.astro';
 import Kennzeichen from './Kennzeichen.astro';
-import { gerichtBild } from '../lib/bilder';
+import { gerichtBild, schaleBild, srcset, fallbackSrc } from '../lib/bilder';
 import { platzhalterVariante } from '../lib/platzhalter';
 import { preisFormat, type Gericht } from '../data/speisekarte';
 
@@ -14,19 +17,32 @@ interface Props {
   class?: string;
 }
 const { gericht: g, alt, sizes = '(min-width: 64rem) 24rem, (min-width: 40rem) 45vw, 82vw', class: klasse = '' } = Astro.props;
+const schale = schaleBild(g.nr);
 ---
 
 <article class:list={['gericht-etikett etikett flex h-full flex-col p-2.5', klasse]}>
   <span class="bordure mb-2.5 h-[11px]" aria-hidden="true"></span>
   <div class="relative">
-    <Foto
-      bild={gerichtBild(g.nr)}
-      alt={alt}
-      platzhalter={g.name}
-      sizes={sizes}
-      verhaeltnis="4 / 3"
-      variante={platzhalterVariante(g)}
-    />
+    {
+      schale ? (
+        <div class="schale-buehne">
+          <picture>
+            <source type="image/avif" srcset={srcset(schale, 'avif')} sizes={sizes} />
+            <source type="image/webp" srcset={srcset(schale, 'webp')} sizes={sizes} />
+            <img src={fallbackSrc(schale)} alt={alt} width={schale.breite} height={schale.hoehe} loading="lazy" decoding="async" />
+          </picture>
+        </div>
+      ) : (
+        <Foto
+          bild={gerichtBild(g.nr)}
+          alt={alt}
+          platzhalter={g.name}
+          sizes={sizes}
+          verhaeltnis="4 / 3"
+          variante={platzhalterVariante(g)}
+        />
+      )
+    }
     <span class="serie" aria-label={`Nummer ${g.nr}`}>
       <span class="serie-nr" aria-hidden="true">Nr.</span>
       <span class="tabellenziffern">{g.nr}</span>
@@ -83,6 +99,36 @@ const { gericht: g, alt, sizes = '(min-width: 64rem) 24rem, (min-width: 40rem) 4
   }
   .gericht-etikett :global(picture) {
     overflow: hidden;
+  }
+  /* Freigestellte Schale: steht frei im Etikett, darunter ein warmer Schein wie von der Glut und ein Kontaktschatten */
+  .schale-buehne {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border-radius: 9px;
+    background: radial-gradient(48% 38% at 50% 64%, color-mix(in oklab, var(--color-glut) 30%, transparent), transparent 74%);
+  }
+  /* Feste Bühne im 4:3-Format, die Schale passt sich ein – so stehen Nummer und Name in jeder Karte auf gleicher Höhe */
+  .schale-buehne picture {
+    position: absolute;
+    inset: 5% 7% 6%;
+    display: block;
+    overflow: visible;
+  }
+  .schale-buehne img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0.9rem 1.2rem color-mix(in oklab, var(--color-russ) 85%, transparent))
+      drop-shadow(0 0.2rem 0.3rem color-mix(in oklab, var(--color-russ) 70%, transparent));
+  }
+  /* Beim Darüberfahren dreht sich die Schale ein wenig, wie beim Hinstellen auf den Tisch */
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .schale-buehne img {
+      transition: transform 0.6s var(--ease-glut);
+    }
+    .gericht-etikett:hover .schale-buehne img {
+      transform: rotate(-5deg) scale(1.03);
+    }
   }
   /* Auf Nacht: Nummernkachel bleibt dunkel mit feiner Safrankante */
   :global(.nacht) .serie {

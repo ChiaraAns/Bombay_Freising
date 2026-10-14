@@ -191,13 +191,13 @@ components:
 
 **Creative North Star: „Glut bei Nacht“**
 
-Die Startseite ist ein einziger dunkler Raum, wie ein Restaurant am Abend: warm-schwarzer, fein gekörnter Grund (Tinte, Kohle, Ruß), aus dem die Gerichte auftauchen. Abschnitte wechseln nie die Bühne; sie heben sich nur durch leise Tonstufen, die nach oben und unten weich in die Tinte zurücklaufen, und durch auslaufende Haarlinien (`.naht`) voneinander ab. Licht kommt von der Glut: Primärknöpfe tragen eine leuchtende Kante von Glutrot zu Safran, unter Überschriften liegt ein kurzer Goldfaden in Safran, hinter den Tellern und in der Bestell-Tafel glimmt ein warmer Schein. Alles Bedienbare ist rund (Pillen), Karten haben weiche Ecken.
+Die Startseite ist ein einziger dunkler Raum, wie ein Restaurant am Abend: warm-schwarzer, fein gekörnter Grund (Tinte, Kohle, Ruß), aus dem die Gerichte auftauchen. Abschnitte wechseln nie die Bühne; sie heben sich nur durch leise Tonstufen, die nach oben und unten weich in die Tinte zurücklaufen, und durch auslaufende Haarlinien (`.naht`) voneinander ab. Licht kommt von der Glut: Primärknöpfe tragen eine leuchtende Kante von Glutrot zu Safran, unter Überschriften liegt ein kurzer Goldfaden in Safran, hinter den Schalen der Gerichte und in der Bestell-Tafel glimmt ein warmer Schein. Alles Bedienbare ist rund (Pillen), Karten haben weiche Ecken.
 
 Beim ersten Öffnen hebt sich ein kurzer Vorhang: das Bombay-Logo in Gold öffnet sich aus der Mitte, ein Glanzlicht läuft darüber. Logo, Bordüren und Ornamente glänzen in Gold-Orange statt Pink. Im Hero steht die Headline frei auf dem Foto, das links, oben und unten in die Kohle ausläuft; darunter die drei Fakten groß wie auf einem Schild: Zustand („Jetzt geöffnet“), Reservierungsnummer, Adresse – jeweils kleine Safran-Beschriftung, großer Wert. Die Gerichte stehen als dunkle Etiketten mit feiner Safran-Kante und goldener Blockdruck-Bordüre (die Herkunft aus den Sivakasi-Streichholzetiketten bleibt in der Bordüre und der Seriennummer).
 
 Auch die Unterseiten sind dunkel: Speisekarte und Rechtstexte liegen als dunkle, rundum gerundete Tafel auf dem Grund. Bestellt wird im Bestellportal des Restaurants; jeder Bestellknopf führt dorthin. Das Logo steht frei, ohne Kasten, in Gold.
 
-Bewegung ist ruhig: Überschriften steigen Wort für Wort aus einer Linie auf, Absätze gleiten weich nach oben (nie Überschrift und umgebender Block doppelt), Teller bewegen sich beim Scrollen minimal in die Tiefe, das Hero-Foto „atmet“ einmal beim Laden. Im Hero sind Knöpfe und Fakten nach spätestens 0,35 s unterwegs und nach knapp einer Sekunde vollständig da (0,6 s).
+Bewegung ist ruhig: Überschriften steigen Wort für Wort aus einer Linie auf, Absätze gleiten weich nach oben (nie Überschrift und umgebender Block doppelt), das Hero-Foto „atmet“ einmal beim Laden. Im Hero sind Knöpfe und Fakten nach spätestens 0,35 s unterwegs und nach knapp einer Sekunde vollständig da (0,6 s).
 
 Abgelehnt laut Auftraggeber: Taj-Mahal-Clipart, Kitsch, Gold-auf-Rot, Template- und Lieferdienst-Optik, Stock-Icon-Sammlungen; ausdrücklich auch harte Bühnenwechsel zwischen Abschnitten („wie PowerPoint“) und eckige Knöpfe.
 
@@ -205,7 +205,7 @@ Fassung 1 („Glut und Papier“ mit gerissenen Papierbögen) ist auf dem Branch
 
 **Key Characteristics:**
 - Ein durchgehender dunkler Grund auf der Startseite; Tonstufen (z. B. `#201a16` für die Signature-Gerichte) laufen per Verlauf weich ein und aus, „Besuchen Sie uns“ läuft in den Ruß des Footers aus; alle Abschnitte tragen dieselbe Körnung (`koernung` + eigener Grund, sonst entsteht eine hellere Fläche)
-- Fotos ohne harte Kanten: Hero mit Masken-Verlauf und weichem Schatten hinter dem Text, Teller als echte Freisteller mit Alpha-Kanal (`teller-<nr>-*.webp`, `scripts/teller-freistellen.mjs`) und Kontaktschatten
+- Fotos ohne harte Kanten: Hero mit Masken-Verlauf und weichem Schatten hinter dem Text, Gerichte als echte Freisteller mit Alpha-Kanal (`schale-<nr>-*.webp`) und Kontaktschatten
 - Primärknopf = dunkle Pille mit Glutkante (Verlauf Glut hell → Safran) und engem Schein; Sekundär = Haarlinien-Pille; Beschriftung gesperrte Versalien
 - Goldfaden (`.goldfaden`) unter jeder Abschnittsüberschrift der Startseite
 - Bestellen als Tafel (`Bestellen.astro`): gerundete dunkle Fläche, Glutschein unten rechts, großer Blockdruck-Rapport (`kachel-glut.svg`) läuft aus
@@ -244,7 +244,7 @@ Eine warme Gewürzpalette auf Kohle, verankert vom Gold-Glanz des Logos und dem 
 
 **Die Gold-statt-Pink-Regel.** Ornamente, Bordüren und Logo glänzen in Gold-Orange (`--glanz`); kein Pink auf der Website. Glanz bleibt Ornament: keine Verlaufsschrift in Überschriften oder Fließtext.
 
-**Die Feuer-ist-Handlung-Regel.** Glut bedeutet „tu etwas“ (anrufen, bestellen, Preis) oder „scharf“. Auf Dunkel leuchtet sie als Kante der Primärknöpfe, nicht als Fläche; als Dekoration nur der Schein hinter Tellern und Bestell-Tafel.
+**Die Feuer-ist-Handlung-Regel.** Glut bedeutet „tu etwas“ (anrufen, bestellen, Preis) oder „scharf“. Auf Dunkel leuchtet sie als Kante der Primärknöpfe, nicht als Fläche; als Dekoration nur der Schein hinter den Schalen und der Bestell-Tafel.
 
 **Die Keine-Bühnenwechsel-Regel.** Abschnitte der Startseite wechseln nie hart die Hintergrundfarbe. Tonstufen laufen per Verlauf ein und aus; Trennung entsteht durch Abstand, Haarlinien und den Goldfaden.
 
@@ -280,7 +280,7 @@ Ein Rahmen von max. 78rem mit 1rem / 1.75rem / 2.5rem Seitenrand (mobil / ab 40r
 
 ## Elevation & Depth
 
-Tiefe entsteht durch Licht, nicht durch Kästen: Fotos laufen über Masken-Verläufe in den Grund aus, Teller liegen in drei Größen und bewegen sich beim Scrollen unterschiedlich schnell (Parallaxe 0,05 / 0,12 / 0,18). Glut leuchtet als Kante und Schein (Knöpfe, gewählte Kompass-Option, Reservieren-Pille, Bestell-Tafel). Dunkle Karten liegen mit weichen, versetzten Schatten auf dem Grund. Sonst entsteht Tiefe durch Tonstufen (Tinte → #201a16 → Kohle → Ruß) und die Körnung (feTurbulence-Rauschen, `soft-light`, 16 %).
+Tiefe entsteht durch Licht, nicht durch Kästen: Fotos laufen über Masken-Verläufe in den Grund aus, die Gerichte stehen als freigestellte Schalen auf einem Glutschein. Glut leuchtet als Kante und Schein (Knöpfe, gewählte Kompass-Option, Reservieren-Pille, Bestell-Tafel). Dunkle Karten liegen mit weichen, versetzten Schatten auf dem Grund. Sonst entsteht Tiefe durch Tonstufen (Tinte → #201a16 → Kohle → Ruß) und die Körnung (feTurbulence-Rauschen, `soft-light`, 16 %).
 
 ### Shadow Vocabulary
 - **etikett** (`0 24px 48px -18px rgb(0 0 0 / .65), 0 6px 14px -6px rgb(0 0 0 / .45)`): Kompass-Hülle, Karten auf Dunkel.
@@ -301,7 +301,7 @@ Weiche, gefasste Formen: Knöpfe, Marken, Chips und Kategorie-Links als Pille (9
 - **Logo** (`Logo.astro`): frei stehend, Goldfassung mit Glanzverlauf (`bombay-logo-gold.svg`: Kuppel Glut hell → Safran → Lichtkante, Schriftzug diagonal Gold); Kopf 6.4–7.6rem breit, Fuß bis 16rem zentriert über einer Ornamentlinie. Favicon/Touch-Icon: goldenes B auf Tinte.
 - **Vorhang** (`Basis.astro` mit `vorhang` nur auf der Startseite, `.vorhang`): Logo-Intro einmal pro Besuch (sessionStorage), nicht bei reduzierter Bewegung, ohne Skript gar nicht. Tinte mit Glutschein; die Kuppel zeichnet sich als Goldlinie (vereinfachte Kontur, 0–0,7 s), dann erscheinen Kuppel (0,45–0,8 s) und Schriftzug (0,3–0,8 s, `bombay-logo-gold-kuppel.svg` / `-schriftzug.svg`), ein Glanzstreif läuft maskiert über die Logoform (0,6–1,2 s), ab 1,2 s hebt sich der Vorhang (0,45 s), nach 2 s wird er entfernt. Animiert werden nur Deckkraft, Verschiebung und ein kleiner Linienpfad (Lighthouse mobil 96–97 mit Vorhang). Der Hero-Auftritt beginnt danach (+1,25 s unter `.vorhang-an`).
 - **Hero**: Foto rechts ab 40 % (Desktop) bzw. oben (Handy), läuft weich in Kohle aus; davor Ornament, Headline in Creme, Unterzeile in Rauch, Knöpfe, Hero-Fakten. Kein Kasten; ein weicher radialer Tinte-Schatten hinter dem Text.
-- **Teller** (`Besonderes.astro`): freigestellte Schüsseln (`teller-<nr>-<name>.webp`, transparent) mit doppeltem `drop-shadow` (weit und weich + kurz und dicht), darunter ein Glutschein (`radial-gradient` Glutrot 30 %, Kurkuma 14 %). Bildunterschrift „Nr. … Name“ unter dem Teller, leichte Parallaxe. Ohne Freisteller bleibt der Platz leer.
+- **Schale im Etikett** (`GerichtEtikett.astro`, Bilder `schale-<nr>-<name>.webp`): freigestellte Schüssel mit Alpha-Kanal steht frei in einer festen 4:3-Bühne (Bild per `object-fit: contain` eingepasst, damit Nummer und Name in jeder Karte auf gleicher Höhe stehen), doppelter `drop-shadow` (weit und weich + kurz und dicht), darunter ein Glutschein (`radial-gradient`, Glut 30 %). Beim Darüberfahren dreht sich die Schale um −5° (nur bei Hover-Geräten, nicht bei Reduced Motion). Ohne Schale zeigt das Etikett das Foto im Rahmen oder den Platzhalter. Startseite: „Vier Gründe, heute indisch zu essen.“ mit genau vier Gerichten (57, 109, 108, 92), ab 80rem in einer Reihe, darunter zwei nebeneinander, mobil als Wischreihe.
 - **Blatt** (`.blatt`): dunkle Tafel der Unterseiten (Speisekarte, Bestellen, Rechtstexte) unter dem Seitenkopf und der Kategorie-Leiste – seit Fassung 3 nicht mehr hell (Wunsch der Auftraggeberin). Bindet innen die Papier-Rollen wie `.nacht` um; Verlauf #211b17 → #1c1714 mit Glutschein oben rechts, rundum gerundet (1.5rem / 2.5rem), ab 64rem mit Rand links und rechts, Safran-Haarlinie und Schatten. Druck: Tokens zurück auf Papier/Tinte, weißer Grund. Der Grund darum läuft unten in den Ton des Footers aus (`main:has(.blatt)`, `display: flow-root`). Rechtstexte stehen direkt auf dem Bogen (Bordüre + Überschrift, keine Karte in der Karte).
 - **Naht** (`.naht`): Haarlinie Creme 13 % am oberen Rand der Abschnitte Signature, Kompass und Besuch, innerhalb des Rahmens, an den Enden auslaufend.
 - **Platzhalter** (`.platzhalter--…`): dunkle Kachel, von unten in der Farbe des Gerichts angeglüht, Rapport in Safran 10 %, Name in Rozha Creme mit kurzem Safranstrich – kein Farbfeld, kein Namenskasten.
@@ -326,7 +326,7 @@ Weiche, gefasste Formen: Knöpfe, Marken, Chips und Kategorie-Links als Pille (9
 **Don't**
 - Keine weißen oder cremefarbenen Kästen hinter Logo oder Hero-Text, keine hellen Abschnitte auf der Startseite.
 - Keine eckigen Knöpfe, keine harten Farbwechsel zwischen Abschnitten, keine Reißkanten.
-- Fotos auf dunklem Grund nie als harte Rechtecke – auslaufen lassen oder als Teller zeigen.
+- Fotos auf dunklem Grund nie als harte Rechtecke – auslaufen lassen oder freigestellt als Schale zeigen.
 - Keine Kuppeln, Bögen oder Paläste als Deko – die Kuppel gehört nur ins Logo.
 - Kein Gold auf Rot, keine Stock-Icons, keine Emoji als Symbole.
 - Safran nie als Text auf Creme.

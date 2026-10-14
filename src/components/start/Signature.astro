@@ -5,12 +5,10 @@ import Icon from '../Icon.astro';
 import { signatureNummern, gerichtNr } from '../../data/speisekarte';
 
 const altTexte: Record<number, string> = {
-  57: 'Butter Chicken in einer Karahi-Schale mit Sahnehaube und Bockshornkleeblättern auf dunklem Holztisch',
-  58: 'Chicken Tikka Masala mit gegrillten Hühnerstücken in orangefarbener Soße, Sahne und Koriander in einer Karahi mit Messinggriffen, daneben Naan und Reis',
-  104: 'Palak Paneer: Paneer-Würfel in sattgrünem Spinat mit Sahne, Ingwerstreifen und Koriander in einer dunklen Schale',
-  128: 'Thali-Platte mit Curry, Linsen, Salat, Raita, gegrilltem Hähnchen, Pappad, Naan, Basmati-Reis und einer Süßspeise in Metallschälchen',
-  96: 'Jheenga Mango: Riesengarnelen mit Mangowürfeln und Paprika in goldgelber Soße in einer Karahi, daneben eine aufgeschnittene Mango',
-  159: 'Garlic Naan mit Knoblauchbutter und Kräutern, gestapelt in einem Korb auf grünem Leinentuch',
+  57: 'Butter Chicken in einer Karahi-Schale mit Sahnehaube und Bockshornkleeblättern',
+  109: 'Karahi Paneer: Würfel aus hausgemachtem Käse in orangefarbener Currysoße mit grüner Chili, in einer Karahi mit Messinggriffen',
+  108: 'Dal Makhani: dunkle Linsen mit Sahnespirale, Koriander und einer roten Chili in einer dunklen Schale',
+  92: 'Jheenga Curry: Riesengarnelen mit grüner Paprika und Koriander in Currysoße, in einer Karahi mit Messinggriff',
 };
 const gerichte = signatureNummern.map((nr) => gerichtNr(nr));
 ---
@@ -19,7 +17,7 @@ const gerichte = signatureNummern.map((nr) => gerichtNr(nr));
   <div class="rahmen">
     <div class="flex flex-wrap items-end justify-between gap-6">
       <div class="max-w-[38rem]">
-        <h2 id="karte-titel" class="display-l">Sechs Gründe, heute indisch zu essen.</h2>
+        <h2 id="karte-titel" class="display-l">Vier Gründe, heute indisch zu essen.</h2>
         <span class="goldfaden" aria-hidden="true"></span>
         <p class="mt-4 text-lead leading-relaxed text-rauch" data-erscheinen>
           Eine kleine Auswahl aus über 120 Gerichten. Die Nummer hilft, wenn Sie telefonisch bestellen.
@@ -30,8 +28,12 @@ const gerichte = signatureNummern.map((nr) => gerichtNr(nr));
     <ul class="etiketten nacht mt-12" role="list">
       {
         gerichte.map((g, i) => (
-          <li data-erscheinen style={`--verzoegerung:${i % 3}`}>
-            <GerichtEtikett gericht={g} alt={altTexte[g.nr!] ?? g.name} />
+          <li data-erscheinen style={`--verzoegerung:${i % 4}`}>
+            <GerichtEtikett
+              gericht={g}
+              alt={altTexte[g.nr!] ?? g.name}
+              sizes="(min-width: 80rem) 17rem, (min-width: 40rem) 45vw, 82vw"
+            />
           </li>
         ))
       }
@@ -47,10 +49,17 @@ const gerichte = signatureNummern.map((nr) => gerichtNr(nr));
 </section>
 
 <style>
+  /* Vier Gerichte: zwei nebeneinander, ab 80rem alle vier in einer Reihe */
   .etiketten {
     display: grid;
     gap: 1.75rem;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  @media (width >= 80rem) {
+    .etiketten {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
   }
   @media (width < 40rem) {
     .etiketten {

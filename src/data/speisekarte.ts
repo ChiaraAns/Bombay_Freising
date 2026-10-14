@@ -422,10 +422,10 @@ export const speisekarte: Kategorie[] = [
 ];
 
 /**
- * Signature-Gerichte für die Vorschau auf der Startseite (Gerichtsnummern, Reihenfolge = Anzeige).
- * Wie im Briefing vorgeschlagen. Das Paneer-Foto (Nr. 116) steht groß in „Was man bei uns schmeckt“.
+ * Gerichte für „Vier Gründe, heute indisch zu essen“ auf der Startseite (Gerichtsnummern, Reihenfolge = Anzeige).
+ * Auf Wunsch der Auftraggeberin genau die vier mit freigestelltem Restaurantfoto (`public/images/schale-<nr>-…`).
  */
-export const signatureNummern = [57, 58, 104, 128, 96, 159];
+export const signatureNummern = [57, 109, 108, 92];
 
 // ---------- Hilfsfunktionen ----------
 

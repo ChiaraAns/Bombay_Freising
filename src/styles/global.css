@@ -464,11 +464,6 @@
     transform: none;
     opacity: 1;
   }
-
-  /* Parallaxe-Bilder */
-  [data-parallax] {
-    transform: translate3d(0, var(--parallax, 0px), 0);
-  }
 }
 
 /* ---------- Vorhang (Logo-Intro, einmal pro Besuch, nur Startseite) ----------

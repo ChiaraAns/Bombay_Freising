@@ -3,7 +3,7 @@
 Website des indischen Restaurants Bombay in der Freisinger Altstadt.
 Statische Seite mit [Astro](https://astro.build) und Tailwind CSS, ohne Backend, ohne Tracking und ohne externe Schriften.
 
-- **Startseite** `/`: Hero mit Live-Öffnungsstatus, Das Besondere, Signature-Gerichte, Curry-Kompass, Bestellen, Öffnungszeiten & Anfahrt
+- **Startseite** `/`: Hero mit Live-Öffnungsstatus, vier Gerichte („Vier Gründe, heute indisch zu essen“), Curry-Kompass, Bestellen, Öffnungszeiten & Anfahrt
 - **Speisekarte** `/speisekarte`: komplette Karte mit Nummern, Kategorie-Navigation, Filtern, Suche, Glossar und Druckansicht
 - **Impressum** `/impressum` und **Datenschutz** `/datenschutz`: Platzhalter, müssen noch ausgefüllt werden
 
@@ -16,7 +16,7 @@ Alle Inhalte stehen in wenigen Dateien im Ordner `src/data/`. Jede Datei ist obe
 | Was | Datei | Hinweis |
 |---|---|---|
 | **Preise, Gerichte, Kategorien** | `src/data/speisekarte.ts` | Preise mit Punkt schreiben: `14.90` für 14,90 €. |
-| **Signature-Gerichte (Startseite)** | `src/data/speisekarte.ts`, ganz unten `signatureNummern` | Liste der sechs Gerichtsnummern |
+| **Signature-Gerichte (Startseite)** | `src/data/speisekarte.ts`, ganz unten `signatureNummern` | Liste der vier Gerichtsnummern (je mit freigestellter Schale `schale-<nr>-*.webp`) |
 | **Öffnungszeiten** | `src/data/oeffnungszeiten.ts` | `[]` bedeutet Ruhetag. Wirkt auf Live-Status, Tabelle, Footer und Google-Daten. |
 | **Telefon, Adresse, E-Mail, Links** | `src/data/kontakt.ts` | |
 | **Online-Bestellung** | `src/data/bestellung.ts` | Übermittlung (E-Mail oder eigener Empfang), Vorlaufzeit, Lieferung/Abholung, Mindestbestellwert, Liefergebühr |
@@ -85,12 +85,6 @@ BASE_PATH=/Bombay_Freising/fassung-2 VORSCHAU=1 npx astro build   # Basis-Pfad d
 ```
 
 Den Inhalt von `dist/` in den Ordner `fassung-2/` auf dem Branch `gh-pages` legen (andere Ordner nicht anfassen). Adresse: https://chiaraans.github.io/Bombay_Freising/fassung-2/ – der Quellstand jeder Fassung liegt zusätzlich als Branch `fassung-N`.
-
-### Grafiken neu erzeugen
-
-```bash
-node scripts/teller-freistellen.mjs  # Teller freistellen, Werte siehe BILDER.md
-```
 
 ### Vorschaubild (og.jpg) neu erzeugen
 
