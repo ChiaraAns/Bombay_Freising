@@ -155,12 +155,13 @@ for (const g of kompassPool) {
             <div class="nacht" data-top></div>
             <div class="nacht mt-5 grid gap-4 sm:grid-cols-2" data-alternativen></div>
 
-            <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+            <p class="portal-bruecke mt-8 text-basis text-rauch" data-portal-bruecke></p>
+            <div class="mt-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <a href={kontakt.telefonLink} class="knopf knopf-glut">
                 <Icon name="telefon" size={18} /> Telefonisch reservieren
               </a>
               <a href={bestellung.url} class="knopf knopf-kontur-hell">
-                <Icon name="tasche" size={18} /> Online bestellen
+                <Icon name="tasche" size={18} /> Online bestellen <Icon name="extern" size={16} />
               </a>
               <button type="button" class="kompass-textknopf hell-auf-dunkel sm:ml-auto" data-nochmal>
                 <Icon name="nochmal" size={17} /> Nochmal
@@ -299,6 +300,15 @@ for (const g of kompassPool) {
       hinweis.hidden = !ergebnis.hinweis;
       hinweis.textContent = ergebnis.hinweis ?? '';
       el.querySelector('[data-top]')!.replaceChildren(karte(ergebnis.top, true));
+      // Brücke zum Bestellportal: Ein Warenkorb lässt sich nicht übergeben, also nennen wir, was dort zu wählen ist
+      const bruecke = el.querySelector<HTMLElement>('[data-portal-bruecke]')!;
+      bruecke.replaceChildren(
+        'Im Bestellportal wählst du dann einfach ',
+        h('strong', 'text-creme', ergebnis.top.gericht.name),
+        ' und ',
+        h('strong', 'text-creme', ergebnis.top.dazu.name),
+        '.',
+      );
       el.querySelector('[data-alternativen]')!.replaceChildren(...ergebnis.alternativen.map((e) => karte(e, false)));
       zeigeSchritt(4);
     });

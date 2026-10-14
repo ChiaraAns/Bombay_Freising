@@ -43,7 +43,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
         </div>
         <div class="flex flex-wrap gap-3 lg:col-span-5 lg:justify-end print:hidden">
           <a href={bestellung.url} class="knopf knopf-glut">
-            <Icon name="tasche" size={19} /> Online bestellen
+            <Icon name="tasche" size={19} /> Online bestellen <Icon name="extern" size={16} />
           </a>
           <button type="button" class="knopf knopf-kontur-hell hidden sm:inline-flex" data-drucken>
             <Icon name="drucker" size={19} /> Karte drucken
@@ -353,8 +353,11 @@ const suchtext = (...teile: (string | undefined)[]) =>
   kategorien.forEach((k) => io.observe(k));
   // Über der ersten Kategorie (ganz oben) ist sie aktiv – der Beobachter allein hält sonst den letzten Stand
   let obenGeplant = false;
+  const leistenNav = document.querySelector<HTMLElement>('.kategorien')!;
   const pruefeOben = () => {
     obenGeplant = false;
+    // Die Leiste klebt oben → „Online bestellen“ glimmt in ihr auf (vorher steht derselbe Knopf im Kopf der Karte)
+    leistenNav.classList.toggle('angeheftet', leistenNav.getBoundingClientRect().top <= 1);
     const erste = kategorien.find((k) => !k.hidden);
     if (erste && erste.getBoundingClientRect().top > 120) setzeAktiv(erste.dataset.kategorie!);
   };
@@ -378,8 +381,7 @@ const suchtext = (...teile: (string | undefined)[]) =>
   }
 
   .kategorien {
-    background: rgb(27 23 20 / 0.97);
-    backdrop-filter: saturate(1.2);
+    background: var(--color-tinte);
     box-shadow: 0 10px 24px -14px color-mix(in oklab, var(--color-russ) 60%, transparent);
   }
   .kategorien-innen {
@@ -702,9 +704,6 @@ const suchtext = (...teile: (string | undefined)[]) =>
         linear-gradient(var(--color-knopf-grund), var(--color-knopf-grund)) padding-box,
         linear-gradient(100deg, var(--color-glut-hell), var(--color-safran) 55%, var(--color-glut-hell)) border-box;
       box-shadow: 0 6px 18px -8px rgb(240 122 82 / 0.5);
-      transition:
-        background-color 0.25s var(--ease-glut),
-        box-shadow 0.25s var(--ease-glut);
     }
     .leisten-bestellen :global(svg) {
       color: var(--color-safran);
@@ -719,6 +718,20 @@ const suchtext = (...teile: (string | undefined)[]) =>
     .leisten-bestellen:focus-visible {
       outline: 2px solid var(--color-safran);
       outline-offset: 3px;
+    }
+    :global(.js) .kategorien:not(.angeheftet) .leisten-bestellen {
+      opacity: 0;
+      visibility: hidden;
+      box-shadow: none;
+    }
+  }
+  @media (width >= 64rem) and (prefers-reduced-motion: no-preference) {
+    .leisten-bestellen {
+      transition:
+        opacity 0.35s var(--ease-glut),
+        visibility 0.35s,
+        background-color 0.25s var(--ease-glut),
+        box-shadow 0.45s var(--ease-glut);
     }
   }
 

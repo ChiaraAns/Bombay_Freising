@@ -195,7 +195,7 @@ Die Startseite ist ein einziger dunkler Raum, wie ein Restaurant am Abend: warm-
 
 Beim ersten Öffnen hebt sich ein kurzer Vorhang: das Bombay-Logo in Gold öffnet sich aus der Mitte, ein Glanzlicht läuft darüber. Logo, Bordüren und Ornamente glänzen in Gold-Orange statt Pink. Im Hero steht die Headline frei auf dem Foto, das links, oben und unten in die Kohle ausläuft; darunter die drei Fakten groß wie auf einem Schild: Zustand („Jetzt geöffnet“), Reservierungsnummer, Adresse – jeweils kleine Safran-Beschriftung, großer Wert. Die Gerichte stehen als dunkle Etiketten mit feiner Safran-Kante und goldener Blockdruck-Bordüre (die Herkunft aus den Sivakasi-Streichholzetiketten bleibt in der Bordüre und der Seriennummer).
 
-Auch die Unterseiten sind dunkel: Speisekarte, Bestellung und Rechtstexte liegen als dunkle, rundum gerundete Tafel auf dem Grund; auf der Speisekarte lässt sich jedes Gericht direkt in den Warenkorb legen. Das Logo steht frei, ohne Kasten, in Gold.
+Auch die Unterseiten sind dunkel: Speisekarte und Rechtstexte liegen als dunkle, rundum gerundete Tafel auf dem Grund. Bestellt wird im Bestellportal des Restaurants; jeder Bestellknopf führt dorthin. Das Logo steht frei, ohne Kasten, in Gold.
 
 Bewegung ist ruhig: Überschriften steigen Wort für Wort aus einer Linie auf, Absätze gleiten weich nach oben (nie Überschrift und umgebender Block doppelt), Teller bewegen sich beim Scrollen minimal in die Tiefe, das Hero-Foto „atmet“ einmal beim Laden. Im Hero sind Knöpfe und Fakten nach spätestens 0,35 s unterwegs und nach knapp einer Sekunde vollständig da (0,6 s).
 
